@@ -1,0 +1,2193 @@
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccwg9E8o.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"Out_MAX232.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.Out_MAX232_Enable,"ax",%progbits
+  19              		.align	2
+  20              		.global	Out_MAX232_Enable
+  21              		.thumb
+  22              		.thumb_func
+  23              		.type	Out_MAX232_Enable, %function
+  24              	Out_MAX232_Enable:
+  25              	.LFB2:
+  26              		.file 1 "Generated_Source\\PSoC5\\Out_MAX232.c"
+   1:Generated_Source\PSoC5/Out_MAX232.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/Out_MAX232.c **** * File Name: Out_MAX232.c
+   3:Generated_Source\PSoC5/Out_MAX232.c **** * Version 3.30
+   4:Generated_Source\PSoC5/Out_MAX232.c **** *
+   5:Generated_Source\PSoC5/Out_MAX232.c **** * Description:
+   6:Generated_Source\PSoC5/Out_MAX232.c **** *  The PWM User Module consist of an 8 or 16-bit counter with two 8 or 16-bit
+   7:Generated_Source\PSoC5/Out_MAX232.c **** *  comparitors. Each instance of this user module is capable of generating
+   8:Generated_Source\PSoC5/Out_MAX232.c **** *  two PWM outputs with the same period. The pulse width is selectable between
+   9:Generated_Source\PSoC5/Out_MAX232.c **** *  1 and 255/65535. The period is selectable between 2 and 255/65536 clocks.
+  10:Generated_Source\PSoC5/Out_MAX232.c **** *  The compare value output may be configured to be active when the present
+  11:Generated_Source\PSoC5/Out_MAX232.c **** *  counter is less than or less than/equal to the compare value.
+  12:Generated_Source\PSoC5/Out_MAX232.c **** *  A terminal count output is also provided. It generates a pulse one clock
+  13:Generated_Source\PSoC5/Out_MAX232.c **** *  width wide when the counter is equal to zero.
+  14:Generated_Source\PSoC5/Out_MAX232.c **** *
+  15:Generated_Source\PSoC5/Out_MAX232.c **** * Note:
+  16:Generated_Source\PSoC5/Out_MAX232.c **** *
+  17:Generated_Source\PSoC5/Out_MAX232.c **** *******************************************************************************
+  18:Generated_Source\PSoC5/Out_MAX232.c **** * Copyright 2008-2014, Cypress Semiconductor Corporation.  All rights reserved.
+  19:Generated_Source\PSoC5/Out_MAX232.c **** * You may use this file only in accordance with the license, terms, conditions,
+  20:Generated_Source\PSoC5/Out_MAX232.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  21:Generated_Source\PSoC5/Out_MAX232.c **** * the software package with which this file was provided.
+  22:Generated_Source\PSoC5/Out_MAX232.c **** ********************************************************************************/
+  23:Generated_Source\PSoC5/Out_MAX232.c **** 
+  24:Generated_Source\PSoC5/Out_MAX232.c **** #include "Out_MAX232.h"
+  25:Generated_Source\PSoC5/Out_MAX232.c **** 
+  26:Generated_Source\PSoC5/Out_MAX232.c **** /* Error message for removed <resource> through optimization */
+  27:Generated_Source\PSoC5/Out_MAX232.c **** #ifdef Out_MAX232_PWMUDB_genblk1_ctrlreg__REMOVED
+  28:Generated_Source\PSoC5/Out_MAX232.c ****     #error PWM_v3_30 detected with a constant 0 for the enable or \
+  29:Generated_Source\PSoC5/Out_MAX232.c ****          constant 1 for reset. This will prevent the component from operating.
+  30:Generated_Source\PSoC5/Out_MAX232.c **** #endif /* Out_MAX232_PWMUDB_genblk1_ctrlreg__REMOVED */
+  31:Generated_Source\PSoC5/Out_MAX232.c **** 
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccwg9E8o.s 			page 2
+
+
+  32:Generated_Source\PSoC5/Out_MAX232.c **** uint8 Out_MAX232_initVar = 0u;
+  33:Generated_Source\PSoC5/Out_MAX232.c **** 
+  34:Generated_Source\PSoC5/Out_MAX232.c **** 
+  35:Generated_Source\PSoC5/Out_MAX232.c **** /*******************************************************************************
+  36:Generated_Source\PSoC5/Out_MAX232.c **** * Function Name: Out_MAX232_Start
+  37:Generated_Source\PSoC5/Out_MAX232.c **** ********************************************************************************
+  38:Generated_Source\PSoC5/Out_MAX232.c **** *
+  39:Generated_Source\PSoC5/Out_MAX232.c **** * Summary:
+  40:Generated_Source\PSoC5/Out_MAX232.c **** *  The start function initializes the pwm with the default values, the
+  41:Generated_Source\PSoC5/Out_MAX232.c **** *  enables the counter to begin counting.  It does not enable interrupts,
+  42:Generated_Source\PSoC5/Out_MAX232.c **** *  the EnableInt command should be called if interrupt generation is required.
+  43:Generated_Source\PSoC5/Out_MAX232.c **** *
+  44:Generated_Source\PSoC5/Out_MAX232.c **** * Parameters:
+  45:Generated_Source\PSoC5/Out_MAX232.c **** *  None
+  46:Generated_Source\PSoC5/Out_MAX232.c **** *
+  47:Generated_Source\PSoC5/Out_MAX232.c **** * Return:
+  48:Generated_Source\PSoC5/Out_MAX232.c **** *  None
+  49:Generated_Source\PSoC5/Out_MAX232.c **** *
+  50:Generated_Source\PSoC5/Out_MAX232.c **** * Global variables:
+  51:Generated_Source\PSoC5/Out_MAX232.c **** *  Out_MAX232_initVar: Is modified when this function is called for the
+  52:Generated_Source\PSoC5/Out_MAX232.c **** *   first time. Is used to ensure that initialization happens only once.
+  53:Generated_Source\PSoC5/Out_MAX232.c **** *
+  54:Generated_Source\PSoC5/Out_MAX232.c **** *******************************************************************************/
+  55:Generated_Source\PSoC5/Out_MAX232.c **** void Out_MAX232_Start(void) 
+  56:Generated_Source\PSoC5/Out_MAX232.c **** {
+  57:Generated_Source\PSoC5/Out_MAX232.c ****     /* If not Initialized then initialize all required hardware and software */
+  58:Generated_Source\PSoC5/Out_MAX232.c ****     if(Out_MAX232_initVar == 0u)
+  59:Generated_Source\PSoC5/Out_MAX232.c ****     {
+  60:Generated_Source\PSoC5/Out_MAX232.c ****         Out_MAX232_Init();
+  61:Generated_Source\PSoC5/Out_MAX232.c ****         Out_MAX232_initVar = 1u;
+  62:Generated_Source\PSoC5/Out_MAX232.c ****     }
+  63:Generated_Source\PSoC5/Out_MAX232.c ****     Out_MAX232_Enable();
+  64:Generated_Source\PSoC5/Out_MAX232.c **** 
+  65:Generated_Source\PSoC5/Out_MAX232.c **** }
+  66:Generated_Source\PSoC5/Out_MAX232.c **** 
+  67:Generated_Source\PSoC5/Out_MAX232.c **** 
+  68:Generated_Source\PSoC5/Out_MAX232.c **** /*******************************************************************************
+  69:Generated_Source\PSoC5/Out_MAX232.c **** * Function Name: Out_MAX232_Init
+  70:Generated_Source\PSoC5/Out_MAX232.c **** ********************************************************************************
+  71:Generated_Source\PSoC5/Out_MAX232.c **** *
+  72:Generated_Source\PSoC5/Out_MAX232.c **** * Summary:
+  73:Generated_Source\PSoC5/Out_MAX232.c **** *  Initialize component's parameters to the parameters set by user in the
+  74:Generated_Source\PSoC5/Out_MAX232.c **** *  customizer of the component placed onto schematic. Usually called in
+  75:Generated_Source\PSoC5/Out_MAX232.c **** *  Out_MAX232_Start().
+  76:Generated_Source\PSoC5/Out_MAX232.c **** *
+  77:Generated_Source\PSoC5/Out_MAX232.c **** * Parameters:
+  78:Generated_Source\PSoC5/Out_MAX232.c **** *  None
+  79:Generated_Source\PSoC5/Out_MAX232.c **** *
+  80:Generated_Source\PSoC5/Out_MAX232.c **** * Return:
+  81:Generated_Source\PSoC5/Out_MAX232.c **** *  None
+  82:Generated_Source\PSoC5/Out_MAX232.c **** *
+  83:Generated_Source\PSoC5/Out_MAX232.c **** *******************************************************************************/
+  84:Generated_Source\PSoC5/Out_MAX232.c **** void Out_MAX232_Init(void) 
+  85:Generated_Source\PSoC5/Out_MAX232.c **** {
+  86:Generated_Source\PSoC5/Out_MAX232.c ****     #if (Out_MAX232_UsingFixedFunction || Out_MAX232_UseControl)
+  87:Generated_Source\PSoC5/Out_MAX232.c ****         uint8 ctrl;
+  88:Generated_Source\PSoC5/Out_MAX232.c ****     #endif /* (Out_MAX232_UsingFixedFunction || Out_MAX232_UseControl) */
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccwg9E8o.s 			page 3
+
+
+  89:Generated_Source\PSoC5/Out_MAX232.c **** 
+  90:Generated_Source\PSoC5/Out_MAX232.c ****     #if(!Out_MAX232_UsingFixedFunction)
+  91:Generated_Source\PSoC5/Out_MAX232.c ****         #if(Out_MAX232_UseStatus)
+  92:Generated_Source\PSoC5/Out_MAX232.c ****             /* Interrupt State Backup for Critical Region*/
+  93:Generated_Source\PSoC5/Out_MAX232.c ****             uint8 Out_MAX232_interruptState;
+  94:Generated_Source\PSoC5/Out_MAX232.c ****         #endif /* (Out_MAX232_UseStatus) */
+  95:Generated_Source\PSoC5/Out_MAX232.c ****     #endif /* (!Out_MAX232_UsingFixedFunction) */
+  96:Generated_Source\PSoC5/Out_MAX232.c **** 
+  97:Generated_Source\PSoC5/Out_MAX232.c ****     #if (Out_MAX232_UsingFixedFunction)
+  98:Generated_Source\PSoC5/Out_MAX232.c ****         /* You are allowed to write the compare value (FF only) */
+  99:Generated_Source\PSoC5/Out_MAX232.c ****         Out_MAX232_CONTROL |= Out_MAX232_CFG0_MODE;
+ 100:Generated_Source\PSoC5/Out_MAX232.c ****         #if (Out_MAX232_DeadBand2_4)
+ 101:Generated_Source\PSoC5/Out_MAX232.c ****             Out_MAX232_CONTROL |= Out_MAX232_CFG0_DB;
+ 102:Generated_Source\PSoC5/Out_MAX232.c ****         #endif /* (Out_MAX232_DeadBand2_4) */
+ 103:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 104:Generated_Source\PSoC5/Out_MAX232.c ****         ctrl = Out_MAX232_CONTROL3 & ((uint8 )(~Out_MAX232_CTRL_CMPMODE1_MASK));
+ 105:Generated_Source\PSoC5/Out_MAX232.c ****         Out_MAX232_CONTROL3 = ctrl | Out_MAX232_DEFAULT_COMPARE1_MODE;
+ 106:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 107:Generated_Source\PSoC5/Out_MAX232.c ****          /* Clear and Set SYNCTC and SYNCCMP bits of RT1 register */
+ 108:Generated_Source\PSoC5/Out_MAX232.c ****         Out_MAX232_RT1 &= ((uint8)(~Out_MAX232_RT1_MASK));
+ 109:Generated_Source\PSoC5/Out_MAX232.c ****         Out_MAX232_RT1 |= Out_MAX232_SYNC;
+ 110:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 111:Generated_Source\PSoC5/Out_MAX232.c ****         /*Enable DSI Sync all all inputs of the PWM*/
+ 112:Generated_Source\PSoC5/Out_MAX232.c ****         Out_MAX232_RT1 &= ((uint8)(~Out_MAX232_SYNCDSI_MASK));
+ 113:Generated_Source\PSoC5/Out_MAX232.c ****         Out_MAX232_RT1 |= Out_MAX232_SYNCDSI_EN;
+ 114:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 115:Generated_Source\PSoC5/Out_MAX232.c ****     #elif (Out_MAX232_UseControl)
+ 116:Generated_Source\PSoC5/Out_MAX232.c ****         /* Set the default compare mode defined in the parameter */
+ 117:Generated_Source\PSoC5/Out_MAX232.c ****         ctrl = Out_MAX232_CONTROL & ((uint8)(~Out_MAX232_CTRL_CMPMODE2_MASK)) &
+ 118:Generated_Source\PSoC5/Out_MAX232.c ****                 ((uint8)(~Out_MAX232_CTRL_CMPMODE1_MASK));
+ 119:Generated_Source\PSoC5/Out_MAX232.c ****         Out_MAX232_CONTROL = ctrl | Out_MAX232_DEFAULT_COMPARE2_MODE |
+ 120:Generated_Source\PSoC5/Out_MAX232.c ****                                    Out_MAX232_DEFAULT_COMPARE1_MODE;
+ 121:Generated_Source\PSoC5/Out_MAX232.c ****     #endif /* (Out_MAX232_UsingFixedFunction) */
+ 122:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 123:Generated_Source\PSoC5/Out_MAX232.c ****     #if (!Out_MAX232_UsingFixedFunction)
+ 124:Generated_Source\PSoC5/Out_MAX232.c ****         #if (Out_MAX232_Resolution == 8)
+ 125:Generated_Source\PSoC5/Out_MAX232.c ****             /* Set FIFO 0 to 1 byte register for period*/
+ 126:Generated_Source\PSoC5/Out_MAX232.c ****             Out_MAX232_AUX_CONTROLDP0 |= (Out_MAX232_AUX_CTRL_FIFO0_CLR);
+ 127:Generated_Source\PSoC5/Out_MAX232.c ****         #else /* (Out_MAX232_Resolution == 16)*/
+ 128:Generated_Source\PSoC5/Out_MAX232.c ****             /* Set FIFO 0 to 1 byte register for period */
+ 129:Generated_Source\PSoC5/Out_MAX232.c ****             Out_MAX232_AUX_CONTROLDP0 |= (Out_MAX232_AUX_CTRL_FIFO0_CLR);
+ 130:Generated_Source\PSoC5/Out_MAX232.c ****             Out_MAX232_AUX_CONTROLDP1 |= (Out_MAX232_AUX_CTRL_FIFO0_CLR);
+ 131:Generated_Source\PSoC5/Out_MAX232.c ****         #endif /* (Out_MAX232_Resolution == 8) */
+ 132:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 133:Generated_Source\PSoC5/Out_MAX232.c ****         Out_MAX232_WriteCounter(Out_MAX232_INIT_PERIOD_VALUE);
+ 134:Generated_Source\PSoC5/Out_MAX232.c ****     #endif /* (!Out_MAX232_UsingFixedFunction) */
+ 135:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 136:Generated_Source\PSoC5/Out_MAX232.c ****     Out_MAX232_WritePeriod(Out_MAX232_INIT_PERIOD_VALUE);
+ 137:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 138:Generated_Source\PSoC5/Out_MAX232.c ****         #if (Out_MAX232_UseOneCompareMode)
+ 139:Generated_Source\PSoC5/Out_MAX232.c ****             Out_MAX232_WriteCompare(Out_MAX232_INIT_COMPARE_VALUE1);
+ 140:Generated_Source\PSoC5/Out_MAX232.c ****         #else
+ 141:Generated_Source\PSoC5/Out_MAX232.c ****             Out_MAX232_WriteCompare1(Out_MAX232_INIT_COMPARE_VALUE1);
+ 142:Generated_Source\PSoC5/Out_MAX232.c ****             Out_MAX232_WriteCompare2(Out_MAX232_INIT_COMPARE_VALUE2);
+ 143:Generated_Source\PSoC5/Out_MAX232.c ****         #endif /* (Out_MAX232_UseOneCompareMode) */
+ 144:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 145:Generated_Source\PSoC5/Out_MAX232.c ****         #if (Out_MAX232_KillModeMinTime)
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccwg9E8o.s 			page 4
+
+
+ 146:Generated_Source\PSoC5/Out_MAX232.c ****             Out_MAX232_WriteKillTime(Out_MAX232_MinimumKillTime);
+ 147:Generated_Source\PSoC5/Out_MAX232.c ****         #endif /* (Out_MAX232_KillModeMinTime) */
+ 148:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 149:Generated_Source\PSoC5/Out_MAX232.c ****         #if (Out_MAX232_DeadBandUsed)
+ 150:Generated_Source\PSoC5/Out_MAX232.c ****             Out_MAX232_WriteDeadTime(Out_MAX232_INIT_DEAD_TIME);
+ 151:Generated_Source\PSoC5/Out_MAX232.c ****         #endif /* (Out_MAX232_DeadBandUsed) */
+ 152:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 153:Generated_Source\PSoC5/Out_MAX232.c ****     #if (Out_MAX232_UseStatus || Out_MAX232_UsingFixedFunction)
+ 154:Generated_Source\PSoC5/Out_MAX232.c ****         Out_MAX232_SetInterruptMode(Out_MAX232_INIT_INTERRUPTS_MODE);
+ 155:Generated_Source\PSoC5/Out_MAX232.c ****     #endif /* (Out_MAX232_UseStatus || Out_MAX232_UsingFixedFunction) */
+ 156:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 157:Generated_Source\PSoC5/Out_MAX232.c ****     #if (Out_MAX232_UsingFixedFunction)
+ 158:Generated_Source\PSoC5/Out_MAX232.c ****         /* Globally Enable the Fixed Function Block chosen */
+ 159:Generated_Source\PSoC5/Out_MAX232.c ****         Out_MAX232_GLOBAL_ENABLE |= Out_MAX232_BLOCK_EN_MASK;
+ 160:Generated_Source\PSoC5/Out_MAX232.c ****         /* Set the Interrupt source to come from the status register */
+ 161:Generated_Source\PSoC5/Out_MAX232.c ****         Out_MAX232_CONTROL2 |= Out_MAX232_CTRL2_IRQ_SEL;
+ 162:Generated_Source\PSoC5/Out_MAX232.c ****     #else
+ 163:Generated_Source\PSoC5/Out_MAX232.c ****         #if(Out_MAX232_UseStatus)
+ 164:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 165:Generated_Source\PSoC5/Out_MAX232.c ****             /* CyEnterCriticalRegion and CyExitCriticalRegion are used to mark following region cri
+ 166:Generated_Source\PSoC5/Out_MAX232.c ****             /* Enter Critical Region*/
+ 167:Generated_Source\PSoC5/Out_MAX232.c ****             Out_MAX232_interruptState = CyEnterCriticalSection();
+ 168:Generated_Source\PSoC5/Out_MAX232.c ****             /* Use the interrupt output of the status register for IRQ output */
+ 169:Generated_Source\PSoC5/Out_MAX232.c ****             Out_MAX232_STATUS_AUX_CTRL |= Out_MAX232_STATUS_ACTL_INT_EN_MASK;
+ 170:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 171:Generated_Source\PSoC5/Out_MAX232.c ****              /* Exit Critical Region*/
+ 172:Generated_Source\PSoC5/Out_MAX232.c ****             CyExitCriticalSection(Out_MAX232_interruptState);
+ 173:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 174:Generated_Source\PSoC5/Out_MAX232.c ****             /* Clear the FIFO to enable the Out_MAX232_STATUS_FIFOFULL
+ 175:Generated_Source\PSoC5/Out_MAX232.c ****                    bit to be set on FIFO full. */
+ 176:Generated_Source\PSoC5/Out_MAX232.c ****             Out_MAX232_ClearFIFO();
+ 177:Generated_Source\PSoC5/Out_MAX232.c ****         #endif /* (Out_MAX232_UseStatus) */
+ 178:Generated_Source\PSoC5/Out_MAX232.c ****     #endif /* (Out_MAX232_UsingFixedFunction) */
+ 179:Generated_Source\PSoC5/Out_MAX232.c **** }
+ 180:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 181:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 182:Generated_Source\PSoC5/Out_MAX232.c **** /*******************************************************************************
+ 183:Generated_Source\PSoC5/Out_MAX232.c **** * Function Name: Out_MAX232_Enable
+ 184:Generated_Source\PSoC5/Out_MAX232.c **** ********************************************************************************
+ 185:Generated_Source\PSoC5/Out_MAX232.c **** *
+ 186:Generated_Source\PSoC5/Out_MAX232.c **** * Summary:
+ 187:Generated_Source\PSoC5/Out_MAX232.c **** *  Enables the PWM block operation
+ 188:Generated_Source\PSoC5/Out_MAX232.c **** *
+ 189:Generated_Source\PSoC5/Out_MAX232.c **** * Parameters:
+ 190:Generated_Source\PSoC5/Out_MAX232.c **** *  None
+ 191:Generated_Source\PSoC5/Out_MAX232.c **** *
+ 192:Generated_Source\PSoC5/Out_MAX232.c **** * Return:
+ 193:Generated_Source\PSoC5/Out_MAX232.c **** *  None
+ 194:Generated_Source\PSoC5/Out_MAX232.c **** *
+ 195:Generated_Source\PSoC5/Out_MAX232.c **** * Side Effects:
+ 196:Generated_Source\PSoC5/Out_MAX232.c **** *  This works only if software enable mode is chosen
+ 197:Generated_Source\PSoC5/Out_MAX232.c **** *
+ 198:Generated_Source\PSoC5/Out_MAX232.c **** *******************************************************************************/
+ 199:Generated_Source\PSoC5/Out_MAX232.c **** void Out_MAX232_Enable(void) 
+ 200:Generated_Source\PSoC5/Out_MAX232.c **** {
+  27              		.loc 1 200 0
+  28              		.cfi_startproc
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccwg9E8o.s 			page 5
+
+
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+  32 0000 7047     		bx	lr
+  33              		.cfi_endproc
+  34              	.LFE2:
+  35              		.size	Out_MAX232_Enable, .-Out_MAX232_Enable
+  36 0002 00BF     		.section	.text.Out_MAX232_Stop,"ax",%progbits
+  37              		.align	2
+  38              		.global	Out_MAX232_Stop
+  39              		.thumb
+  40              		.thumb_func
+  41              		.type	Out_MAX232_Stop, %function
+  42              	Out_MAX232_Stop:
+  43              	.LFB3:
+ 201:Generated_Source\PSoC5/Out_MAX232.c ****     /* Globally Enable the Fixed Function Block chosen */
+ 202:Generated_Source\PSoC5/Out_MAX232.c ****     #if (Out_MAX232_UsingFixedFunction)
+ 203:Generated_Source\PSoC5/Out_MAX232.c ****         Out_MAX232_GLOBAL_ENABLE |= Out_MAX232_BLOCK_EN_MASK;
+ 204:Generated_Source\PSoC5/Out_MAX232.c ****         Out_MAX232_GLOBAL_STBY_ENABLE |= Out_MAX232_BLOCK_STBY_EN_MASK;
+ 205:Generated_Source\PSoC5/Out_MAX232.c ****     #endif /* (Out_MAX232_UsingFixedFunction) */
+ 206:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 207:Generated_Source\PSoC5/Out_MAX232.c ****     /* Enable the PWM from the control register  */
+ 208:Generated_Source\PSoC5/Out_MAX232.c ****     #if (Out_MAX232_UseControl || Out_MAX232_UsingFixedFunction)
+ 209:Generated_Source\PSoC5/Out_MAX232.c ****         Out_MAX232_CONTROL |= Out_MAX232_CTRL_ENABLE;
+ 210:Generated_Source\PSoC5/Out_MAX232.c ****     #endif /* (Out_MAX232_UseControl || Out_MAX232_UsingFixedFunction) */
+ 211:Generated_Source\PSoC5/Out_MAX232.c **** }
+ 212:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 213:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 214:Generated_Source\PSoC5/Out_MAX232.c **** /*******************************************************************************
+ 215:Generated_Source\PSoC5/Out_MAX232.c **** * Function Name: Out_MAX232_Stop
+ 216:Generated_Source\PSoC5/Out_MAX232.c **** ********************************************************************************
+ 217:Generated_Source\PSoC5/Out_MAX232.c **** *
+ 218:Generated_Source\PSoC5/Out_MAX232.c **** * Summary:
+ 219:Generated_Source\PSoC5/Out_MAX232.c **** *  The stop function halts the PWM, but does not change any modes or disable
+ 220:Generated_Source\PSoC5/Out_MAX232.c **** *  interrupts.
+ 221:Generated_Source\PSoC5/Out_MAX232.c **** *
+ 222:Generated_Source\PSoC5/Out_MAX232.c **** * Parameters:
+ 223:Generated_Source\PSoC5/Out_MAX232.c **** *  None
+ 224:Generated_Source\PSoC5/Out_MAX232.c **** *
+ 225:Generated_Source\PSoC5/Out_MAX232.c **** * Return:
+ 226:Generated_Source\PSoC5/Out_MAX232.c **** *  None
+ 227:Generated_Source\PSoC5/Out_MAX232.c **** *
+ 228:Generated_Source\PSoC5/Out_MAX232.c **** * Side Effects:
+ 229:Generated_Source\PSoC5/Out_MAX232.c **** *  If the Enable mode is set to Hardware only then this function
+ 230:Generated_Source\PSoC5/Out_MAX232.c **** *  has no effect on the operation of the PWM
+ 231:Generated_Source\PSoC5/Out_MAX232.c **** *
+ 232:Generated_Source\PSoC5/Out_MAX232.c **** *******************************************************************************/
+ 233:Generated_Source\PSoC5/Out_MAX232.c **** void Out_MAX232_Stop(void) 
+ 234:Generated_Source\PSoC5/Out_MAX232.c **** {
+  44              		.loc 1 234 0
+  45              		.cfi_startproc
+  46              		@ args = 0, pretend = 0, frame = 0
+  47              		@ frame_needed = 0, uses_anonymous_args = 0
+  48              		@ link register save eliminated.
+  49 0000 7047     		bx	lr
+  50              		.cfi_endproc
+  51              	.LFE3:
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccwg9E8o.s 			page 6
+
+
+  52              		.size	Out_MAX232_Stop, .-Out_MAX232_Stop
+  53 0002 00BF     		.section	.text.Out_MAX232_WriteCounter,"ax",%progbits
+  54              		.align	2
+  55              		.global	Out_MAX232_WriteCounter
+  56              		.thumb
+  57              		.thumb_func
+  58              		.type	Out_MAX232_WriteCounter, %function
+  59              	Out_MAX232_WriteCounter:
+  60              	.LFB4:
+ 235:Generated_Source\PSoC5/Out_MAX232.c ****     #if (Out_MAX232_UseControl || Out_MAX232_UsingFixedFunction)
+ 236:Generated_Source\PSoC5/Out_MAX232.c ****         Out_MAX232_CONTROL &= ((uint8)(~Out_MAX232_CTRL_ENABLE));
+ 237:Generated_Source\PSoC5/Out_MAX232.c ****     #endif /* (Out_MAX232_UseControl || Out_MAX232_UsingFixedFunction) */
+ 238:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 239:Generated_Source\PSoC5/Out_MAX232.c ****     /* Globally disable the Fixed Function Block chosen */
+ 240:Generated_Source\PSoC5/Out_MAX232.c ****     #if (Out_MAX232_UsingFixedFunction)
+ 241:Generated_Source\PSoC5/Out_MAX232.c ****         Out_MAX232_GLOBAL_ENABLE &= ((uint8)(~Out_MAX232_BLOCK_EN_MASK));
+ 242:Generated_Source\PSoC5/Out_MAX232.c ****         Out_MAX232_GLOBAL_STBY_ENABLE &= ((uint8)(~Out_MAX232_BLOCK_STBY_EN_MASK));
+ 243:Generated_Source\PSoC5/Out_MAX232.c ****     #endif /* (Out_MAX232_UsingFixedFunction) */
+ 244:Generated_Source\PSoC5/Out_MAX232.c **** }
+ 245:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 246:Generated_Source\PSoC5/Out_MAX232.c **** #if (Out_MAX232_UseOneCompareMode)
+ 247:Generated_Source\PSoC5/Out_MAX232.c ****     #if (Out_MAX232_CompareMode1SW)
+ 248:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 249:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 250:Generated_Source\PSoC5/Out_MAX232.c ****         /*******************************************************************************
+ 251:Generated_Source\PSoC5/Out_MAX232.c ****         * Function Name: Out_MAX232_SetCompareMode
+ 252:Generated_Source\PSoC5/Out_MAX232.c ****         ********************************************************************************
+ 253:Generated_Source\PSoC5/Out_MAX232.c ****         *
+ 254:Generated_Source\PSoC5/Out_MAX232.c ****         * Summary:
+ 255:Generated_Source\PSoC5/Out_MAX232.c ****         *  This function writes the Compare Mode for the pwm output when in Dither mode,
+ 256:Generated_Source\PSoC5/Out_MAX232.c ****         *  Center Align Mode or One Output Mode.
+ 257:Generated_Source\PSoC5/Out_MAX232.c ****         *
+ 258:Generated_Source\PSoC5/Out_MAX232.c ****         * Parameters:
+ 259:Generated_Source\PSoC5/Out_MAX232.c ****         *  comparemode:  The new compare mode for the PWM output. Use the compare types
+ 260:Generated_Source\PSoC5/Out_MAX232.c ****         *                defined in the H file as input arguments.
+ 261:Generated_Source\PSoC5/Out_MAX232.c ****         *
+ 262:Generated_Source\PSoC5/Out_MAX232.c ****         * Return:
+ 263:Generated_Source\PSoC5/Out_MAX232.c ****         *  None
+ 264:Generated_Source\PSoC5/Out_MAX232.c ****         *
+ 265:Generated_Source\PSoC5/Out_MAX232.c ****         *******************************************************************************/
+ 266:Generated_Source\PSoC5/Out_MAX232.c ****         void Out_MAX232_SetCompareMode(uint8 comparemode) 
+ 267:Generated_Source\PSoC5/Out_MAX232.c ****         {
+ 268:Generated_Source\PSoC5/Out_MAX232.c ****             #if(Out_MAX232_UsingFixedFunction)
+ 269:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 270:Generated_Source\PSoC5/Out_MAX232.c ****                 #if(0 != Out_MAX232_CTRL_CMPMODE1_SHIFT)
+ 271:Generated_Source\PSoC5/Out_MAX232.c ****                     uint8 comparemodemasked = ((uint8)((uint8)comparemode << Out_MAX232_CTRL_CMPMOD
+ 272:Generated_Source\PSoC5/Out_MAX232.c ****                 #else
+ 273:Generated_Source\PSoC5/Out_MAX232.c ****                     uint8 comparemodemasked = comparemode;
+ 274:Generated_Source\PSoC5/Out_MAX232.c ****                 #endif /* (0 != Out_MAX232_CTRL_CMPMODE1_SHIFT) */
+ 275:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 276:Generated_Source\PSoC5/Out_MAX232.c ****                 Out_MAX232_CONTROL3 &= ((uint8)(~Out_MAX232_CTRL_CMPMODE1_MASK)); /*Clear Existing 
+ 277:Generated_Source\PSoC5/Out_MAX232.c ****                 Out_MAX232_CONTROL3 |= comparemodemasked;
+ 278:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 279:Generated_Source\PSoC5/Out_MAX232.c ****             #elif (Out_MAX232_UseControl)
+ 280:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 281:Generated_Source\PSoC5/Out_MAX232.c ****                 #if(0 != Out_MAX232_CTRL_CMPMODE1_SHIFT)
+ 282:Generated_Source\PSoC5/Out_MAX232.c ****                     uint8 comparemode1masked = ((uint8)((uint8)comparemode << Out_MAX232_CTRL_CMPMO
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccwg9E8o.s 			page 7
+
+
+ 283:Generated_Source\PSoC5/Out_MAX232.c ****                                                 Out_MAX232_CTRL_CMPMODE1_MASK;
+ 284:Generated_Source\PSoC5/Out_MAX232.c ****                 #else
+ 285:Generated_Source\PSoC5/Out_MAX232.c ****                     uint8 comparemode1masked = comparemode & Out_MAX232_CTRL_CMPMODE1_MASK;
+ 286:Generated_Source\PSoC5/Out_MAX232.c ****                 #endif /* (0 != Out_MAX232_CTRL_CMPMODE1_SHIFT) */
+ 287:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 288:Generated_Source\PSoC5/Out_MAX232.c ****                 #if(0 != Out_MAX232_CTRL_CMPMODE2_SHIFT)
+ 289:Generated_Source\PSoC5/Out_MAX232.c ****                     uint8 comparemode2masked = ((uint8)((uint8)comparemode << Out_MAX232_CTRL_CMPMO
+ 290:Generated_Source\PSoC5/Out_MAX232.c ****                                                Out_MAX232_CTRL_CMPMODE2_MASK;
+ 291:Generated_Source\PSoC5/Out_MAX232.c ****                 #else
+ 292:Generated_Source\PSoC5/Out_MAX232.c ****                     uint8 comparemode2masked = comparemode & Out_MAX232_CTRL_CMPMODE2_MASK;
+ 293:Generated_Source\PSoC5/Out_MAX232.c ****                 #endif /* (0 != Out_MAX232_CTRL_CMPMODE2_SHIFT) */
+ 294:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 295:Generated_Source\PSoC5/Out_MAX232.c ****                 /*Clear existing mode */
+ 296:Generated_Source\PSoC5/Out_MAX232.c ****                 Out_MAX232_CONTROL &= ((uint8)(~(Out_MAX232_CTRL_CMPMODE1_MASK |
+ 297:Generated_Source\PSoC5/Out_MAX232.c ****                                             Out_MAX232_CTRL_CMPMODE2_MASK)));
+ 298:Generated_Source\PSoC5/Out_MAX232.c ****                 Out_MAX232_CONTROL |= (comparemode1masked | comparemode2masked);
+ 299:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 300:Generated_Source\PSoC5/Out_MAX232.c ****             #else
+ 301:Generated_Source\PSoC5/Out_MAX232.c ****                 uint8 temp = comparemode;
+ 302:Generated_Source\PSoC5/Out_MAX232.c ****             #endif /* (Out_MAX232_UsingFixedFunction) */
+ 303:Generated_Source\PSoC5/Out_MAX232.c ****         }
+ 304:Generated_Source\PSoC5/Out_MAX232.c ****     #endif /* Out_MAX232_CompareMode1SW */
+ 305:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 306:Generated_Source\PSoC5/Out_MAX232.c **** #else /* UseOneCompareMode */
+ 307:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 308:Generated_Source\PSoC5/Out_MAX232.c ****     #if (Out_MAX232_CompareMode1SW)
+ 309:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 310:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 311:Generated_Source\PSoC5/Out_MAX232.c ****         /*******************************************************************************
+ 312:Generated_Source\PSoC5/Out_MAX232.c ****         * Function Name: Out_MAX232_SetCompareMode1
+ 313:Generated_Source\PSoC5/Out_MAX232.c ****         ********************************************************************************
+ 314:Generated_Source\PSoC5/Out_MAX232.c ****         *
+ 315:Generated_Source\PSoC5/Out_MAX232.c ****         * Summary:
+ 316:Generated_Source\PSoC5/Out_MAX232.c ****         *  This function writes the Compare Mode for the pwm or pwm1 output
+ 317:Generated_Source\PSoC5/Out_MAX232.c ****         *
+ 318:Generated_Source\PSoC5/Out_MAX232.c ****         * Parameters:
+ 319:Generated_Source\PSoC5/Out_MAX232.c ****         *  comparemode:  The new compare mode for the PWM output. Use the compare types
+ 320:Generated_Source\PSoC5/Out_MAX232.c ****         *                defined in the H file as input arguments.
+ 321:Generated_Source\PSoC5/Out_MAX232.c ****         *
+ 322:Generated_Source\PSoC5/Out_MAX232.c ****         * Return:
+ 323:Generated_Source\PSoC5/Out_MAX232.c ****         *  None
+ 324:Generated_Source\PSoC5/Out_MAX232.c ****         *
+ 325:Generated_Source\PSoC5/Out_MAX232.c ****         *******************************************************************************/
+ 326:Generated_Source\PSoC5/Out_MAX232.c ****         void Out_MAX232_SetCompareMode1(uint8 comparemode) 
+ 327:Generated_Source\PSoC5/Out_MAX232.c ****         {
+ 328:Generated_Source\PSoC5/Out_MAX232.c ****             #if(0 != Out_MAX232_CTRL_CMPMODE1_SHIFT)
+ 329:Generated_Source\PSoC5/Out_MAX232.c ****                 uint8 comparemodemasked = ((uint8)((uint8)comparemode << Out_MAX232_CTRL_CMPMODE1_S
+ 330:Generated_Source\PSoC5/Out_MAX232.c ****                                            Out_MAX232_CTRL_CMPMODE1_MASK;
+ 331:Generated_Source\PSoC5/Out_MAX232.c ****             #else
+ 332:Generated_Source\PSoC5/Out_MAX232.c ****                 uint8 comparemodemasked = comparemode & Out_MAX232_CTRL_CMPMODE1_MASK;
+ 333:Generated_Source\PSoC5/Out_MAX232.c ****             #endif /* (0 != Out_MAX232_CTRL_CMPMODE1_SHIFT) */
+ 334:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 335:Generated_Source\PSoC5/Out_MAX232.c ****             #if (Out_MAX232_UseControl)
+ 336:Generated_Source\PSoC5/Out_MAX232.c ****                 Out_MAX232_CONTROL &= ((uint8)(~Out_MAX232_CTRL_CMPMODE1_MASK)); /*Clear existing m
+ 337:Generated_Source\PSoC5/Out_MAX232.c ****                 Out_MAX232_CONTROL |= comparemodemasked;
+ 338:Generated_Source\PSoC5/Out_MAX232.c ****             #endif /* (Out_MAX232_UseControl) */
+ 339:Generated_Source\PSoC5/Out_MAX232.c ****         }
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccwg9E8o.s 			page 8
+
+
+ 340:Generated_Source\PSoC5/Out_MAX232.c ****     #endif /* Out_MAX232_CompareMode1SW */
+ 341:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 342:Generated_Source\PSoC5/Out_MAX232.c **** #if (Out_MAX232_CompareMode2SW)
+ 343:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 344:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 345:Generated_Source\PSoC5/Out_MAX232.c ****     /*******************************************************************************
+ 346:Generated_Source\PSoC5/Out_MAX232.c ****     * Function Name: Out_MAX232_SetCompareMode2
+ 347:Generated_Source\PSoC5/Out_MAX232.c ****     ********************************************************************************
+ 348:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 349:Generated_Source\PSoC5/Out_MAX232.c ****     * Summary:
+ 350:Generated_Source\PSoC5/Out_MAX232.c ****     *  This function writes the Compare Mode for the pwm or pwm2 output
+ 351:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 352:Generated_Source\PSoC5/Out_MAX232.c ****     * Parameters:
+ 353:Generated_Source\PSoC5/Out_MAX232.c ****     *  comparemode:  The new compare mode for the PWM output. Use the compare types
+ 354:Generated_Source\PSoC5/Out_MAX232.c ****     *                defined in the H file as input arguments.
+ 355:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 356:Generated_Source\PSoC5/Out_MAX232.c ****     * Return:
+ 357:Generated_Source\PSoC5/Out_MAX232.c ****     *  None
+ 358:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 359:Generated_Source\PSoC5/Out_MAX232.c ****     *******************************************************************************/
+ 360:Generated_Source\PSoC5/Out_MAX232.c ****     void Out_MAX232_SetCompareMode2(uint8 comparemode) 
+ 361:Generated_Source\PSoC5/Out_MAX232.c ****     {
+ 362:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 363:Generated_Source\PSoC5/Out_MAX232.c ****         #if(0 != Out_MAX232_CTRL_CMPMODE2_SHIFT)
+ 364:Generated_Source\PSoC5/Out_MAX232.c ****             uint8 comparemodemasked = ((uint8)((uint8)comparemode << Out_MAX232_CTRL_CMPMODE2_SHIFT
+ 365:Generated_Source\PSoC5/Out_MAX232.c ****                                                  Out_MAX232_CTRL_CMPMODE2_MASK;
+ 366:Generated_Source\PSoC5/Out_MAX232.c ****         #else
+ 367:Generated_Source\PSoC5/Out_MAX232.c ****             uint8 comparemodemasked = comparemode & Out_MAX232_CTRL_CMPMODE2_MASK;
+ 368:Generated_Source\PSoC5/Out_MAX232.c ****         #endif /* (0 != Out_MAX232_CTRL_CMPMODE2_SHIFT) */
+ 369:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 370:Generated_Source\PSoC5/Out_MAX232.c ****         #if (Out_MAX232_UseControl)
+ 371:Generated_Source\PSoC5/Out_MAX232.c ****             Out_MAX232_CONTROL &= ((uint8)(~Out_MAX232_CTRL_CMPMODE2_MASK)); /*Clear existing mode 
+ 372:Generated_Source\PSoC5/Out_MAX232.c ****             Out_MAX232_CONTROL |= comparemodemasked;
+ 373:Generated_Source\PSoC5/Out_MAX232.c ****         #endif /* (Out_MAX232_UseControl) */
+ 374:Generated_Source\PSoC5/Out_MAX232.c ****     }
+ 375:Generated_Source\PSoC5/Out_MAX232.c ****     #endif /*Out_MAX232_CompareMode2SW */
+ 376:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 377:Generated_Source\PSoC5/Out_MAX232.c **** #endif /* UseOneCompareMode */
+ 378:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 379:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 380:Generated_Source\PSoC5/Out_MAX232.c **** #if (!Out_MAX232_UsingFixedFunction)
+ 381:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 382:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 383:Generated_Source\PSoC5/Out_MAX232.c ****     /*******************************************************************************
+ 384:Generated_Source\PSoC5/Out_MAX232.c ****     * Function Name: Out_MAX232_WriteCounter
+ 385:Generated_Source\PSoC5/Out_MAX232.c ****     ********************************************************************************
+ 386:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 387:Generated_Source\PSoC5/Out_MAX232.c ****     * Summary:
+ 388:Generated_Source\PSoC5/Out_MAX232.c ****     *  Writes a new counter value directly to the counter register. This will be
+ 389:Generated_Source\PSoC5/Out_MAX232.c ****     *  implemented for that currently running period and only that period. This API
+ 390:Generated_Source\PSoC5/Out_MAX232.c ****     *  is valid only for UDB implementation and not available for fixed function
+ 391:Generated_Source\PSoC5/Out_MAX232.c ****     *  PWM implementation.
+ 392:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 393:Generated_Source\PSoC5/Out_MAX232.c ****     * Parameters:
+ 394:Generated_Source\PSoC5/Out_MAX232.c ****     *  counter:  The period new period counter value.
+ 395:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 396:Generated_Source\PSoC5/Out_MAX232.c ****     * Return:
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccwg9E8o.s 			page 9
+
+
+ 397:Generated_Source\PSoC5/Out_MAX232.c ****     *  None
+ 398:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 399:Generated_Source\PSoC5/Out_MAX232.c ****     * Side Effects:
+ 400:Generated_Source\PSoC5/Out_MAX232.c ****     *  The PWM Period will be reloaded when a counter value will be a zero
+ 401:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 402:Generated_Source\PSoC5/Out_MAX232.c ****     *******************************************************************************/
+ 403:Generated_Source\PSoC5/Out_MAX232.c ****     void Out_MAX232_WriteCounter(uint16 counter) \
+ 404:Generated_Source\PSoC5/Out_MAX232.c ****                                        
+ 405:Generated_Source\PSoC5/Out_MAX232.c ****     {
+  61              		.loc 1 405 0
+  62              		.cfi_startproc
+  63              		@ args = 0, pretend = 0, frame = 0
+  64              		@ frame_needed = 0, uses_anonymous_args = 0
+  65              		@ link register save eliminated.
+  66              	.LVL0:
+ 406:Generated_Source\PSoC5/Out_MAX232.c ****         CY_SET_REG16(Out_MAX232_COUNTER_LSB_PTR, counter);
+  67              		.loc 1 406 0
+  68 0000 014B     		ldr	r3, .L4
+  69 0002 1880     		strh	r0, [r3]	@ movhi
+  70 0004 7047     		bx	lr
+  71              	.L5:
+  72 0006 00BF     		.align	2
+  73              	.L4:
+  74 0008 146A0040 		.word	1073768980
+  75              		.cfi_endproc
+  76              	.LFE4:
+  77              		.size	Out_MAX232_WriteCounter, .-Out_MAX232_WriteCounter
+  78              		.section	.text.Out_MAX232_ReadCounter,"ax",%progbits
+  79              		.align	2
+  80              		.global	Out_MAX232_ReadCounter
+  81              		.thumb
+  82              		.thumb_func
+  83              		.type	Out_MAX232_ReadCounter, %function
+  84              	Out_MAX232_ReadCounter:
+  85              	.LFB5:
+ 407:Generated_Source\PSoC5/Out_MAX232.c ****     }
+ 408:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 409:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 410:Generated_Source\PSoC5/Out_MAX232.c ****     /*******************************************************************************
+ 411:Generated_Source\PSoC5/Out_MAX232.c ****     * Function Name: Out_MAX232_ReadCounter
+ 412:Generated_Source\PSoC5/Out_MAX232.c ****     ********************************************************************************
+ 413:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 414:Generated_Source\PSoC5/Out_MAX232.c ****     * Summary:
+ 415:Generated_Source\PSoC5/Out_MAX232.c ****     *  This function returns the current value of the counter.  It doesn't matter
+ 416:Generated_Source\PSoC5/Out_MAX232.c ****     *  if the counter is enabled or running.
+ 417:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 418:Generated_Source\PSoC5/Out_MAX232.c ****     * Parameters:
+ 419:Generated_Source\PSoC5/Out_MAX232.c ****     *  None
+ 420:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 421:Generated_Source\PSoC5/Out_MAX232.c ****     * Return:
+ 422:Generated_Source\PSoC5/Out_MAX232.c ****     *  The current value of the counter.
+ 423:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 424:Generated_Source\PSoC5/Out_MAX232.c ****     *******************************************************************************/
+ 425:Generated_Source\PSoC5/Out_MAX232.c ****     uint16 Out_MAX232_ReadCounter(void) 
+ 426:Generated_Source\PSoC5/Out_MAX232.c ****     {
+  86              		.loc 1 426 0
+  87              		.cfi_startproc
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccwg9E8o.s 			page 10
+
+
+  88              		@ args = 0, pretend = 0, frame = 0
+  89              		@ frame_needed = 0, uses_anonymous_args = 0
+  90              		@ link register save eliminated.
+ 427:Generated_Source\PSoC5/Out_MAX232.c ****         /* Force capture by reading Accumulator */
+ 428:Generated_Source\PSoC5/Out_MAX232.c ****         /* Must first do a software capture to be able to read the counter */
+ 429:Generated_Source\PSoC5/Out_MAX232.c ****         /* It is up to the user code to make sure there isn't already captured data in the FIFO */
+ 430:Generated_Source\PSoC5/Out_MAX232.c ****           (void)CY_GET_REG8(Out_MAX232_COUNTERCAP_LSB_PTR_8BIT);
+  91              		.loc 1 430 0
+  92 0000 024B     		ldr	r3, .L7
+  93 0002 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 431:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 432:Generated_Source\PSoC5/Out_MAX232.c ****         /* Read the data from the FIFO */
+ 433:Generated_Source\PSoC5/Out_MAX232.c ****         return (CY_GET_REG16(Out_MAX232_CAPTURE_LSB_PTR));
+  94              		.loc 1 433 0
+  95 0004 024B     		ldr	r3, .L7+4
+  96 0006 1888     		ldrh	r0, [r3]
+ 434:Generated_Source\PSoC5/Out_MAX232.c ****     }
+  97              		.loc 1 434 0
+  98 0008 80B2     		uxth	r0, r0
+  99 000a 7047     		bx	lr
+ 100              	.L8:
+ 101              		.align	2
+ 102              	.L7:
+ 103 000c 1A650040 		.word	1073767706
+ 104 0010 B46A0040 		.word	1073769140
+ 105              		.cfi_endproc
+ 106              	.LFE5:
+ 107              		.size	Out_MAX232_ReadCounter, .-Out_MAX232_ReadCounter
+ 108              		.section	.text.Out_MAX232_WritePeriod,"ax",%progbits
+ 109              		.align	2
+ 110              		.global	Out_MAX232_WritePeriod
+ 111              		.thumb
+ 112              		.thumb_func
+ 113              		.type	Out_MAX232_WritePeriod, %function
+ 114              	Out_MAX232_WritePeriod:
+ 115              	.LFB6:
+ 435:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 436:Generated_Source\PSoC5/Out_MAX232.c ****     #if (Out_MAX232_UseStatus)
+ 437:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 438:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 439:Generated_Source\PSoC5/Out_MAX232.c ****         /*******************************************************************************
+ 440:Generated_Source\PSoC5/Out_MAX232.c ****         * Function Name: Out_MAX232_ClearFIFO
+ 441:Generated_Source\PSoC5/Out_MAX232.c ****         ********************************************************************************
+ 442:Generated_Source\PSoC5/Out_MAX232.c ****         *
+ 443:Generated_Source\PSoC5/Out_MAX232.c ****         * Summary:
+ 444:Generated_Source\PSoC5/Out_MAX232.c ****         *  This function clears all capture data from the capture FIFO
+ 445:Generated_Source\PSoC5/Out_MAX232.c ****         *
+ 446:Generated_Source\PSoC5/Out_MAX232.c ****         * Parameters:
+ 447:Generated_Source\PSoC5/Out_MAX232.c ****         *  None
+ 448:Generated_Source\PSoC5/Out_MAX232.c ****         *
+ 449:Generated_Source\PSoC5/Out_MAX232.c ****         * Return:
+ 450:Generated_Source\PSoC5/Out_MAX232.c ****         *  None
+ 451:Generated_Source\PSoC5/Out_MAX232.c ****         *
+ 452:Generated_Source\PSoC5/Out_MAX232.c ****         *******************************************************************************/
+ 453:Generated_Source\PSoC5/Out_MAX232.c ****         void Out_MAX232_ClearFIFO(void) 
+ 454:Generated_Source\PSoC5/Out_MAX232.c ****         {
+ 455:Generated_Source\PSoC5/Out_MAX232.c ****             while(0u != (Out_MAX232_ReadStatusRegister() & Out_MAX232_STATUS_FIFONEMPTY))
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccwg9E8o.s 			page 11
+
+
+ 456:Generated_Source\PSoC5/Out_MAX232.c ****             {
+ 457:Generated_Source\PSoC5/Out_MAX232.c ****                 (void)Out_MAX232_ReadCapture();
+ 458:Generated_Source\PSoC5/Out_MAX232.c ****             }
+ 459:Generated_Source\PSoC5/Out_MAX232.c ****         }
+ 460:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 461:Generated_Source\PSoC5/Out_MAX232.c ****     #endif /* Out_MAX232_UseStatus */
+ 462:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 463:Generated_Source\PSoC5/Out_MAX232.c **** #endif /* !Out_MAX232_UsingFixedFunction */
+ 464:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 465:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 466:Generated_Source\PSoC5/Out_MAX232.c **** /*******************************************************************************
+ 467:Generated_Source\PSoC5/Out_MAX232.c **** * Function Name: Out_MAX232_WritePeriod
+ 468:Generated_Source\PSoC5/Out_MAX232.c **** ********************************************************************************
+ 469:Generated_Source\PSoC5/Out_MAX232.c **** *
+ 470:Generated_Source\PSoC5/Out_MAX232.c **** * Summary:
+ 471:Generated_Source\PSoC5/Out_MAX232.c **** *  This function is used to change the period of the counter.  The new period
+ 472:Generated_Source\PSoC5/Out_MAX232.c **** *  will be loaded the next time terminal count is detected.
+ 473:Generated_Source\PSoC5/Out_MAX232.c **** *
+ 474:Generated_Source\PSoC5/Out_MAX232.c **** * Parameters:
+ 475:Generated_Source\PSoC5/Out_MAX232.c **** *  period:  Period value. May be between 1 and (2^Resolution)-1.  A value of 0
+ 476:Generated_Source\PSoC5/Out_MAX232.c **** *           will result in the counter remaining at zero.
+ 477:Generated_Source\PSoC5/Out_MAX232.c **** *
+ 478:Generated_Source\PSoC5/Out_MAX232.c **** * Return:
+ 479:Generated_Source\PSoC5/Out_MAX232.c **** *  None
+ 480:Generated_Source\PSoC5/Out_MAX232.c **** *
+ 481:Generated_Source\PSoC5/Out_MAX232.c **** *******************************************************************************/
+ 482:Generated_Source\PSoC5/Out_MAX232.c **** void Out_MAX232_WritePeriod(uint16 period) 
+ 483:Generated_Source\PSoC5/Out_MAX232.c **** {
+ 116              		.loc 1 483 0
+ 117              		.cfi_startproc
+ 118              		@ args = 0, pretend = 0, frame = 0
+ 119              		@ frame_needed = 0, uses_anonymous_args = 0
+ 120              		@ link register save eliminated.
+ 121              	.LVL1:
+ 484:Generated_Source\PSoC5/Out_MAX232.c ****     #if(Out_MAX232_UsingFixedFunction)
+ 485:Generated_Source\PSoC5/Out_MAX232.c ****         CY_SET_REG16(Out_MAX232_PERIOD_LSB_PTR, (uint16)period);
+ 486:Generated_Source\PSoC5/Out_MAX232.c ****     #else
+ 487:Generated_Source\PSoC5/Out_MAX232.c ****         CY_SET_REG16(Out_MAX232_PERIOD_LSB_PTR, period);
+ 122              		.loc 1 487 0
+ 123 0000 014B     		ldr	r3, .L10
+ 124 0002 1880     		strh	r0, [r3]	@ movhi
+ 125 0004 7047     		bx	lr
+ 126              	.L11:
+ 127 0006 00BF     		.align	2
+ 128              	.L10:
+ 129 0008 946A0040 		.word	1073769108
+ 130              		.cfi_endproc
+ 131              	.LFE6:
+ 132              		.size	Out_MAX232_WritePeriod, .-Out_MAX232_WritePeriod
+ 133              		.section	.text.Out_MAX232_WriteCompare1,"ax",%progbits
+ 134              		.align	2
+ 135              		.global	Out_MAX232_WriteCompare1
+ 136              		.thumb
+ 137              		.thumb_func
+ 138              		.type	Out_MAX232_WriteCompare1, %function
+ 139              	Out_MAX232_WriteCompare1:
+ 140              	.LFB7:
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccwg9E8o.s 			page 12
+
+
+ 488:Generated_Source\PSoC5/Out_MAX232.c ****     #endif /* (Out_MAX232_UsingFixedFunction) */
+ 489:Generated_Source\PSoC5/Out_MAX232.c **** }
+ 490:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 491:Generated_Source\PSoC5/Out_MAX232.c **** #if (Out_MAX232_UseOneCompareMode)
+ 492:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 493:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 494:Generated_Source\PSoC5/Out_MAX232.c ****     /*******************************************************************************
+ 495:Generated_Source\PSoC5/Out_MAX232.c ****     * Function Name: Out_MAX232_WriteCompare
+ 496:Generated_Source\PSoC5/Out_MAX232.c ****     ********************************************************************************
+ 497:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 498:Generated_Source\PSoC5/Out_MAX232.c ****     * Summary:
+ 499:Generated_Source\PSoC5/Out_MAX232.c ****     *  This funtion is used to change the compare1 value when the PWM is in Dither
+ 500:Generated_Source\PSoC5/Out_MAX232.c ****     *  mode. The compare output will reflect the new value on the next UDB clock.
+ 501:Generated_Source\PSoC5/Out_MAX232.c ****     *  The compare output will be driven high when the present counter value is
+ 502:Generated_Source\PSoC5/Out_MAX232.c ****     *  compared to the compare value based on the compare mode defined in
+ 503:Generated_Source\PSoC5/Out_MAX232.c ****     *  Dither Mode.
+ 504:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 505:Generated_Source\PSoC5/Out_MAX232.c ****     * Parameters:
+ 506:Generated_Source\PSoC5/Out_MAX232.c ****     *  compare:  New compare value.
+ 507:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 508:Generated_Source\PSoC5/Out_MAX232.c ****     * Return:
+ 509:Generated_Source\PSoC5/Out_MAX232.c ****     *  None
+ 510:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 511:Generated_Source\PSoC5/Out_MAX232.c ****     * Side Effects:
+ 512:Generated_Source\PSoC5/Out_MAX232.c ****     *  This function is only available if the PWM mode parameter is set to
+ 513:Generated_Source\PSoC5/Out_MAX232.c ****     *  Dither Mode, Center Aligned Mode or One Output Mode
+ 514:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 515:Generated_Source\PSoC5/Out_MAX232.c ****     *******************************************************************************/
+ 516:Generated_Source\PSoC5/Out_MAX232.c ****     void Out_MAX232_WriteCompare(uint16 compare) \
+ 517:Generated_Source\PSoC5/Out_MAX232.c ****                                        
+ 518:Generated_Source\PSoC5/Out_MAX232.c ****     {
+ 519:Generated_Source\PSoC5/Out_MAX232.c ****         #if(Out_MAX232_UsingFixedFunction)
+ 520:Generated_Source\PSoC5/Out_MAX232.c ****             CY_SET_REG16(Out_MAX232_COMPARE1_LSB_PTR, (uint16)compare);
+ 521:Generated_Source\PSoC5/Out_MAX232.c ****         #else
+ 522:Generated_Source\PSoC5/Out_MAX232.c ****             CY_SET_REG16(Out_MAX232_COMPARE1_LSB_PTR, compare);
+ 523:Generated_Source\PSoC5/Out_MAX232.c ****         #endif /* (Out_MAX232_UsingFixedFunction) */
+ 524:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 525:Generated_Source\PSoC5/Out_MAX232.c ****         #if (Out_MAX232_PWMMode == Out_MAX232__B_PWM__DITHER)
+ 526:Generated_Source\PSoC5/Out_MAX232.c ****             #if(Out_MAX232_UsingFixedFunction)
+ 527:Generated_Source\PSoC5/Out_MAX232.c ****                 CY_SET_REG16(Out_MAX232_COMPARE2_LSB_PTR, (uint16)(compare + 1u));
+ 528:Generated_Source\PSoC5/Out_MAX232.c ****             #else
+ 529:Generated_Source\PSoC5/Out_MAX232.c ****                 CY_SET_REG16(Out_MAX232_COMPARE2_LSB_PTR, (compare + 1u));
+ 530:Generated_Source\PSoC5/Out_MAX232.c ****             #endif /* (Out_MAX232_UsingFixedFunction) */
+ 531:Generated_Source\PSoC5/Out_MAX232.c ****         #endif /* (Out_MAX232_PWMMode == Out_MAX232__B_PWM__DITHER) */
+ 532:Generated_Source\PSoC5/Out_MAX232.c ****     }
+ 533:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 534:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 535:Generated_Source\PSoC5/Out_MAX232.c **** #else
+ 536:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 537:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 538:Generated_Source\PSoC5/Out_MAX232.c ****     /*******************************************************************************
+ 539:Generated_Source\PSoC5/Out_MAX232.c ****     * Function Name: Out_MAX232_WriteCompare1
+ 540:Generated_Source\PSoC5/Out_MAX232.c ****     ********************************************************************************
+ 541:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 542:Generated_Source\PSoC5/Out_MAX232.c ****     * Summary:
+ 543:Generated_Source\PSoC5/Out_MAX232.c ****     *  This funtion is used to change the compare1 value.  The compare output will
+ 544:Generated_Source\PSoC5/Out_MAX232.c ****     *  reflect the new value on the next UDB clock.  The compare output will be
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccwg9E8o.s 			page 13
+
+
+ 545:Generated_Source\PSoC5/Out_MAX232.c ****     *  driven high when the present counter value is less than or less than or
+ 546:Generated_Source\PSoC5/Out_MAX232.c ****     *  equal to the compare register, depending on the mode.
+ 547:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 548:Generated_Source\PSoC5/Out_MAX232.c ****     * Parameters:
+ 549:Generated_Source\PSoC5/Out_MAX232.c ****     *  compare:  New compare value.
+ 550:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 551:Generated_Source\PSoC5/Out_MAX232.c ****     * Return:
+ 552:Generated_Source\PSoC5/Out_MAX232.c ****     *  None
+ 553:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 554:Generated_Source\PSoC5/Out_MAX232.c ****     *******************************************************************************/
+ 555:Generated_Source\PSoC5/Out_MAX232.c ****     void Out_MAX232_WriteCompare1(uint16 compare) \
+ 556:Generated_Source\PSoC5/Out_MAX232.c ****                                         
+ 557:Generated_Source\PSoC5/Out_MAX232.c ****     {
+ 141              		.loc 1 557 0
+ 142              		.cfi_startproc
+ 143              		@ args = 0, pretend = 0, frame = 0
+ 144              		@ frame_needed = 0, uses_anonymous_args = 0
+ 145              		@ link register save eliminated.
+ 146              	.LVL2:
+ 558:Generated_Source\PSoC5/Out_MAX232.c ****         #if(Out_MAX232_UsingFixedFunction)
+ 559:Generated_Source\PSoC5/Out_MAX232.c ****             CY_SET_REG16(Out_MAX232_COMPARE1_LSB_PTR, (uint16)compare);
+ 560:Generated_Source\PSoC5/Out_MAX232.c ****         #else
+ 561:Generated_Source\PSoC5/Out_MAX232.c ****             CY_SET_REG16(Out_MAX232_COMPARE1_LSB_PTR, compare);
+ 147              		.loc 1 561 0
+ 148 0000 014B     		ldr	r3, .L13
+ 149 0002 1880     		strh	r0, [r3]	@ movhi
+ 150 0004 7047     		bx	lr
+ 151              	.L14:
+ 152 0006 00BF     		.align	2
+ 153              	.L13:
+ 154 0008 546A0040 		.word	1073769044
+ 155              		.cfi_endproc
+ 156              	.LFE7:
+ 157              		.size	Out_MAX232_WriteCompare1, .-Out_MAX232_WriteCompare1
+ 158              		.section	.text.Out_MAX232_WriteCompare2,"ax",%progbits
+ 159              		.align	2
+ 160              		.global	Out_MAX232_WriteCompare2
+ 161              		.thumb
+ 162              		.thumb_func
+ 163              		.type	Out_MAX232_WriteCompare2, %function
+ 164              	Out_MAX232_WriteCompare2:
+ 165              	.LFB8:
+ 562:Generated_Source\PSoC5/Out_MAX232.c ****         #endif /* (Out_MAX232_UsingFixedFunction) */
+ 563:Generated_Source\PSoC5/Out_MAX232.c ****     }
+ 564:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 565:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 566:Generated_Source\PSoC5/Out_MAX232.c ****     /*******************************************************************************
+ 567:Generated_Source\PSoC5/Out_MAX232.c ****     * Function Name: Out_MAX232_WriteCompare2
+ 568:Generated_Source\PSoC5/Out_MAX232.c ****     ********************************************************************************
+ 569:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 570:Generated_Source\PSoC5/Out_MAX232.c ****     * Summary:
+ 571:Generated_Source\PSoC5/Out_MAX232.c ****     *  This funtion is used to change the compare value, for compare1 output.
+ 572:Generated_Source\PSoC5/Out_MAX232.c ****     *  The compare output will reflect the new value on the next UDB clock.
+ 573:Generated_Source\PSoC5/Out_MAX232.c ****     *  The compare output will be driven high when the present counter value is
+ 574:Generated_Source\PSoC5/Out_MAX232.c ****     *  less than or less than or equal to the compare register, depending on the
+ 575:Generated_Source\PSoC5/Out_MAX232.c ****     *  mode.
+ 576:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccwg9E8o.s 			page 14
+
+
+ 577:Generated_Source\PSoC5/Out_MAX232.c ****     * Parameters:
+ 578:Generated_Source\PSoC5/Out_MAX232.c ****     *  compare:  New compare value.
+ 579:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 580:Generated_Source\PSoC5/Out_MAX232.c ****     * Return:
+ 581:Generated_Source\PSoC5/Out_MAX232.c ****     *  None
+ 582:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 583:Generated_Source\PSoC5/Out_MAX232.c ****     *******************************************************************************/
+ 584:Generated_Source\PSoC5/Out_MAX232.c ****     void Out_MAX232_WriteCompare2(uint16 compare) \
+ 585:Generated_Source\PSoC5/Out_MAX232.c ****                                         
+ 586:Generated_Source\PSoC5/Out_MAX232.c ****     {
+ 166              		.loc 1 586 0
+ 167              		.cfi_startproc
+ 168              		@ args = 0, pretend = 0, frame = 0
+ 169              		@ frame_needed = 0, uses_anonymous_args = 0
+ 170              		@ link register save eliminated.
+ 171              	.LVL3:
+ 587:Generated_Source\PSoC5/Out_MAX232.c ****         #if(Out_MAX232_UsingFixedFunction)
+ 588:Generated_Source\PSoC5/Out_MAX232.c ****             CY_SET_REG16(Out_MAX232_COMPARE2_LSB_PTR, compare);
+ 589:Generated_Source\PSoC5/Out_MAX232.c ****         #else
+ 590:Generated_Source\PSoC5/Out_MAX232.c ****             CY_SET_REG16(Out_MAX232_COMPARE2_LSB_PTR, compare);
+ 172              		.loc 1 590 0
+ 173 0000 014B     		ldr	r3, .L16
+ 174 0002 1880     		strh	r0, [r3]	@ movhi
+ 175 0004 7047     		bx	lr
+ 176              	.L17:
+ 177 0006 00BF     		.align	2
+ 178              	.L16:
+ 179 0008 746A0040 		.word	1073769076
+ 180              		.cfi_endproc
+ 181              	.LFE8:
+ 182              		.size	Out_MAX232_WriteCompare2, .-Out_MAX232_WriteCompare2
+ 183              		.section	.text.Out_MAX232_Init,"ax",%progbits
+ 184              		.align	2
+ 185              		.global	Out_MAX232_Init
+ 186              		.thumb
+ 187              		.thumb_func
+ 188              		.type	Out_MAX232_Init, %function
+ 189              	Out_MAX232_Init:
+ 190              	.LFB1:
+  85:Generated_Source\PSoC5/Out_MAX232.c ****     #if (Out_MAX232_UsingFixedFunction || Out_MAX232_UseControl)
+ 191              		.loc 1 85 0
+ 192              		.cfi_startproc
+ 193              		@ args = 0, pretend = 0, frame = 0
+ 194              		@ frame_needed = 0, uses_anonymous_args = 0
+ 195 0000 08B5     		push	{r3, lr}
+ 196              		.cfi_def_cfa_offset 8
+ 197              		.cfi_offset 3, -8
+ 198              		.cfi_offset 14, -4
+ 129:Generated_Source\PSoC5/Out_MAX232.c ****             Out_MAX232_AUX_CONTROLDP1 |= (Out_MAX232_AUX_CTRL_FIFO0_CLR);
+ 199              		.loc 1 129 0
+ 200 0002 0C4A     		ldr	r2, .L20
+ 201 0004 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 202 0006 43F00103 		orr	r3, r3, #1
+ 203 000a 1370     		strb	r3, [r2]
+ 130:Generated_Source\PSoC5/Out_MAX232.c ****         #endif /* (Out_MAX232_Resolution == 8) */
+ 204              		.loc 1 130 0
+ 205 000c 0132     		adds	r2, r2, #1
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccwg9E8o.s 			page 15
+
+
+ 206 000e 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 207 0010 43F00103 		orr	r3, r3, #1
+ 208 0014 1370     		strb	r3, [r2]
+ 133:Generated_Source\PSoC5/Out_MAX232.c ****     #endif /* (!Out_MAX232_UsingFixedFunction) */
+ 209              		.loc 1 133 0
+ 210 0016 40F22B10 		movw	r0, #299
+ 211 001a FFF7FEFF 		bl	Out_MAX232_WriteCounter
+ 212              	.LVL4:
+ 136:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 213              		.loc 1 136 0
+ 214 001e 40F22B10 		movw	r0, #299
+ 215 0022 FFF7FEFF 		bl	Out_MAX232_WritePeriod
+ 216              	.LVL5:
+ 141:Generated_Source\PSoC5/Out_MAX232.c ****             Out_MAX232_WriteCompare2(Out_MAX232_INIT_COMPARE_VALUE2);
+ 217              		.loc 1 141 0
+ 218 0026 9620     		movs	r0, #150
+ 219 0028 FFF7FEFF 		bl	Out_MAX232_WriteCompare1
+ 220              	.LVL6:
+ 142:Generated_Source\PSoC5/Out_MAX232.c ****         #endif /* (Out_MAX232_UseOneCompareMode) */
+ 221              		.loc 1 142 0
+ 222 002c 9620     		movs	r0, #150
+ 223 002e FFF7FEFF 		bl	Out_MAX232_WriteCompare2
+ 224              	.LVL7:
+ 225 0032 08BD     		pop	{r3, pc}
+ 226              	.L21:
+ 227              		.align	2
+ 228              	.L20:
+ 229 0034 9A650040 		.word	1073767834
+ 230              		.cfi_endproc
+ 231              	.LFE1:
+ 232              		.size	Out_MAX232_Init, .-Out_MAX232_Init
+ 233              		.section	.text.Out_MAX232_Start,"ax",%progbits
+ 234              		.align	2
+ 235              		.global	Out_MAX232_Start
+ 236              		.thumb
+ 237              		.thumb_func
+ 238              		.type	Out_MAX232_Start, %function
+ 239              	Out_MAX232_Start:
+ 240              	.LFB0:
+  56:Generated_Source\PSoC5/Out_MAX232.c ****     /* If not Initialized then initialize all required hardware and software */
+ 241              		.loc 1 56 0
+ 242              		.cfi_startproc
+ 243              		@ args = 0, pretend = 0, frame = 0
+ 244              		@ frame_needed = 0, uses_anonymous_args = 0
+ 245 0000 08B5     		push	{r3, lr}
+ 246              		.cfi_def_cfa_offset 8
+ 247              		.cfi_offset 3, -8
+ 248              		.cfi_offset 14, -4
+  58:Generated_Source\PSoC5/Out_MAX232.c ****     {
+ 249              		.loc 1 58 0
+ 250 0002 044B     		ldr	r3, .L25
+ 251 0004 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 252 0006 23B9     		cbnz	r3, .L22
+  60:Generated_Source\PSoC5/Out_MAX232.c ****         Out_MAX232_initVar = 1u;
+ 253              		.loc 1 60 0
+ 254 0008 FFF7FEFF 		bl	Out_MAX232_Init
+ 255              	.LVL8:
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccwg9E8o.s 			page 16
+
+
+  61:Generated_Source\PSoC5/Out_MAX232.c ****     }
+ 256              		.loc 1 61 0
+ 257 000c 0122     		movs	r2, #1
+ 258 000e 014B     		ldr	r3, .L25
+ 259 0010 1A70     		strb	r2, [r3]
+ 260              	.L22:
+ 261 0012 08BD     		pop	{r3, pc}
+ 262              	.L26:
+ 263              		.align	2
+ 264              	.L25:
+ 265 0014 00000000 		.word	.LANCHOR0
+ 266              		.cfi_endproc
+ 267              	.LFE0:
+ 268              		.size	Out_MAX232_Start, .-Out_MAX232_Start
+ 269              		.section	.text.Out_MAX232_ReadCapture,"ax",%progbits
+ 270              		.align	2
+ 271              		.global	Out_MAX232_ReadCapture
+ 272              		.thumb
+ 273              		.thumb_func
+ 274              		.type	Out_MAX232_ReadCapture, %function
+ 275              	Out_MAX232_ReadCapture:
+ 276              	.LFB9:
+ 591:Generated_Source\PSoC5/Out_MAX232.c ****         #endif /* (Out_MAX232_UsingFixedFunction) */
+ 592:Generated_Source\PSoC5/Out_MAX232.c ****     }
+ 593:Generated_Source\PSoC5/Out_MAX232.c **** #endif /* UseOneCompareMode */
+ 594:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 595:Generated_Source\PSoC5/Out_MAX232.c **** #if (Out_MAX232_DeadBandUsed)
+ 596:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 597:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 598:Generated_Source\PSoC5/Out_MAX232.c ****     /*******************************************************************************
+ 599:Generated_Source\PSoC5/Out_MAX232.c ****     * Function Name: Out_MAX232_WriteDeadTime
+ 600:Generated_Source\PSoC5/Out_MAX232.c ****     ********************************************************************************
+ 601:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 602:Generated_Source\PSoC5/Out_MAX232.c ****     * Summary:
+ 603:Generated_Source\PSoC5/Out_MAX232.c ****     *  This function writes the dead-band counts to the corresponding register
+ 604:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 605:Generated_Source\PSoC5/Out_MAX232.c ****     * Parameters:
+ 606:Generated_Source\PSoC5/Out_MAX232.c ****     *  deadtime:  Number of counts for dead time
+ 607:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 608:Generated_Source\PSoC5/Out_MAX232.c ****     * Return:
+ 609:Generated_Source\PSoC5/Out_MAX232.c ****     *  None
+ 610:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 611:Generated_Source\PSoC5/Out_MAX232.c ****     *******************************************************************************/
+ 612:Generated_Source\PSoC5/Out_MAX232.c ****     void Out_MAX232_WriteDeadTime(uint8 deadtime) 
+ 613:Generated_Source\PSoC5/Out_MAX232.c ****     {
+ 614:Generated_Source\PSoC5/Out_MAX232.c ****         /* If using the Dead Band 1-255 mode then just write the register */
+ 615:Generated_Source\PSoC5/Out_MAX232.c ****         #if(!Out_MAX232_DeadBand2_4)
+ 616:Generated_Source\PSoC5/Out_MAX232.c ****             CY_SET_REG8(Out_MAX232_DEADBAND_COUNT_PTR, deadtime);
+ 617:Generated_Source\PSoC5/Out_MAX232.c ****         #else
+ 618:Generated_Source\PSoC5/Out_MAX232.c ****             /* Otherwise the data has to be masked and offset */
+ 619:Generated_Source\PSoC5/Out_MAX232.c ****             /* Clear existing data */
+ 620:Generated_Source\PSoC5/Out_MAX232.c ****             Out_MAX232_DEADBAND_COUNT &= ((uint8)(~Out_MAX232_DEADBAND_COUNT_MASK));
+ 621:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 622:Generated_Source\PSoC5/Out_MAX232.c ****             /* Set new dead time */
+ 623:Generated_Source\PSoC5/Out_MAX232.c ****             #if(Out_MAX232_DEADBAND_COUNT_SHIFT)
+ 624:Generated_Source\PSoC5/Out_MAX232.c ****                 Out_MAX232_DEADBAND_COUNT |= ((uint8)((uint8)deadtime << Out_MAX232_DEADBAND_COUNT_
+ 625:Generated_Source\PSoC5/Out_MAX232.c ****                                                     Out_MAX232_DEADBAND_COUNT_MASK;
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccwg9E8o.s 			page 17
+
+
+ 626:Generated_Source\PSoC5/Out_MAX232.c ****             #else
+ 627:Generated_Source\PSoC5/Out_MAX232.c ****                 Out_MAX232_DEADBAND_COUNT |= deadtime & Out_MAX232_DEADBAND_COUNT_MASK;
+ 628:Generated_Source\PSoC5/Out_MAX232.c ****             #endif /* (Out_MAX232_DEADBAND_COUNT_SHIFT) */
+ 629:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 630:Generated_Source\PSoC5/Out_MAX232.c ****         #endif /* (!Out_MAX232_DeadBand2_4) */
+ 631:Generated_Source\PSoC5/Out_MAX232.c ****     }
+ 632:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 633:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 634:Generated_Source\PSoC5/Out_MAX232.c ****     /*******************************************************************************
+ 635:Generated_Source\PSoC5/Out_MAX232.c ****     * Function Name: Out_MAX232_ReadDeadTime
+ 636:Generated_Source\PSoC5/Out_MAX232.c ****     ********************************************************************************
+ 637:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 638:Generated_Source\PSoC5/Out_MAX232.c ****     * Summary:
+ 639:Generated_Source\PSoC5/Out_MAX232.c ****     *  This function reads the dead-band counts from the corresponding register
+ 640:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 641:Generated_Source\PSoC5/Out_MAX232.c ****     * Parameters:
+ 642:Generated_Source\PSoC5/Out_MAX232.c ****     *  None
+ 643:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 644:Generated_Source\PSoC5/Out_MAX232.c ****     * Return:
+ 645:Generated_Source\PSoC5/Out_MAX232.c ****     *  Dead Band Counts
+ 646:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 647:Generated_Source\PSoC5/Out_MAX232.c ****     *******************************************************************************/
+ 648:Generated_Source\PSoC5/Out_MAX232.c ****     uint8 Out_MAX232_ReadDeadTime(void) 
+ 649:Generated_Source\PSoC5/Out_MAX232.c ****     {
+ 650:Generated_Source\PSoC5/Out_MAX232.c ****         /* If using the Dead Band 1-255 mode then just read the register */
+ 651:Generated_Source\PSoC5/Out_MAX232.c ****         #if(!Out_MAX232_DeadBand2_4)
+ 652:Generated_Source\PSoC5/Out_MAX232.c ****             return (CY_GET_REG8(Out_MAX232_DEADBAND_COUNT_PTR));
+ 653:Generated_Source\PSoC5/Out_MAX232.c ****         #else
+ 654:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 655:Generated_Source\PSoC5/Out_MAX232.c ****             /* Otherwise the data has to be masked and offset */
+ 656:Generated_Source\PSoC5/Out_MAX232.c ****             #if(Out_MAX232_DEADBAND_COUNT_SHIFT)
+ 657:Generated_Source\PSoC5/Out_MAX232.c ****                 return ((uint8)(((uint8)(Out_MAX232_DEADBAND_COUNT & Out_MAX232_DEADBAND_COUNT_MASK
+ 658:Generated_Source\PSoC5/Out_MAX232.c ****                                                                            Out_MAX232_DEADBAND_COUN
+ 659:Generated_Source\PSoC5/Out_MAX232.c ****             #else
+ 660:Generated_Source\PSoC5/Out_MAX232.c ****                 return (Out_MAX232_DEADBAND_COUNT & Out_MAX232_DEADBAND_COUNT_MASK);
+ 661:Generated_Source\PSoC5/Out_MAX232.c ****             #endif /* (Out_MAX232_DEADBAND_COUNT_SHIFT) */
+ 662:Generated_Source\PSoC5/Out_MAX232.c ****         #endif /* (!Out_MAX232_DeadBand2_4) */
+ 663:Generated_Source\PSoC5/Out_MAX232.c ****     }
+ 664:Generated_Source\PSoC5/Out_MAX232.c **** #endif /* DeadBandUsed */
+ 665:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 666:Generated_Source\PSoC5/Out_MAX232.c **** #if (Out_MAX232_UseStatus || Out_MAX232_UsingFixedFunction)
+ 667:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 668:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 669:Generated_Source\PSoC5/Out_MAX232.c ****     /*******************************************************************************
+ 670:Generated_Source\PSoC5/Out_MAX232.c ****     * Function Name: Out_MAX232_SetInterruptMode
+ 671:Generated_Source\PSoC5/Out_MAX232.c ****     ********************************************************************************
+ 672:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 673:Generated_Source\PSoC5/Out_MAX232.c ****     * Summary:
+ 674:Generated_Source\PSoC5/Out_MAX232.c ****     *  This function configures the interrupts mask control of theinterrupt
+ 675:Generated_Source\PSoC5/Out_MAX232.c ****     *  source status register.
+ 676:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 677:Generated_Source\PSoC5/Out_MAX232.c ****     * Parameters:
+ 678:Generated_Source\PSoC5/Out_MAX232.c ****     *  uint8 interruptMode: Bit field containing the interrupt sources enabled
+ 679:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 680:Generated_Source\PSoC5/Out_MAX232.c ****     * Return:
+ 681:Generated_Source\PSoC5/Out_MAX232.c ****     *  None
+ 682:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccwg9E8o.s 			page 18
+
+
+ 683:Generated_Source\PSoC5/Out_MAX232.c ****     *******************************************************************************/
+ 684:Generated_Source\PSoC5/Out_MAX232.c ****     void Out_MAX232_SetInterruptMode(uint8 interruptMode) 
+ 685:Generated_Source\PSoC5/Out_MAX232.c ****     {
+ 686:Generated_Source\PSoC5/Out_MAX232.c ****         CY_SET_REG8(Out_MAX232_STATUS_MASK_PTR, interruptMode);
+ 687:Generated_Source\PSoC5/Out_MAX232.c ****     }
+ 688:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 689:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 690:Generated_Source\PSoC5/Out_MAX232.c ****     /*******************************************************************************
+ 691:Generated_Source\PSoC5/Out_MAX232.c ****     * Function Name: Out_MAX232_ReadStatusRegister
+ 692:Generated_Source\PSoC5/Out_MAX232.c ****     ********************************************************************************
+ 693:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 694:Generated_Source\PSoC5/Out_MAX232.c ****     * Summary:
+ 695:Generated_Source\PSoC5/Out_MAX232.c ****     *  This function returns the current state of the status register.
+ 696:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 697:Generated_Source\PSoC5/Out_MAX232.c ****     * Parameters:
+ 698:Generated_Source\PSoC5/Out_MAX232.c ****     *  None
+ 699:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 700:Generated_Source\PSoC5/Out_MAX232.c ****     * Return:
+ 701:Generated_Source\PSoC5/Out_MAX232.c ****     *  uint8 : Current status register value. The status register bits are:
+ 702:Generated_Source\PSoC5/Out_MAX232.c ****     *  [7:6] : Unused(0)
+ 703:Generated_Source\PSoC5/Out_MAX232.c ****     *  [5]   : Kill event output
+ 704:Generated_Source\PSoC5/Out_MAX232.c ****     *  [4]   : FIFO not empty
+ 705:Generated_Source\PSoC5/Out_MAX232.c ****     *  [3]   : FIFO full
+ 706:Generated_Source\PSoC5/Out_MAX232.c ****     *  [2]   : Terminal count
+ 707:Generated_Source\PSoC5/Out_MAX232.c ****     *  [1]   : Compare output 2
+ 708:Generated_Source\PSoC5/Out_MAX232.c ****     *  [0]   : Compare output 1
+ 709:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 710:Generated_Source\PSoC5/Out_MAX232.c ****     *******************************************************************************/
+ 711:Generated_Source\PSoC5/Out_MAX232.c ****     uint8 Out_MAX232_ReadStatusRegister(void) 
+ 712:Generated_Source\PSoC5/Out_MAX232.c ****     {
+ 713:Generated_Source\PSoC5/Out_MAX232.c ****         return (CY_GET_REG8(Out_MAX232_STATUS_PTR));
+ 714:Generated_Source\PSoC5/Out_MAX232.c ****     }
+ 715:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 716:Generated_Source\PSoC5/Out_MAX232.c **** #endif /* (Out_MAX232_UseStatus || Out_MAX232_UsingFixedFunction) */
+ 717:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 718:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 719:Generated_Source\PSoC5/Out_MAX232.c **** #if (Out_MAX232_UseControl)
+ 720:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 721:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 722:Generated_Source\PSoC5/Out_MAX232.c ****     /*******************************************************************************
+ 723:Generated_Source\PSoC5/Out_MAX232.c ****     * Function Name: Out_MAX232_ReadControlRegister
+ 724:Generated_Source\PSoC5/Out_MAX232.c ****     ********************************************************************************
+ 725:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 726:Generated_Source\PSoC5/Out_MAX232.c ****     * Summary:
+ 727:Generated_Source\PSoC5/Out_MAX232.c ****     *  Returns the current state of the control register. This API is available
+ 728:Generated_Source\PSoC5/Out_MAX232.c ****     *  only if the control register is not removed.
+ 729:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 730:Generated_Source\PSoC5/Out_MAX232.c ****     * Parameters:
+ 731:Generated_Source\PSoC5/Out_MAX232.c ****     *  None
+ 732:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 733:Generated_Source\PSoC5/Out_MAX232.c ****     * Return:
+ 734:Generated_Source\PSoC5/Out_MAX232.c ****     *  uint8 : Current control register value
+ 735:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 736:Generated_Source\PSoC5/Out_MAX232.c ****     *******************************************************************************/
+ 737:Generated_Source\PSoC5/Out_MAX232.c ****     uint8 Out_MAX232_ReadControlRegister(void) 
+ 738:Generated_Source\PSoC5/Out_MAX232.c ****     {
+ 739:Generated_Source\PSoC5/Out_MAX232.c ****         uint8 result;
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccwg9E8o.s 			page 19
+
+
+ 740:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 741:Generated_Source\PSoC5/Out_MAX232.c ****         result = CY_GET_REG8(Out_MAX232_CONTROL_PTR);
+ 742:Generated_Source\PSoC5/Out_MAX232.c ****         return (result);
+ 743:Generated_Source\PSoC5/Out_MAX232.c ****     }
+ 744:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 745:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 746:Generated_Source\PSoC5/Out_MAX232.c ****     /*******************************************************************************
+ 747:Generated_Source\PSoC5/Out_MAX232.c ****     * Function Name: Out_MAX232_WriteControlRegister
+ 748:Generated_Source\PSoC5/Out_MAX232.c ****     ********************************************************************************
+ 749:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 750:Generated_Source\PSoC5/Out_MAX232.c ****     * Summary:
+ 751:Generated_Source\PSoC5/Out_MAX232.c ****     *  Sets the bit field of the control register. This API is available only if
+ 752:Generated_Source\PSoC5/Out_MAX232.c ****     *  the control register is not removed.
+ 753:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 754:Generated_Source\PSoC5/Out_MAX232.c ****     * Parameters:
+ 755:Generated_Source\PSoC5/Out_MAX232.c ****     *  uint8 control: Control register bit field, The status register bits are:
+ 756:Generated_Source\PSoC5/Out_MAX232.c ****     *  [7]   : PWM Enable
+ 757:Generated_Source\PSoC5/Out_MAX232.c ****     *  [6]   : Reset
+ 758:Generated_Source\PSoC5/Out_MAX232.c ****     *  [5:3] : Compare Mode2
+ 759:Generated_Source\PSoC5/Out_MAX232.c ****     *  [2:0] : Compare Mode2
+ 760:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 761:Generated_Source\PSoC5/Out_MAX232.c ****     * Return:
+ 762:Generated_Source\PSoC5/Out_MAX232.c ****     *  None
+ 763:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 764:Generated_Source\PSoC5/Out_MAX232.c ****     *******************************************************************************/
+ 765:Generated_Source\PSoC5/Out_MAX232.c ****     void Out_MAX232_WriteControlRegister(uint8 control) 
+ 766:Generated_Source\PSoC5/Out_MAX232.c ****     {
+ 767:Generated_Source\PSoC5/Out_MAX232.c ****         CY_SET_REG8(Out_MAX232_CONTROL_PTR, control);
+ 768:Generated_Source\PSoC5/Out_MAX232.c ****     }
+ 769:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 770:Generated_Source\PSoC5/Out_MAX232.c **** #endif /* (Out_MAX232_UseControl) */
+ 771:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 772:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 773:Generated_Source\PSoC5/Out_MAX232.c **** #if (!Out_MAX232_UsingFixedFunction)
+ 774:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 775:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 776:Generated_Source\PSoC5/Out_MAX232.c ****     /*******************************************************************************
+ 777:Generated_Source\PSoC5/Out_MAX232.c ****     * Function Name: Out_MAX232_ReadCapture
+ 778:Generated_Source\PSoC5/Out_MAX232.c ****     ********************************************************************************
+ 779:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 780:Generated_Source\PSoC5/Out_MAX232.c ****     * Summary:
+ 781:Generated_Source\PSoC5/Out_MAX232.c ****     *  Reads the capture value from the capture FIFO.
+ 782:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 783:Generated_Source\PSoC5/Out_MAX232.c ****     * Parameters:
+ 784:Generated_Source\PSoC5/Out_MAX232.c ****     *  None
+ 785:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 786:Generated_Source\PSoC5/Out_MAX232.c ****     * Return:
+ 787:Generated_Source\PSoC5/Out_MAX232.c ****     *  uint8/uint16: The current capture value
+ 788:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 789:Generated_Source\PSoC5/Out_MAX232.c ****     *******************************************************************************/
+ 790:Generated_Source\PSoC5/Out_MAX232.c ****     uint16 Out_MAX232_ReadCapture(void) 
+ 791:Generated_Source\PSoC5/Out_MAX232.c ****     {
+ 277              		.loc 1 791 0
+ 278              		.cfi_startproc
+ 279              		@ args = 0, pretend = 0, frame = 0
+ 280              		@ frame_needed = 0, uses_anonymous_args = 0
+ 281              		@ link register save eliminated.
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccwg9E8o.s 			page 20
+
+
+ 792:Generated_Source\PSoC5/Out_MAX232.c ****         return (CY_GET_REG16(Out_MAX232_CAPTURE_LSB_PTR));
+ 282              		.loc 1 792 0
+ 283 0000 014B     		ldr	r3, .L28
+ 284 0002 1888     		ldrh	r0, [r3]
+ 793:Generated_Source\PSoC5/Out_MAX232.c ****     }
+ 285              		.loc 1 793 0
+ 286 0004 80B2     		uxth	r0, r0
+ 287 0006 7047     		bx	lr
+ 288              	.L29:
+ 289              		.align	2
+ 290              	.L28:
+ 291 0008 B46A0040 		.word	1073769140
+ 292              		.cfi_endproc
+ 293              	.LFE9:
+ 294              		.size	Out_MAX232_ReadCapture, .-Out_MAX232_ReadCapture
+ 295              		.section	.text.Out_MAX232_ReadCompare1,"ax",%progbits
+ 296              		.align	2
+ 297              		.global	Out_MAX232_ReadCompare1
+ 298              		.thumb
+ 299              		.thumb_func
+ 300              		.type	Out_MAX232_ReadCompare1, %function
+ 301              	Out_MAX232_ReadCompare1:
+ 302              	.LFB10:
+ 794:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 795:Generated_Source\PSoC5/Out_MAX232.c **** #endif /* (!Out_MAX232_UsingFixedFunction) */
+ 796:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 797:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 798:Generated_Source\PSoC5/Out_MAX232.c **** #if (Out_MAX232_UseOneCompareMode)
+ 799:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 800:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 801:Generated_Source\PSoC5/Out_MAX232.c ****     /*******************************************************************************
+ 802:Generated_Source\PSoC5/Out_MAX232.c ****     * Function Name: Out_MAX232_ReadCompare
+ 803:Generated_Source\PSoC5/Out_MAX232.c ****     ********************************************************************************
+ 804:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 805:Generated_Source\PSoC5/Out_MAX232.c ****     * Summary:
+ 806:Generated_Source\PSoC5/Out_MAX232.c ****     *  Reads the compare value for the compare output when the PWM Mode parameter is
+ 807:Generated_Source\PSoC5/Out_MAX232.c ****     *  set to Dither mode, Center Aligned mode, or One Output mode.
+ 808:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 809:Generated_Source\PSoC5/Out_MAX232.c ****     * Parameters:
+ 810:Generated_Source\PSoC5/Out_MAX232.c ****     *  None
+ 811:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 812:Generated_Source\PSoC5/Out_MAX232.c ****     * Return:
+ 813:Generated_Source\PSoC5/Out_MAX232.c ****     *  uint8/uint16: Current compare value
+ 814:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 815:Generated_Source\PSoC5/Out_MAX232.c ****     *******************************************************************************/
+ 816:Generated_Source\PSoC5/Out_MAX232.c ****     uint16 Out_MAX232_ReadCompare(void) 
+ 817:Generated_Source\PSoC5/Out_MAX232.c ****     {
+ 818:Generated_Source\PSoC5/Out_MAX232.c ****         #if(Out_MAX232_UsingFixedFunction)
+ 819:Generated_Source\PSoC5/Out_MAX232.c ****             return ((uint16)CY_GET_REG16(Out_MAX232_COMPARE1_LSB_PTR));
+ 820:Generated_Source\PSoC5/Out_MAX232.c ****         #else
+ 821:Generated_Source\PSoC5/Out_MAX232.c ****             return (CY_GET_REG16(Out_MAX232_COMPARE1_LSB_PTR));
+ 822:Generated_Source\PSoC5/Out_MAX232.c ****         #endif /* (Out_MAX232_UsingFixedFunction) */
+ 823:Generated_Source\PSoC5/Out_MAX232.c ****     }
+ 824:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 825:Generated_Source\PSoC5/Out_MAX232.c **** #else
+ 826:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 827:Generated_Source\PSoC5/Out_MAX232.c **** 
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccwg9E8o.s 			page 21
+
+
+ 828:Generated_Source\PSoC5/Out_MAX232.c ****     /*******************************************************************************
+ 829:Generated_Source\PSoC5/Out_MAX232.c ****     * Function Name: Out_MAX232_ReadCompare1
+ 830:Generated_Source\PSoC5/Out_MAX232.c ****     ********************************************************************************
+ 831:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 832:Generated_Source\PSoC5/Out_MAX232.c ****     * Summary:
+ 833:Generated_Source\PSoC5/Out_MAX232.c ****     *  Reads the compare value for the compare1 output.
+ 834:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 835:Generated_Source\PSoC5/Out_MAX232.c ****     * Parameters:
+ 836:Generated_Source\PSoC5/Out_MAX232.c ****     *  None
+ 837:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 838:Generated_Source\PSoC5/Out_MAX232.c ****     * Return:
+ 839:Generated_Source\PSoC5/Out_MAX232.c ****     *  uint8/uint16: Current compare value.
+ 840:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 841:Generated_Source\PSoC5/Out_MAX232.c ****     *******************************************************************************/
+ 842:Generated_Source\PSoC5/Out_MAX232.c ****     uint16 Out_MAX232_ReadCompare1(void) 
+ 843:Generated_Source\PSoC5/Out_MAX232.c ****     {
+ 303              		.loc 1 843 0
+ 304              		.cfi_startproc
+ 305              		@ args = 0, pretend = 0, frame = 0
+ 306              		@ frame_needed = 0, uses_anonymous_args = 0
+ 307              		@ link register save eliminated.
+ 844:Generated_Source\PSoC5/Out_MAX232.c ****         return (CY_GET_REG16(Out_MAX232_COMPARE1_LSB_PTR));
+ 308              		.loc 1 844 0
+ 309 0000 014B     		ldr	r3, .L31
+ 310 0002 1888     		ldrh	r0, [r3]
+ 845:Generated_Source\PSoC5/Out_MAX232.c ****     }
+ 311              		.loc 1 845 0
+ 312 0004 80B2     		uxth	r0, r0
+ 313 0006 7047     		bx	lr
+ 314              	.L32:
+ 315              		.align	2
+ 316              	.L31:
+ 317 0008 546A0040 		.word	1073769044
+ 318              		.cfi_endproc
+ 319              	.LFE10:
+ 320              		.size	Out_MAX232_ReadCompare1, .-Out_MAX232_ReadCompare1
+ 321              		.section	.text.Out_MAX232_ReadCompare2,"ax",%progbits
+ 322              		.align	2
+ 323              		.global	Out_MAX232_ReadCompare2
+ 324              		.thumb
+ 325              		.thumb_func
+ 326              		.type	Out_MAX232_ReadCompare2, %function
+ 327              	Out_MAX232_ReadCompare2:
+ 328              	.LFB11:
+ 846:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 847:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 848:Generated_Source\PSoC5/Out_MAX232.c ****     /*******************************************************************************
+ 849:Generated_Source\PSoC5/Out_MAX232.c ****     * Function Name: Out_MAX232_ReadCompare2
+ 850:Generated_Source\PSoC5/Out_MAX232.c ****     ********************************************************************************
+ 851:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 852:Generated_Source\PSoC5/Out_MAX232.c ****     * Summary:
+ 853:Generated_Source\PSoC5/Out_MAX232.c ****     *  Reads the compare value for the compare2 output.
+ 854:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 855:Generated_Source\PSoC5/Out_MAX232.c ****     * Parameters:
+ 856:Generated_Source\PSoC5/Out_MAX232.c ****     *  None
+ 857:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 858:Generated_Source\PSoC5/Out_MAX232.c ****     * Return:
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccwg9E8o.s 			page 22
+
+
+ 859:Generated_Source\PSoC5/Out_MAX232.c ****     *  uint8/uint16: Current compare value.
+ 860:Generated_Source\PSoC5/Out_MAX232.c ****     *
+ 861:Generated_Source\PSoC5/Out_MAX232.c ****     *******************************************************************************/
+ 862:Generated_Source\PSoC5/Out_MAX232.c ****     uint16 Out_MAX232_ReadCompare2(void) 
+ 863:Generated_Source\PSoC5/Out_MAX232.c ****     {
+ 329              		.loc 1 863 0
+ 330              		.cfi_startproc
+ 331              		@ args = 0, pretend = 0, frame = 0
+ 332              		@ frame_needed = 0, uses_anonymous_args = 0
+ 333              		@ link register save eliminated.
+ 864:Generated_Source\PSoC5/Out_MAX232.c ****         return (CY_GET_REG16(Out_MAX232_COMPARE2_LSB_PTR));
+ 334              		.loc 1 864 0
+ 335 0000 014B     		ldr	r3, .L34
+ 336 0002 1888     		ldrh	r0, [r3]
+ 865:Generated_Source\PSoC5/Out_MAX232.c ****     }
+ 337              		.loc 1 865 0
+ 338 0004 80B2     		uxth	r0, r0
+ 339 0006 7047     		bx	lr
+ 340              	.L35:
+ 341              		.align	2
+ 342              	.L34:
+ 343 0008 746A0040 		.word	1073769076
+ 344              		.cfi_endproc
+ 345              	.LFE11:
+ 346              		.size	Out_MAX232_ReadCompare2, .-Out_MAX232_ReadCompare2
+ 347              		.section	.text.Out_MAX232_ReadPeriod,"ax",%progbits
+ 348              		.align	2
+ 349              		.global	Out_MAX232_ReadPeriod
+ 350              		.thumb
+ 351              		.thumb_func
+ 352              		.type	Out_MAX232_ReadPeriod, %function
+ 353              	Out_MAX232_ReadPeriod:
+ 354              	.LFB12:
+ 866:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 867:Generated_Source\PSoC5/Out_MAX232.c **** #endif /* (Out_MAX232_UseOneCompareMode) */
+ 868:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 869:Generated_Source\PSoC5/Out_MAX232.c **** 
+ 870:Generated_Source\PSoC5/Out_MAX232.c **** /*******************************************************************************
+ 871:Generated_Source\PSoC5/Out_MAX232.c **** * Function Name: Out_MAX232_ReadPeriod
+ 872:Generated_Source\PSoC5/Out_MAX232.c **** ********************************************************************************
+ 873:Generated_Source\PSoC5/Out_MAX232.c **** *
+ 874:Generated_Source\PSoC5/Out_MAX232.c **** * Summary:
+ 875:Generated_Source\PSoC5/Out_MAX232.c **** *  Reads the period value used by the PWM hardware.
+ 876:Generated_Source\PSoC5/Out_MAX232.c **** *
+ 877:Generated_Source\PSoC5/Out_MAX232.c **** * Parameters:
+ 878:Generated_Source\PSoC5/Out_MAX232.c **** *  None
+ 879:Generated_Source\PSoC5/Out_MAX232.c **** *
+ 880:Generated_Source\PSoC5/Out_MAX232.c **** * Return:
+ 881:Generated_Source\PSoC5/Out_MAX232.c **** *  uint8/16: Period value
+ 882:Generated_Source\PSoC5/Out_MAX232.c **** *
+ 883:Generated_Source\PSoC5/Out_MAX232.c **** *******************************************************************************/
+ 884:Generated_Source\PSoC5/Out_MAX232.c **** uint16 Out_MAX232_ReadPeriod(void) 
+ 885:Generated_Source\PSoC5/Out_MAX232.c **** {
+ 355              		.loc 1 885 0
+ 356              		.cfi_startproc
+ 357              		@ args = 0, pretend = 0, frame = 0
+ 358              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccwg9E8o.s 			page 23
+
+
+ 359              		@ link register save eliminated.
+ 886:Generated_Source\PSoC5/Out_MAX232.c ****     #if(Out_MAX232_UsingFixedFunction)
+ 887:Generated_Source\PSoC5/Out_MAX232.c ****         return ((uint16)CY_GET_REG16(Out_MAX232_PERIOD_LSB_PTR));
+ 888:Generated_Source\PSoC5/Out_MAX232.c ****     #else
+ 889:Generated_Source\PSoC5/Out_MAX232.c ****         return (CY_GET_REG16(Out_MAX232_PERIOD_LSB_PTR));
+ 360              		.loc 1 889 0
+ 361 0000 014B     		ldr	r3, .L37
+ 362 0002 1888     		ldrh	r0, [r3]
+ 890:Generated_Source\PSoC5/Out_MAX232.c ****     #endif /* (Out_MAX232_UsingFixedFunction) */
+ 891:Generated_Source\PSoC5/Out_MAX232.c **** }
+ 363              		.loc 1 891 0
+ 364 0004 80B2     		uxth	r0, r0
+ 365 0006 7047     		bx	lr
+ 366              	.L38:
+ 367              		.align	2
+ 368              	.L37:
+ 369 0008 946A0040 		.word	1073769108
+ 370              		.cfi_endproc
+ 371              	.LFE12:
+ 372              		.size	Out_MAX232_ReadPeriod, .-Out_MAX232_ReadPeriod
+ 373              		.global	Out_MAX232_initVar
+ 374              		.bss
+ 375              		.set	.LANCHOR0,. + 0
+ 376              		.type	Out_MAX232_initVar, %object
+ 377              		.size	Out_MAX232_initVar, 1
+ 378              	Out_MAX232_initVar:
+ 379 0000 00       		.space	1
+ 380              		.text
+ 381              	.Letext0:
+ 382              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 383              		.section	.debug_info,"",%progbits
+ 384              	.Ldebug_info0:
+ 385 0000 76020000 		.4byte	0x276
+ 386 0004 0400     		.2byte	0x4
+ 387 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 388 000a 04       		.byte	0x4
+ 389 000b 01       		.uleb128 0x1
+ 390 000c 86010000 		.4byte	.LASF33
+ 391 0010 01       		.byte	0x1
+ 392 0011 71000000 		.4byte	.LASF34
+ 393 0015 E7000000 		.4byte	.LASF35
+ 394 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 395 001d 00000000 		.4byte	0
+ 396 0021 00000000 		.4byte	.Ldebug_line0
+ 397 0025 02       		.uleb128 0x2
+ 398 0026 01       		.byte	0x1
+ 399 0027 06       		.byte	0x6
+ 400 0028 A1020000 		.4byte	.LASF0
+ 401 002c 02       		.uleb128 0x2
+ 402 002d 01       		.byte	0x1
+ 403 002e 08       		.byte	0x8
+ 404 002f A3000000 		.4byte	.LASF1
+ 405 0033 02       		.uleb128 0x2
+ 406 0034 02       		.byte	0x2
+ 407 0035 05       		.byte	0x5
+ 408 0036 8E020000 		.4byte	.LASF2
+ 409 003a 02       		.uleb128 0x2
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccwg9E8o.s 			page 24
+
+
+ 410 003b 02       		.byte	0x2
+ 411 003c 07       		.byte	0x7
+ 412 003d 47000000 		.4byte	.LASF3
+ 413 0041 02       		.uleb128 0x2
+ 414 0042 04       		.byte	0x4
+ 415 0043 05       		.byte	0x5
+ 416 0044 98020000 		.4byte	.LASF4
+ 417 0048 02       		.uleb128 0x2
+ 418 0049 04       		.byte	0x4
+ 419 004a 07       		.byte	0x7
+ 420 004b D5000000 		.4byte	.LASF5
+ 421 004f 02       		.uleb128 0x2
+ 422 0050 08       		.byte	0x8
+ 423 0051 05       		.byte	0x5
+ 424 0052 54020000 		.4byte	.LASF6
+ 425 0056 02       		.uleb128 0x2
+ 426 0057 08       		.byte	0x8
+ 427 0058 07       		.byte	0x7
+ 428 0059 6F010000 		.4byte	.LASF7
+ 429 005d 03       		.uleb128 0x3
+ 430 005e 04       		.byte	0x4
+ 431 005f 05       		.byte	0x5
+ 432 0060 696E7400 		.ascii	"int\000"
+ 433 0064 02       		.uleb128 0x2
+ 434 0065 04       		.byte	0x4
+ 435 0066 07       		.byte	0x7
+ 436 0067 62010000 		.4byte	.LASF8
+ 437 006b 04       		.uleb128 0x4
+ 438 006c 37010000 		.4byte	.LASF9
+ 439 0070 02       		.byte	0x2
+ 440 0071 9201     		.2byte	0x192
+ 441 0073 2C000000 		.4byte	0x2c
+ 442 0077 04       		.uleb128 0x4
+ 443 0078 44010000 		.4byte	.LASF10
+ 444 007c 02       		.byte	0x2
+ 445 007d 9301     		.2byte	0x193
+ 446 007f 3A000000 		.4byte	0x3a
+ 447 0083 02       		.uleb128 0x2
+ 448 0084 04       		.byte	0x4
+ 449 0085 04       		.byte	0x4
+ 450 0086 95000000 		.4byte	.LASF11
+ 451 008a 02       		.uleb128 0x2
+ 452 008b 08       		.byte	0x8
+ 453 008c 04       		.byte	0x4
+ 454 008d 3D010000 		.4byte	.LASF12
+ 455 0091 02       		.uleb128 0x2
+ 456 0092 01       		.byte	0x1
+ 457 0093 08       		.byte	0x8
+ 458 0094 79020000 		.4byte	.LASF13
+ 459 0098 04       		.uleb128 0x4
+ 460 0099 14020000 		.4byte	.LASF14
+ 461 009d 02       		.byte	0x2
+ 462 009e 3C02     		.2byte	0x23c
+ 463 00a0 A4000000 		.4byte	0xa4
+ 464 00a4 05       		.uleb128 0x5
+ 465 00a5 6B000000 		.4byte	0x6b
+ 466 00a9 04       		.uleb128 0x4
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccwg9E8o.s 			page 25
+
+
+ 467 00aa 00000000 		.4byte	.LASF15
+ 468 00ae 02       		.byte	0x2
+ 469 00af 3D02     		.2byte	0x23d
+ 470 00b1 B5000000 		.4byte	0xb5
+ 471 00b5 05       		.uleb128 0x5
+ 472 00b6 77000000 		.4byte	0x77
+ 473 00ba 02       		.uleb128 0x2
+ 474 00bb 04       		.byte	0x4
+ 475 00bc 07       		.byte	0x7
+ 476 00bd 19020000 		.4byte	.LASF16
+ 477 00c1 06       		.uleb128 0x6
+ 478 00c2 1E000000 		.4byte	.LASF17
+ 479 00c6 01       		.byte	0x1
+ 480 00c7 C7       		.byte	0xc7
+ 481 00c8 00000000 		.4byte	.LFB2
+ 482 00cc 02000000 		.4byte	.LFE2-.LFB2
+ 483 00d0 01       		.uleb128 0x1
+ 484 00d1 9C       		.byte	0x9c
+ 485 00d2 06       		.uleb128 0x6
+ 486 00d3 30000000 		.4byte	.LASF18
+ 487 00d7 01       		.byte	0x1
+ 488 00d8 E9       		.byte	0xe9
+ 489 00d9 00000000 		.4byte	.LFB3
+ 490 00dd 02000000 		.4byte	.LFE3-.LFB3
+ 491 00e1 01       		.uleb128 0x1
+ 492 00e2 9C       		.byte	0x9c
+ 493 00e3 07       		.uleb128 0x7
+ 494 00e4 B5020000 		.4byte	.LASF19
+ 495 00e8 01       		.byte	0x1
+ 496 00e9 9301     		.2byte	0x193
+ 497 00eb 00000000 		.4byte	.LFB4
+ 498 00ef 0C000000 		.4byte	.LFE4-.LFB4
+ 499 00f3 01       		.uleb128 0x1
+ 500 00f4 9C       		.byte	0x9c
+ 501 00f5 08010000 		.4byte	0x108
+ 502 00f9 08       		.uleb128 0x8
+ 503 00fa 9B000000 		.4byte	.LASF21
+ 504 00fe 01       		.byte	0x1
+ 505 00ff 9301     		.2byte	0x193
+ 506 0101 77000000 		.4byte	0x77
+ 507 0105 01       		.uleb128 0x1
+ 508 0106 50       		.byte	0x50
+ 509 0107 00       		.byte	0
+ 510 0108 09       		.uleb128 0x9
+ 511 0109 4B010000 		.4byte	.LASF28
+ 512 010d 01       		.byte	0x1
+ 513 010e A901     		.2byte	0x1a9
+ 514 0110 77000000 		.4byte	0x77
+ 515 0114 00000000 		.4byte	.LFB5
+ 516 0118 14000000 		.4byte	.LFE5-.LFB5
+ 517 011c 01       		.uleb128 0x1
+ 518 011d 9C       		.byte	0x9c
+ 519 011e 07       		.uleb128 0x7
+ 520 011f 62020000 		.4byte	.LASF20
+ 521 0123 01       		.byte	0x1
+ 522 0124 E201     		.2byte	0x1e2
+ 523 0126 00000000 		.4byte	.LFB6
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccwg9E8o.s 			page 26
+
+
+ 524 012a 0C000000 		.4byte	.LFE6-.LFB6
+ 525 012e 01       		.uleb128 0x1
+ 526 012f 9C       		.byte	0x9c
+ 527 0130 43010000 		.4byte	0x143
+ 528 0134 08       		.uleb128 0x8
+ 529 0135 40000000 		.4byte	.LASF22
+ 530 0139 01       		.byte	0x1
+ 531 013a E201     		.2byte	0x1e2
+ 532 013c 77000000 		.4byte	0x77
+ 533 0140 01       		.uleb128 0x1
+ 534 0141 50       		.byte	0x50
+ 535 0142 00       		.byte	0
+ 536 0143 07       		.uleb128 0x7
+ 537 0144 22020000 		.4byte	.LASF23
+ 538 0148 01       		.byte	0x1
+ 539 0149 2B02     		.2byte	0x22b
+ 540 014b 00000000 		.4byte	.LFB7
+ 541 014f 0C000000 		.4byte	.LFE7-.LFB7
+ 542 0153 01       		.uleb128 0x1
+ 543 0154 9C       		.byte	0x9c
+ 544 0155 68010000 		.4byte	0x168
+ 545 0159 08       		.uleb128 0x8
+ 546 015a AD020000 		.4byte	.LASF24
+ 547 015e 01       		.byte	0x1
+ 548 015f 2B02     		.2byte	0x22b
+ 549 0161 77000000 		.4byte	0x77
+ 550 0165 01       		.uleb128 0x1
+ 551 0166 50       		.byte	0x50
+ 552 0167 00       		.byte	0
+ 553 0168 07       		.uleb128 0x7
+ 554 0169 3B020000 		.4byte	.LASF25
+ 555 016d 01       		.byte	0x1
+ 556 016e 4802     		.2byte	0x248
+ 557 0170 00000000 		.4byte	.LFB8
+ 558 0174 0C000000 		.4byte	.LFE8-.LFB8
+ 559 0178 01       		.uleb128 0x1
+ 560 0179 9C       		.byte	0x9c
+ 561 017a 8D010000 		.4byte	0x18d
+ 562 017e 08       		.uleb128 0x8
+ 563 017f AD020000 		.4byte	.LASF24
+ 564 0183 01       		.byte	0x1
+ 565 0184 4802     		.2byte	0x248
+ 566 0186 77000000 		.4byte	0x77
+ 567 018a 01       		.uleb128 0x1
+ 568 018b 50       		.byte	0x50
+ 569 018c 00       		.byte	0
+ 570 018d 0A       		.uleb128 0xa
+ 571 018e 7E020000 		.4byte	.LASF26
+ 572 0192 01       		.byte	0x1
+ 573 0193 54       		.byte	0x54
+ 574 0194 00000000 		.4byte	.LFB1
+ 575 0198 38000000 		.4byte	.LFE1-.LFB1
+ 576 019c 01       		.uleb128 0x1
+ 577 019d 9C       		.byte	0x9c
+ 578 019e F1010000 		.4byte	0x1f1
+ 579 01a2 0B       		.uleb128 0xb
+ 580 01a3 1E000000 		.4byte	.LVL4
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccwg9E8o.s 			page 27
+
+
+ 581 01a7 E3000000 		.4byte	0xe3
+ 582 01ab B7010000 		.4byte	0x1b7
+ 583 01af 0C       		.uleb128 0xc
+ 584 01b0 01       		.uleb128 0x1
+ 585 01b1 50       		.byte	0x50
+ 586 01b2 03       		.uleb128 0x3
+ 587 01b3 0A       		.byte	0xa
+ 588 01b4 2B01     		.2byte	0x12b
+ 589 01b6 00       		.byte	0
+ 590 01b7 0B       		.uleb128 0xb
+ 591 01b8 26000000 		.4byte	.LVL5
+ 592 01bc 1E010000 		.4byte	0x11e
+ 593 01c0 CC010000 		.4byte	0x1cc
+ 594 01c4 0C       		.uleb128 0xc
+ 595 01c5 01       		.uleb128 0x1
+ 596 01c6 50       		.byte	0x50
+ 597 01c7 03       		.uleb128 0x3
+ 598 01c8 0A       		.byte	0xa
+ 599 01c9 2B01     		.2byte	0x12b
+ 600 01cb 00       		.byte	0
+ 601 01cc 0B       		.uleb128 0xb
+ 602 01cd 2C000000 		.4byte	.LVL6
+ 603 01d1 43010000 		.4byte	0x143
+ 604 01d5 E0010000 		.4byte	0x1e0
+ 605 01d9 0C       		.uleb128 0xc
+ 606 01da 01       		.uleb128 0x1
+ 607 01db 50       		.byte	0x50
+ 608 01dc 02       		.uleb128 0x2
+ 609 01dd 08       		.byte	0x8
+ 610 01de 96       		.byte	0x96
+ 611 01df 00       		.byte	0
+ 612 01e0 0D       		.uleb128 0xd
+ 613 01e1 32000000 		.4byte	.LVL7
+ 614 01e5 68010000 		.4byte	0x168
+ 615 01e9 0C       		.uleb128 0xc
+ 616 01ea 01       		.uleb128 0x1
+ 617 01eb 50       		.byte	0x50
+ 618 01ec 02       		.uleb128 0x2
+ 619 01ed 08       		.byte	0x8
+ 620 01ee 96       		.byte	0x96
+ 621 01ef 00       		.byte	0
+ 622 01f0 00       		.byte	0
+ 623 01f1 0A       		.uleb128 0xa
+ 624 01f2 C4000000 		.4byte	.LASF27
+ 625 01f6 01       		.byte	0x1
+ 626 01f7 37       		.byte	0x37
+ 627 01f8 00000000 		.4byte	.LFB0
+ 628 01fc 18000000 		.4byte	.LFE0-.LFB0
+ 629 0200 01       		.uleb128 0x1
+ 630 0201 9C       		.byte	0x9c
+ 631 0202 10020000 		.4byte	0x210
+ 632 0206 0E       		.uleb128 0xe
+ 633 0207 0C000000 		.4byte	.LVL8
+ 634 020b 8D010000 		.4byte	0x18d
+ 635 020f 00       		.byte	0
+ 636 0210 09       		.uleb128 0x9
+ 637 0211 5A000000 		.4byte	.LASF29
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccwg9E8o.s 			page 28
+
+
+ 638 0215 01       		.byte	0x1
+ 639 0216 1603     		.2byte	0x316
+ 640 0218 77000000 		.4byte	0x77
+ 641 021c 00000000 		.4byte	.LFB9
+ 642 0220 0C000000 		.4byte	.LFE9-.LFB9
+ 643 0224 01       		.uleb128 0x1
+ 644 0225 9C       		.byte	0x9c
+ 645 0226 09       		.uleb128 0x9
+ 646 0227 CD020000 		.4byte	.LASF30
+ 647 022b 01       		.byte	0x1
+ 648 022c 4A03     		.2byte	0x34a
+ 649 022e 77000000 		.4byte	0x77
+ 650 0232 00000000 		.4byte	.LFB10
+ 651 0236 0C000000 		.4byte	.LFE10-.LFB10
+ 652 023a 01       		.uleb128 0x1
+ 653 023b 9C       		.byte	0x9c
+ 654 023c 09       		.uleb128 0x9
+ 655 023d 06000000 		.4byte	.LASF31
+ 656 0241 01       		.byte	0x1
+ 657 0242 5E03     		.2byte	0x35e
+ 658 0244 77000000 		.4byte	0x77
+ 659 0248 00000000 		.4byte	.LFB11
+ 660 024c 0C000000 		.4byte	.LFE11-.LFB11
+ 661 0250 01       		.uleb128 0x1
+ 662 0251 9C       		.byte	0x9c
+ 663 0252 09       		.uleb128 0x9
+ 664 0253 E5020000 		.4byte	.LASF32
+ 665 0257 01       		.byte	0x1
+ 666 0258 7403     		.2byte	0x374
+ 667 025a 77000000 		.4byte	0x77
+ 668 025e 00000000 		.4byte	.LFB12
+ 669 0262 0C000000 		.4byte	.LFE12-.LFB12
+ 670 0266 01       		.uleb128 0x1
+ 671 0267 9C       		.byte	0x9c
+ 672 0268 0F       		.uleb128 0xf
+ 673 0269 B1000000 		.4byte	.LASF36
+ 674 026d 01       		.byte	0x1
+ 675 026e 20       		.byte	0x20
+ 676 026f 6B000000 		.4byte	0x6b
+ 677 0273 05       		.uleb128 0x5
+ 678 0274 03       		.byte	0x3
+ 679 0275 00000000 		.4byte	Out_MAX232_initVar
+ 680 0279 00       		.byte	0
+ 681              		.section	.debug_abbrev,"",%progbits
+ 682              	.Ldebug_abbrev0:
+ 683 0000 01       		.uleb128 0x1
+ 684 0001 11       		.uleb128 0x11
+ 685 0002 01       		.byte	0x1
+ 686 0003 25       		.uleb128 0x25
+ 687 0004 0E       		.uleb128 0xe
+ 688 0005 13       		.uleb128 0x13
+ 689 0006 0B       		.uleb128 0xb
+ 690 0007 03       		.uleb128 0x3
+ 691 0008 0E       		.uleb128 0xe
+ 692 0009 1B       		.uleb128 0x1b
+ 693 000a 0E       		.uleb128 0xe
+ 694 000b 55       		.uleb128 0x55
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccwg9E8o.s 			page 29
+
+
+ 695 000c 17       		.uleb128 0x17
+ 696 000d 11       		.uleb128 0x11
+ 697 000e 01       		.uleb128 0x1
+ 698 000f 10       		.uleb128 0x10
+ 699 0010 17       		.uleb128 0x17
+ 700 0011 00       		.byte	0
+ 701 0012 00       		.byte	0
+ 702 0013 02       		.uleb128 0x2
+ 703 0014 24       		.uleb128 0x24
+ 704 0015 00       		.byte	0
+ 705 0016 0B       		.uleb128 0xb
+ 706 0017 0B       		.uleb128 0xb
+ 707 0018 3E       		.uleb128 0x3e
+ 708 0019 0B       		.uleb128 0xb
+ 709 001a 03       		.uleb128 0x3
+ 710 001b 0E       		.uleb128 0xe
+ 711 001c 00       		.byte	0
+ 712 001d 00       		.byte	0
+ 713 001e 03       		.uleb128 0x3
+ 714 001f 24       		.uleb128 0x24
+ 715 0020 00       		.byte	0
+ 716 0021 0B       		.uleb128 0xb
+ 717 0022 0B       		.uleb128 0xb
+ 718 0023 3E       		.uleb128 0x3e
+ 719 0024 0B       		.uleb128 0xb
+ 720 0025 03       		.uleb128 0x3
+ 721 0026 08       		.uleb128 0x8
+ 722 0027 00       		.byte	0
+ 723 0028 00       		.byte	0
+ 724 0029 04       		.uleb128 0x4
+ 725 002a 16       		.uleb128 0x16
+ 726 002b 00       		.byte	0
+ 727 002c 03       		.uleb128 0x3
+ 728 002d 0E       		.uleb128 0xe
+ 729 002e 3A       		.uleb128 0x3a
+ 730 002f 0B       		.uleb128 0xb
+ 731 0030 3B       		.uleb128 0x3b
+ 732 0031 05       		.uleb128 0x5
+ 733 0032 49       		.uleb128 0x49
+ 734 0033 13       		.uleb128 0x13
+ 735 0034 00       		.byte	0
+ 736 0035 00       		.byte	0
+ 737 0036 05       		.uleb128 0x5
+ 738 0037 35       		.uleb128 0x35
+ 739 0038 00       		.byte	0
+ 740 0039 49       		.uleb128 0x49
+ 741 003a 13       		.uleb128 0x13
+ 742 003b 00       		.byte	0
+ 743 003c 00       		.byte	0
+ 744 003d 06       		.uleb128 0x6
+ 745 003e 2E       		.uleb128 0x2e
+ 746 003f 00       		.byte	0
+ 747 0040 3F       		.uleb128 0x3f
+ 748 0041 19       		.uleb128 0x19
+ 749 0042 03       		.uleb128 0x3
+ 750 0043 0E       		.uleb128 0xe
+ 751 0044 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccwg9E8o.s 			page 30
+
+
+ 752 0045 0B       		.uleb128 0xb
+ 753 0046 3B       		.uleb128 0x3b
+ 754 0047 0B       		.uleb128 0xb
+ 755 0048 27       		.uleb128 0x27
+ 756 0049 19       		.uleb128 0x19
+ 757 004a 11       		.uleb128 0x11
+ 758 004b 01       		.uleb128 0x1
+ 759 004c 12       		.uleb128 0x12
+ 760 004d 06       		.uleb128 0x6
+ 761 004e 40       		.uleb128 0x40
+ 762 004f 18       		.uleb128 0x18
+ 763 0050 9742     		.uleb128 0x2117
+ 764 0052 19       		.uleb128 0x19
+ 765 0053 00       		.byte	0
+ 766 0054 00       		.byte	0
+ 767 0055 07       		.uleb128 0x7
+ 768 0056 2E       		.uleb128 0x2e
+ 769 0057 01       		.byte	0x1
+ 770 0058 3F       		.uleb128 0x3f
+ 771 0059 19       		.uleb128 0x19
+ 772 005a 03       		.uleb128 0x3
+ 773 005b 0E       		.uleb128 0xe
+ 774 005c 3A       		.uleb128 0x3a
+ 775 005d 0B       		.uleb128 0xb
+ 776 005e 3B       		.uleb128 0x3b
+ 777 005f 05       		.uleb128 0x5
+ 778 0060 27       		.uleb128 0x27
+ 779 0061 19       		.uleb128 0x19
+ 780 0062 11       		.uleb128 0x11
+ 781 0063 01       		.uleb128 0x1
+ 782 0064 12       		.uleb128 0x12
+ 783 0065 06       		.uleb128 0x6
+ 784 0066 40       		.uleb128 0x40
+ 785 0067 18       		.uleb128 0x18
+ 786 0068 9742     		.uleb128 0x2117
+ 787 006a 19       		.uleb128 0x19
+ 788 006b 01       		.uleb128 0x1
+ 789 006c 13       		.uleb128 0x13
+ 790 006d 00       		.byte	0
+ 791 006e 00       		.byte	0
+ 792 006f 08       		.uleb128 0x8
+ 793 0070 05       		.uleb128 0x5
+ 794 0071 00       		.byte	0
+ 795 0072 03       		.uleb128 0x3
+ 796 0073 0E       		.uleb128 0xe
+ 797 0074 3A       		.uleb128 0x3a
+ 798 0075 0B       		.uleb128 0xb
+ 799 0076 3B       		.uleb128 0x3b
+ 800 0077 05       		.uleb128 0x5
+ 801 0078 49       		.uleb128 0x49
+ 802 0079 13       		.uleb128 0x13
+ 803 007a 02       		.uleb128 0x2
+ 804 007b 18       		.uleb128 0x18
+ 805 007c 00       		.byte	0
+ 806 007d 00       		.byte	0
+ 807 007e 09       		.uleb128 0x9
+ 808 007f 2E       		.uleb128 0x2e
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccwg9E8o.s 			page 31
+
+
+ 809 0080 00       		.byte	0
+ 810 0081 3F       		.uleb128 0x3f
+ 811 0082 19       		.uleb128 0x19
+ 812 0083 03       		.uleb128 0x3
+ 813 0084 0E       		.uleb128 0xe
+ 814 0085 3A       		.uleb128 0x3a
+ 815 0086 0B       		.uleb128 0xb
+ 816 0087 3B       		.uleb128 0x3b
+ 817 0088 05       		.uleb128 0x5
+ 818 0089 27       		.uleb128 0x27
+ 819 008a 19       		.uleb128 0x19
+ 820 008b 49       		.uleb128 0x49
+ 821 008c 13       		.uleb128 0x13
+ 822 008d 11       		.uleb128 0x11
+ 823 008e 01       		.uleb128 0x1
+ 824 008f 12       		.uleb128 0x12
+ 825 0090 06       		.uleb128 0x6
+ 826 0091 40       		.uleb128 0x40
+ 827 0092 18       		.uleb128 0x18
+ 828 0093 9742     		.uleb128 0x2117
+ 829 0095 19       		.uleb128 0x19
+ 830 0096 00       		.byte	0
+ 831 0097 00       		.byte	0
+ 832 0098 0A       		.uleb128 0xa
+ 833 0099 2E       		.uleb128 0x2e
+ 834 009a 01       		.byte	0x1
+ 835 009b 3F       		.uleb128 0x3f
+ 836 009c 19       		.uleb128 0x19
+ 837 009d 03       		.uleb128 0x3
+ 838 009e 0E       		.uleb128 0xe
+ 839 009f 3A       		.uleb128 0x3a
+ 840 00a0 0B       		.uleb128 0xb
+ 841 00a1 3B       		.uleb128 0x3b
+ 842 00a2 0B       		.uleb128 0xb
+ 843 00a3 27       		.uleb128 0x27
+ 844 00a4 19       		.uleb128 0x19
+ 845 00a5 11       		.uleb128 0x11
+ 846 00a6 01       		.uleb128 0x1
+ 847 00a7 12       		.uleb128 0x12
+ 848 00a8 06       		.uleb128 0x6
+ 849 00a9 40       		.uleb128 0x40
+ 850 00aa 18       		.uleb128 0x18
+ 851 00ab 9742     		.uleb128 0x2117
+ 852 00ad 19       		.uleb128 0x19
+ 853 00ae 01       		.uleb128 0x1
+ 854 00af 13       		.uleb128 0x13
+ 855 00b0 00       		.byte	0
+ 856 00b1 00       		.byte	0
+ 857 00b2 0B       		.uleb128 0xb
+ 858 00b3 898201   		.uleb128 0x4109
+ 859 00b6 01       		.byte	0x1
+ 860 00b7 11       		.uleb128 0x11
+ 861 00b8 01       		.uleb128 0x1
+ 862 00b9 31       		.uleb128 0x31
+ 863 00ba 13       		.uleb128 0x13
+ 864 00bb 01       		.uleb128 0x1
+ 865 00bc 13       		.uleb128 0x13
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccwg9E8o.s 			page 32
+
+
+ 866 00bd 00       		.byte	0
+ 867 00be 00       		.byte	0
+ 868 00bf 0C       		.uleb128 0xc
+ 869 00c0 8A8201   		.uleb128 0x410a
+ 870 00c3 00       		.byte	0
+ 871 00c4 02       		.uleb128 0x2
+ 872 00c5 18       		.uleb128 0x18
+ 873 00c6 9142     		.uleb128 0x2111
+ 874 00c8 18       		.uleb128 0x18
+ 875 00c9 00       		.byte	0
+ 876 00ca 00       		.byte	0
+ 877 00cb 0D       		.uleb128 0xd
+ 878 00cc 898201   		.uleb128 0x4109
+ 879 00cf 01       		.byte	0x1
+ 880 00d0 11       		.uleb128 0x11
+ 881 00d1 01       		.uleb128 0x1
+ 882 00d2 31       		.uleb128 0x31
+ 883 00d3 13       		.uleb128 0x13
+ 884 00d4 00       		.byte	0
+ 885 00d5 00       		.byte	0
+ 886 00d6 0E       		.uleb128 0xe
+ 887 00d7 898201   		.uleb128 0x4109
+ 888 00da 00       		.byte	0
+ 889 00db 11       		.uleb128 0x11
+ 890 00dc 01       		.uleb128 0x1
+ 891 00dd 31       		.uleb128 0x31
+ 892 00de 13       		.uleb128 0x13
+ 893 00df 00       		.byte	0
+ 894 00e0 00       		.byte	0
+ 895 00e1 0F       		.uleb128 0xf
+ 896 00e2 34       		.uleb128 0x34
+ 897 00e3 00       		.byte	0
+ 898 00e4 03       		.uleb128 0x3
+ 899 00e5 0E       		.uleb128 0xe
+ 900 00e6 3A       		.uleb128 0x3a
+ 901 00e7 0B       		.uleb128 0xb
+ 902 00e8 3B       		.uleb128 0x3b
+ 903 00e9 0B       		.uleb128 0xb
+ 904 00ea 49       		.uleb128 0x49
+ 905 00eb 13       		.uleb128 0x13
+ 906 00ec 3F       		.uleb128 0x3f
+ 907 00ed 19       		.uleb128 0x19
+ 908 00ee 02       		.uleb128 0x2
+ 909 00ef 18       		.uleb128 0x18
+ 910 00f0 00       		.byte	0
+ 911 00f1 00       		.byte	0
+ 912 00f2 00       		.byte	0
+ 913              		.section	.debug_aranges,"",%progbits
+ 914 0000 7C000000 		.4byte	0x7c
+ 915 0004 0200     		.2byte	0x2
+ 916 0006 00000000 		.4byte	.Ldebug_info0
+ 917 000a 04       		.byte	0x4
+ 918 000b 00       		.byte	0
+ 919 000c 0000     		.2byte	0
+ 920 000e 0000     		.2byte	0
+ 921 0010 00000000 		.4byte	.LFB2
+ 922 0014 02000000 		.4byte	.LFE2-.LFB2
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccwg9E8o.s 			page 33
+
+
+ 923 0018 00000000 		.4byte	.LFB3
+ 924 001c 02000000 		.4byte	.LFE3-.LFB3
+ 925 0020 00000000 		.4byte	.LFB4
+ 926 0024 0C000000 		.4byte	.LFE4-.LFB4
+ 927 0028 00000000 		.4byte	.LFB5
+ 928 002c 14000000 		.4byte	.LFE5-.LFB5
+ 929 0030 00000000 		.4byte	.LFB6
+ 930 0034 0C000000 		.4byte	.LFE6-.LFB6
+ 931 0038 00000000 		.4byte	.LFB7
+ 932 003c 0C000000 		.4byte	.LFE7-.LFB7
+ 933 0040 00000000 		.4byte	.LFB8
+ 934 0044 0C000000 		.4byte	.LFE8-.LFB8
+ 935 0048 00000000 		.4byte	.LFB1
+ 936 004c 38000000 		.4byte	.LFE1-.LFB1
+ 937 0050 00000000 		.4byte	.LFB0
+ 938 0054 18000000 		.4byte	.LFE0-.LFB0
+ 939 0058 00000000 		.4byte	.LFB9
+ 940 005c 0C000000 		.4byte	.LFE9-.LFB9
+ 941 0060 00000000 		.4byte	.LFB10
+ 942 0064 0C000000 		.4byte	.LFE10-.LFB10
+ 943 0068 00000000 		.4byte	.LFB11
+ 944 006c 0C000000 		.4byte	.LFE11-.LFB11
+ 945 0070 00000000 		.4byte	.LFB12
+ 946 0074 0C000000 		.4byte	.LFE12-.LFB12
+ 947 0078 00000000 		.4byte	0
+ 948 007c 00000000 		.4byte	0
+ 949              		.section	.debug_ranges,"",%progbits
+ 950              	.Ldebug_ranges0:
+ 951 0000 00000000 		.4byte	.LFB2
+ 952 0004 02000000 		.4byte	.LFE2
+ 953 0008 00000000 		.4byte	.LFB3
+ 954 000c 02000000 		.4byte	.LFE3
+ 955 0010 00000000 		.4byte	.LFB4
+ 956 0014 0C000000 		.4byte	.LFE4
+ 957 0018 00000000 		.4byte	.LFB5
+ 958 001c 14000000 		.4byte	.LFE5
+ 959 0020 00000000 		.4byte	.LFB6
+ 960 0024 0C000000 		.4byte	.LFE6
+ 961 0028 00000000 		.4byte	.LFB7
+ 962 002c 0C000000 		.4byte	.LFE7
+ 963 0030 00000000 		.4byte	.LFB8
+ 964 0034 0C000000 		.4byte	.LFE8
+ 965 0038 00000000 		.4byte	.LFB1
+ 966 003c 38000000 		.4byte	.LFE1
+ 967 0040 00000000 		.4byte	.LFB0
+ 968 0044 18000000 		.4byte	.LFE0
+ 969 0048 00000000 		.4byte	.LFB9
+ 970 004c 0C000000 		.4byte	.LFE9
+ 971 0050 00000000 		.4byte	.LFB10
+ 972 0054 0C000000 		.4byte	.LFE10
+ 973 0058 00000000 		.4byte	.LFB11
+ 974 005c 0C000000 		.4byte	.LFE11
+ 975 0060 00000000 		.4byte	.LFB12
+ 976 0064 0C000000 		.4byte	.LFE12
+ 977 0068 00000000 		.4byte	0
+ 978 006c 00000000 		.4byte	0
+ 979              		.section	.debug_line,"",%progbits
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccwg9E8o.s 			page 34
+
+
+ 980              	.Ldebug_line0:
+ 981 0000 36010000 		.section	.debug_str,"MS",%progbits,1
+ 981      02004700 
+ 981      00000201 
+ 981      FB0E0D00 
+ 981      01010101 
+ 982              	.LASF15:
+ 983 0000 72656731 		.ascii	"reg16\000"
+ 983      3600
+ 984              	.LASF31:
+ 985 0006 4F75745F 		.ascii	"Out_MAX232_ReadCompare2\000"
+ 985      4D415832 
+ 985      33325F52 
+ 985      65616443 
+ 985      6F6D7061 
+ 986              	.LASF17:
+ 987 001e 4F75745F 		.ascii	"Out_MAX232_Enable\000"
+ 987      4D415832 
+ 987      33325F45 
+ 987      6E61626C 
+ 987      6500
+ 988              	.LASF18:
+ 989 0030 4F75745F 		.ascii	"Out_MAX232_Stop\000"
+ 989      4D415832 
+ 989      33325F53 
+ 989      746F7000 
+ 990              	.LASF22:
+ 991 0040 70657269 		.ascii	"period\000"
+ 991      6F6400
+ 992              	.LASF3:
+ 993 0047 73686F72 		.ascii	"short unsigned int\000"
+ 993      7420756E 
+ 993      7369676E 
+ 993      65642069 
+ 993      6E7400
+ 994              	.LASF29:
+ 995 005a 4F75745F 		.ascii	"Out_MAX232_ReadCapture\000"
+ 995      4D415832 
+ 995      33325F52 
+ 995      65616443 
+ 995      61707475 
+ 996              	.LASF34:
+ 997 0071 47656E65 		.ascii	"Generated_Source\\PSoC5\\Out_MAX232.c\000"
+ 997      72617465 
+ 997      645F536F 
+ 997      75726365 
+ 997      5C50536F 
+ 998              	.LASF11:
+ 999 0095 666C6F61 		.ascii	"float\000"
+ 999      7400
+ 1000              	.LASF21:
+ 1001 009b 636F756E 		.ascii	"counter\000"
+ 1001      74657200 
+ 1002              	.LASF1:
+ 1003 00a3 756E7369 		.ascii	"unsigned char\000"
+ 1003      676E6564 
+ 1003      20636861 
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccwg9E8o.s 			page 35
+
+
+ 1003      7200
+ 1004              	.LASF36:
+ 1005 00b1 4F75745F 		.ascii	"Out_MAX232_initVar\000"
+ 1005      4D415832 
+ 1005      33325F69 
+ 1005      6E697456 
+ 1005      617200
+ 1006              	.LASF27:
+ 1007 00c4 4F75745F 		.ascii	"Out_MAX232_Start\000"
+ 1007      4D415832 
+ 1007      33325F53 
+ 1007      74617274 
+ 1007      00
+ 1008              	.LASF5:
+ 1009 00d5 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1009      20756E73 
+ 1009      69676E65 
+ 1009      6420696E 
+ 1009      7400
+ 1010              	.LASF35:
+ 1011 00e7 433A5C55 		.ascii	"C:\\Users\\Ludovic\\Documents\\PSoC Creator\\CY8CKI"
+ 1011      73657273 
+ 1011      5C4C7564 
+ 1011      6F766963 
+ 1011      5C446F63 
+ 1012 0115 542D3035 		.ascii	"T-050\\BE_Systemes_Embarques.cydsn\000"
+ 1012      305C4245 
+ 1012      5F537973 
+ 1012      74656D65 
+ 1012      735F456D 
+ 1013              	.LASF9:
+ 1014 0137 75696E74 		.ascii	"uint8\000"
+ 1014      3800
+ 1015              	.LASF12:
+ 1016 013d 646F7562 		.ascii	"double\000"
+ 1016      6C6500
+ 1017              	.LASF10:
+ 1018 0144 75696E74 		.ascii	"uint16\000"
+ 1018      313600
+ 1019              	.LASF28:
+ 1020 014b 4F75745F 		.ascii	"Out_MAX232_ReadCounter\000"
+ 1020      4D415832 
+ 1020      33325F52 
+ 1020      65616443 
+ 1020      6F756E74 
+ 1021              	.LASF8:
+ 1022 0162 756E7369 		.ascii	"unsigned int\000"
+ 1022      676E6564 
+ 1022      20696E74 
+ 1022      00
+ 1023              	.LASF7:
+ 1024 016f 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1024      206C6F6E 
+ 1024      6720756E 
+ 1024      7369676E 
+ 1024      65642069 
+ 1025              	.LASF33:
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccwg9E8o.s 			page 36
+
+
+ 1026 0186 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 1026      4320342E 
+ 1026      392E3320 
+ 1026      32303135 
+ 1026      30333033 
+ 1027 01b9 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 1027      20726576 
+ 1027      6973696F 
+ 1027      6E203232 
+ 1027      31323230 
+ 1028 01ec 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 1028      66756E63 
+ 1028      74696F6E 
+ 1028      2D736563 
+ 1028      74696F6E 
+ 1029              	.LASF14:
+ 1030 0214 72656738 		.ascii	"reg8\000"
+ 1030      00
+ 1031              	.LASF16:
+ 1032 0219 73697A65 		.ascii	"sizetype\000"
+ 1032      74797065 
+ 1032      00
+ 1033              	.LASF23:
+ 1034 0222 4F75745F 		.ascii	"Out_MAX232_WriteCompare1\000"
+ 1034      4D415832 
+ 1034      33325F57 
+ 1034      72697465 
+ 1034      436F6D70 
+ 1035              	.LASF25:
+ 1036 023b 4F75745F 		.ascii	"Out_MAX232_WriteCompare2\000"
+ 1036      4D415832 
+ 1036      33325F57 
+ 1036      72697465 
+ 1036      436F6D70 
+ 1037              	.LASF6:
+ 1038 0254 6C6F6E67 		.ascii	"long long int\000"
+ 1038      206C6F6E 
+ 1038      6720696E 
+ 1038      7400
+ 1039              	.LASF20:
+ 1040 0262 4F75745F 		.ascii	"Out_MAX232_WritePeriod\000"
+ 1040      4D415832 
+ 1040      33325F57 
+ 1040      72697465 
+ 1040      50657269 
+ 1041              	.LASF13:
+ 1042 0279 63686172 		.ascii	"char\000"
+ 1042      00
+ 1043              	.LASF26:
+ 1044 027e 4F75745F 		.ascii	"Out_MAX232_Init\000"
+ 1044      4D415832 
+ 1044      33325F49 
+ 1044      6E697400 
+ 1045              	.LASF2:
+ 1046 028e 73686F72 		.ascii	"short int\000"
+ 1046      7420696E 
+ 1046      7400
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccwg9E8o.s 			page 37
+
+
+ 1047              	.LASF4:
+ 1048 0298 6C6F6E67 		.ascii	"long int\000"
+ 1048      20696E74 
+ 1048      00
+ 1049              	.LASF0:
+ 1050 02a1 7369676E 		.ascii	"signed char\000"
+ 1050      65642063 
+ 1050      68617200 
+ 1051              	.LASF24:
+ 1052 02ad 636F6D70 		.ascii	"compare\000"
+ 1052      61726500 
+ 1053              	.LASF19:
+ 1054 02b5 4F75745F 		.ascii	"Out_MAX232_WriteCounter\000"
+ 1054      4D415832 
+ 1054      33325F57 
+ 1054      72697465 
+ 1054      436F756E 
+ 1055              	.LASF30:
+ 1056 02cd 4F75745F 		.ascii	"Out_MAX232_ReadCompare1\000"
+ 1056      4D415832 
+ 1056      33325F52 
+ 1056      65616443 
+ 1056      6F6D7061 
+ 1057              	.LASF32:
+ 1058 02e5 4F75745F 		.ascii	"Out_MAX232_ReadPeriod\000"
+ 1058      4D415832 
+ 1058      33325F52 
+ 1058      65616450 
+ 1058      6572696F 
+ 1059              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br

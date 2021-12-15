@@ -1,0 +1,5 @@
+C:\Program Files (x86)\Cypress\PSoC Creator\4.0\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|bb464537-3e5f-4211-b512-e065e6c804a8
+C:\Program Files (x86)\Cypress\PSoC Creator\4.0\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|9c0cede8-cc31-4bd3-ad1d-23906907823a
+C:\Program Files (x86)\Cypress\PSoC Creator\4.0\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|d12dfdba-9806-444b-83ee-7e45de5ad3c0
+C:\Program Files (x86)\Cypress\PSoC Creator\4.0\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|e13f9451-1d7c-4426-9381-738ed11da7d7
+C:\Users\Ludovic\Documents\PSoC Creator\CY8CKIT-050\BE_Systemes_Embarques.cydsn\BE_Systemes_Embarques.cyprj|b7b98fd1-89dd-4501-b5ac-ddb5ce9372ec

@@ -1,0 +1,2993 @@
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"main.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.global	__aeabi_d2iz
+  19              		.section	.text.Interrupt_TX_Handler,"ax",%progbits
+  20              		.align	2
+  21              		.global	Interrupt_TX_Handler
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	Interrupt_TX_Handler, %function
+  25              	Interrupt_TX_Handler:
+  26              	.LFB65:
+  27              		.file 1 "main.c"
+   1:main.c        **** /* ========================================
+   2:main.c        ****  *
+   3:main.c        ****  * B.E. Systèmes Embarqués Autonomes.
+   4:main.c        ****  * INSA 5ESE 2016-2017.
+   5:main.c        ****  *
+   6:main.c        ****  * Author: Taha BENAICHA, Ludovic LESUR, Benjamin ROQUES and Anas RCHI.
+   7:main.c        ****  * Since: 15/12/2016
+   8:main.c        ****  *
+   9:main.c        ****  * ========================================
+  10:main.c        ****  */
+  11:main.c        **** 
+  12:main.c        **** 
+  13:main.c        **** /* INCLUDES */
+  14:main.c        **** 
+  15:main.c        **** #include "project.h"
+  16:main.c        **** #include <stdio.h>
+  17:main.c        **** #include <math.h>
+  18:main.c        **** 
+  19:main.c        **** 
+  20:main.c        **** /* MACRO DECLARATION */
+  21:main.c        **** 
+  22:main.c        **** #define SOUND_SPEED 0.34 // Sound speed (in mm/µs).
+  23:main.c        **** #define SPACE_RX_TX 48 // Space between transmitter and receiver on PCB (in mm).
+  24:main.c        **** #define DISTANCE_MIN 200 // Minimum distance before disabling front movement.
+  25:main.c        **** 
+  26:main.c        **** // According to experimental data, a corrective ax+b equation has been found with MATLAB.
+  27:main.c        **** // Linear regression : correctDistance = a*measure+b.
+  28:main.c        **** #define coef_a 1.1723
+  29:main.c        **** #define coef_b -48.0862
+  30:main.c        **** 
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 2
+
+
+  31:main.c        **** /* INSTRUCTIONS */
+  32:main.c        **** 
+  33:main.c        **** // Vitesse
+  34:main.c        **** #define I_LOW_SPEED 0x6B // k
+  35:main.c        **** #define I_MEDIUM_SPEED 0x6C // l
+  36:main.c        **** #define I_HIGH_SPEED 0x6D // m
+  37:main.c        **** 
+  38:main.c        **** // Movement
+  39:main.c        **** #define I_FORWARD 0x7A // z
+  40:main.c        **** #define I_STOP 0x73 // s
+  41:main.c        **** #define I_BACK 0x77 // w
+  42:main.c        **** #define I_LEFT 0x71 // q
+  43:main.c        **** #define I_RIGHT 0x64 // d
+  44:main.c        **** #define I_FORWARD_RIGHT 0x65 // e
+  45:main.c        **** #define I_FORWARD_LEFT 0x61 // a
+  46:main.c        **** 
+  47:main.c        **** 
+  48:main.c        **** /* GLOBAL VARIABLES */
+  49:main.c        **** 
+  50:main.c        **** char response ; // Indicate if the feedback is detected by the comparator.
+  51:main.c        **** double chrono ; // Time between the sending and the 
+  52:main.c        **** double distance ; // Raw distance computed with d = v*t.
+  53:main.c        **** double realDistance ; // Real distance taking to account 'SPACE_RX_TX'.
+  54:main.c        **** double calibratedDistance ;
+  55:main.c        **** char8 str[10] ; // Result displayed on the LCD screen.
+  56:main.c        **** uint8 vitesse = 0 ;
+  57:main.c        **** char instruction = 0 ;
+  58:main.c        **** 
+  59:main.c        **** 
+  60:main.c        **** /* COMPUTES DISTANCE ACCORDING TO THE TELEMETER.
+  61:main.c        ****  *
+  62:main.c        ****  * @param :     None.
+  63:main.c        ****  * @return :    None.
+  64:main.c        ****  */
+  65:main.c        **** void computeDistance() {
+  66:main.c        ****     distance = SOUND_SPEED*chrono ;
+  67:main.c        ****     realDistance = 0.5*sqrt(pow(distance,2)-pow(SPACE_RX_TX,2)) ;
+  68:main.c        ****     calibratedDistance = coef_a*realDistance+coef_b ;
+  69:main.c        **** }
+  70:main.c        **** 
+  71:main.c        **** 
+  72:main.c        **** /* UPDATES DUTY CYCLE WITH THE SELECTED SPEED.
+  73:main.c        ****  *
+  74:main.c        ****  * @param :     None.
+  75:main.c        ****  * @return :    None.
+  76:main.c        ****  */
+  77:main.c        **** void update_vitesse(void) {
+  78:main.c        ****     PWM_Front_WriteCompare1(vitesse) ;
+  79:main.c        ****     PWM_Front_WriteCompare2(vitesse) ;
+  80:main.c        ****     PWM_Back_WriteCompare1(vitesse) ;
+  81:main.c        ****     PWM_Back_WriteCompare2(vitesse) ;
+  82:main.c        **** }
+  83:main.c        **** 
+  84:main.c        **** 
+  85:main.c        **** /* HANDLER CALLED EVERY 10ms (TX INTERRUPT).
+  86:main.c        ****  *
+  87:main.c        ****  * @param :     None.
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 3
+
+
+  88:main.c        ****  * @return :    None.
+  89:main.c        ****  */
+  90:main.c        **** CY_ISR(Interrupt_TX_Handler) {
+  28              		.loc 1 90 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 10B5     		push	{r4, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 4, -8
+  35              		.cfi_offset 14, -4
+  91:main.c        ****     if (response == 0) {
+  36              		.loc 1 91 0
+  37 0002 134B     		ldr	r3, .L5
+  38 0004 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  39 0006 33B9     		cbnz	r3, .L2
+  92:main.c        ****         // No feedback
+  93:main.c        ****         sprintf(str, "D = Infinie") ;
+  40              		.loc 1 93 0
+  41 0008 124C     		ldr	r4, .L5+4
+  42 000a 134B     		ldr	r3, .L5+8
+  43 000c 07CB     		ldmia	r3!, {r0, r1, r2}
+  44 000e 2060     		str	r0, [r4]	@ unaligned
+  45 0010 6160     		str	r1, [r4, #4]	@ unaligned
+  46 0012 A260     		str	r2, [r4, #8]	@ unaligned
+  47 0014 09E0     		b	.L3
+  48              	.L2:
+  94:main.c        ****     }
+  95:main.c        ****     else {
+  96:main.c        ****         // Distance successfully computed
+  97:main.c        ****         sprintf(str, "D = %d mm", (int)calibratedDistance) ;
+  49              		.loc 1 97 0
+  50 0016 114B     		ldr	r3, .L5+12
+  51 0018 D3E90001 		ldrd	r0, [r3]
+  52 001c FFF7FEFF 		bl	__aeabi_d2iz
+  53              	.LVL0:
+  54 0020 0246     		mov	r2, r0
+  55 0022 0C48     		ldr	r0, .L5+4
+  56 0024 0E49     		ldr	r1, .L5+16
+  57 0026 FFF7FEFF 		bl	sprintf
+  58              	.LVL1:
+  59              	.L3:
+  98:main.c        ****     }
+  99:main.c        ****     // Displays result on LCD screen.
+ 100:main.c        ****     LCD_Position(1u, 0u) ;
+  60              		.loc 1 100 0
+  61 002a 0120     		movs	r0, #1
+  62 002c 0021     		movs	r1, #0
+  63 002e FFF7FEFF 		bl	LCD_Position
+  64              	.LVL2:
+ 101:main.c        **** 	LCD_PrintString("              ") ;
+  65              		.loc 1 101 0
+  66 0032 0C48     		ldr	r0, .L5+20
+  67 0034 FFF7FEFF 		bl	LCD_PrintString
+  68              	.LVL3:
+ 102:main.c        ****     LCD_Position(1u, 0u) ;
+  69              		.loc 1 102 0
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 4
+
+
+  70 0038 0120     		movs	r0, #1
+  71 003a 0021     		movs	r1, #0
+  72 003c FFF7FEFF 		bl	LCD_Position
+  73              	.LVL4:
+ 103:main.c        ****     LCD_PrintString(str) ;
+  74              		.loc 1 103 0
+  75 0040 0448     		ldr	r0, .L5+4
+  76 0042 FFF7FEFF 		bl	LCD_PrintString
+  77              	.LVL5:
+ 104:main.c        ****     
+ 105:main.c        ****     // Start new measure.
+ 106:main.c        ****     response = 0 ;
+  78              		.loc 1 106 0
+  79 0046 0022     		movs	r2, #0
+  80 0048 014B     		ldr	r3, .L5
+  81 004a 1A70     		strb	r2, [r3]
+  82 004c 10BD     		pop	{r4, pc}
+  83              	.L6:
+  84 004e 00BF     		.align	2
+  85              	.L5:
+  86 0050 00000000 		.word	response
+  87 0054 00000000 		.word	str
+  88 0058 00000000 		.word	.LC0
+  89 005c 00000000 		.word	calibratedDistance
+  90 0060 0C000000 		.word	.LC1
+  91 0064 18000000 		.word	.LC2
+  92              		.cfi_endproc
+  93              	.LFE65:
+  94              		.size	Interrupt_TX_Handler, .-Interrupt_TX_Handler
+  95              		.section	.text.Interrupt_Xbee_Handler,"ax",%progbits
+  96              		.align	2
+  97              		.global	Interrupt_Xbee_Handler
+  98              		.thumb
+  99              		.thumb_func
+ 100              		.type	Interrupt_Xbee_Handler, %function
+ 101              	Interrupt_Xbee_Handler:
+ 102              	.LFB67:
+ 107:main.c        **** }
+ 108:main.c        **** 
+ 109:main.c        **** 
+ 110:main.c        **** /* HANDLER CALLED IF A FEEDBACK IS DETECTED BY THE COMPARATOR.
+ 111:main.c        ****  *
+ 112:main.c        ****  * @param :     None.
+ 113:main.c        ****  * @return :    None.
+ 114:main.c        ****  */
+ 115:main.c        **** CY_ISR(Interrupt_RX_Handler) {
+ 116:main.c        ****     // If the handler wasn't called yet... (= It's the first peak detected).
+ 117:main.c        ****     if (response == 0) {
+ 118:main.c        ****         response = 1 ;
+ 119:main.c        ****         // Update chrono.
+ 120:main.c        ****         chrono = ((double)Chronometer_ReadCounter())/(6.0) ; // (Clk = 6 MHz).
+ 121:main.c        ****         computeDistance() ;
+ 122:main.c        ****     }
+ 123:main.c        **** }
+ 124:main.c        **** 
+ 125:main.c        **** 
+ 126:main.c        **** /* HANDLER CALLED IF A CHAR IS RECEIVED BY THE XBEE MODULE
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 5
+
+
+ 127:main.c        ****  *
+ 128:main.c        ****  * @param :     None.
+ 129:main.c        ****  * @return :    None.
+ 130:main.c        ****  */
+ 131:main.c        **** CY_ISR(Interrupt_Xbee_Handler) {
+ 103              		.loc 1 131 0
+ 104              		.cfi_startproc
+ 105              		@ args = 0, pretend = 0, frame = 0
+ 106              		@ frame_needed = 0, uses_anonymous_args = 0
+ 107 0000 10B5     		push	{r4, lr}
+ 108              		.cfi_def_cfa_offset 8
+ 109              		.cfi_offset 4, -8
+ 110              		.cfi_offset 14, -4
+ 132:main.c        ****     
+ 133:main.c        ****     instruction = XBee_GetChar() ;
+ 111              		.loc 1 133 0
+ 112 0002 FFF7FEFF 		bl	XBee_GetChar
+ 113              	.LVL6:
+ 114 0006 0246     		mov	r2, r0
+ 115 0008 0A4B     		ldr	r3, .L9
+ 116 000a 1870     		strb	r0, [r3]
+ 134:main.c        ****         
+ 135:main.c        ****     sprintf(str, "I = %c", instruction) ;
+ 117              		.loc 1 135 0
+ 118 000c 0A4C     		ldr	r4, .L9+4
+ 119 000e 2046     		mov	r0, r4
+ 120 0010 0A49     		ldr	r1, .L9+8
+ 121 0012 FFF7FEFF 		bl	sprintf
+ 122              	.LVL7:
+ 136:main.c        ****     LCD_Position(0u, 0u) ;
+ 123              		.loc 1 136 0
+ 124 0016 0020     		movs	r0, #0
+ 125 0018 0146     		mov	r1, r0
+ 126 001a FFF7FEFF 		bl	LCD_Position
+ 127              	.LVL8:
+ 137:main.c        **** 	LCD_PrintString("              ") ;
+ 128              		.loc 1 137 0
+ 129 001e 0848     		ldr	r0, .L9+12
+ 130 0020 FFF7FEFF 		bl	LCD_PrintString
+ 131              	.LVL9:
+ 138:main.c        ****     LCD_Position(0u, 0u) ;
+ 132              		.loc 1 138 0
+ 133 0024 0020     		movs	r0, #0
+ 134 0026 0146     		mov	r1, r0
+ 135 0028 FFF7FEFF 		bl	LCD_Position
+ 136              	.LVL10:
+ 139:main.c        ****     LCD_PrintString(str) ;
+ 137              		.loc 1 139 0
+ 138 002c 2046     		mov	r0, r4
+ 139 002e FFF7FEFF 		bl	LCD_PrintString
+ 140              	.LVL11:
+ 141 0032 10BD     		pop	{r4, pc}
+ 142              	.L10:
+ 143              		.align	2
+ 144              	.L9:
+ 145 0034 00000000 		.word	.LANCHOR0
+ 146 0038 00000000 		.word	str
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 6
+
+
+ 147 003c 28000000 		.word	.LC3
+ 148 0040 18000000 		.word	.LC2
+ 149              		.cfi_endproc
+ 150              	.LFE67:
+ 151              		.size	Interrupt_Xbee_Handler, .-Interrupt_Xbee_Handler
+ 152              		.global	__aeabi_dmul
+ 153              		.global	__aeabi_dsub
+ 154              		.section	.text.computeDistance,"ax",%progbits
+ 155              		.align	2
+ 156              		.global	computeDistance
+ 157              		.thumb
+ 158              		.thumb_func
+ 159              		.type	computeDistance, %function
+ 160              	computeDistance:
+ 161              	.LFB63:
+  65:main.c        ****     distance = SOUND_SPEED*chrono ;
+ 162              		.loc 1 65 0
+ 163              		.cfi_startproc
+ 164              		@ args = 0, pretend = 0, frame = 0
+ 165              		@ frame_needed = 0, uses_anonymous_args = 0
+ 166 0000 38B5     		push	{r3, r4, r5, lr}
+ 167              		.cfi_def_cfa_offset 16
+ 168              		.cfi_offset 3, -16
+ 169              		.cfi_offset 4, -12
+ 170              		.cfi_offset 5, -8
+ 171              		.cfi_offset 14, -4
+  66:main.c        ****     realDistance = 0.5*sqrt(pow(distance,2)-pow(SPACE_RX_TX,2)) ;
+ 172              		.loc 1 66 0
+ 173 0002 1D4B     		ldr	r3, .L13+24
+ 174 0004 D3E90001 		ldrd	r0, [r3]
+ 175 0008 15A3     		adr	r3, .L13
+ 176 000a D3E90023 		ldrd	r2, [r3]
+ 177 000e FFF7FEFF 		bl	__aeabi_dmul
+ 178              	.LVL12:
+ 179 0012 1A4B     		ldr	r3, .L13+28
+ 180 0014 C3E90001 		strd	r0, [r3]
+  67:main.c        ****     calibratedDistance = coef_a*realDistance+coef_b ;
+ 181              		.loc 1 67 0
+ 182 0018 0022     		movs	r2, #0
+ 183 001a 4FF08043 		mov	r3, #1073741824
+ 184 001e FFF7FEFF 		bl	pow
+ 185              	.LVL13:
+ 186 0022 0446     		mov	r4, r0
+ 187 0024 0D46     		mov	r5, r1
+ 188 0026 2046     		mov	r0, r4
+ 189 0028 2946     		mov	r1, r5
+ 190 002a 0022     		movs	r2, #0
+ 191 002c 144B     		ldr	r3, .L13+32
+ 192 002e FFF7FEFF 		bl	__aeabi_dsub
+ 193              	.LVL14:
+ 194 0032 FFF7FEFF 		bl	sqrt
+ 195              	.LVL15:
+ 196 0036 0022     		movs	r2, #0
+ 197 0038 124B     		ldr	r3, .L13+36
+ 198 003a FFF7FEFF 		bl	__aeabi_dmul
+ 199              	.LVL16:
+ 200 003e 124B     		ldr	r3, .L13+40
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 7
+
+
+ 201 0040 C3E90001 		strd	r0, [r3]
+  68:main.c        **** }
+ 202              		.loc 1 68 0
+ 203 0044 08A3     		adr	r3, .L13+8
+ 204 0046 D3E90023 		ldrd	r2, [r3]
+ 205 004a FFF7FEFF 		bl	__aeabi_dmul
+ 206              	.LVL17:
+ 207 004e 08A3     		adr	r3, .L13+16
+ 208 0050 D3E90023 		ldrd	r2, [r3]
+ 209 0054 FFF7FEFF 		bl	__aeabi_dsub
+ 210              	.LVL18:
+ 211 0058 0C4B     		ldr	r3, .L13+44
+ 212 005a C3E90001 		strd	r0, [r3]
+ 213 005e 38BD     		pop	{r3, r4, r5, pc}
+ 214              	.L14:
+ 215              		.align	3
+ 216              	.L13:
+ 217 0060 C3F5285C 		.word	1546188227
+ 218 0064 8FC2D53F 		.word	1070973583
+ 219 0068 E09C11A5 		.word	-1525572384
+ 220 006c BDC1F23F 		.word	1072873917
+ 221 0070 2575029A 		.word	-1711114971
+ 222 0074 080B4840 		.word	1078463240
+ 223 0078 00000000 		.word	chrono
+ 224 007c 00000000 		.word	distance
+ 225 0080 0000A240 		.word	1084358656
+ 226 0084 0000E03F 		.word	1071644672
+ 227 0088 00000000 		.word	realDistance
+ 228 008c 00000000 		.word	calibratedDistance
+ 229              		.cfi_endproc
+ 230              	.LFE63:
+ 231              		.size	computeDistance, .-computeDistance
+ 232              		.global	__aeabi_ui2d
+ 233              		.global	__aeabi_ddiv
+ 234              		.section	.text.Interrupt_RX_Handler,"ax",%progbits
+ 235              		.align	2
+ 236              		.global	Interrupt_RX_Handler
+ 237              		.thumb
+ 238              		.thumb_func
+ 239              		.type	Interrupt_RX_Handler, %function
+ 240              	Interrupt_RX_Handler:
+ 241              	.LFB66:
+ 115:main.c        ****     // If the handler wasn't called yet... (= It's the first peak detected).
+ 242              		.loc 1 115 0
+ 243              		.cfi_startproc
+ 244              		@ args = 0, pretend = 0, frame = 0
+ 245              		@ frame_needed = 0, uses_anonymous_args = 0
+ 246 0000 08B5     		push	{r3, lr}
+ 247              		.cfi_def_cfa_offset 8
+ 248              		.cfi_offset 3, -8
+ 249              		.cfi_offset 14, -4
+ 117:main.c        ****         response = 1 ;
+ 250              		.loc 1 117 0
+ 251 0002 0A4B     		ldr	r3, .L18
+ 252 0004 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 253 0006 7BB9     		cbnz	r3, .L15
+ 118:main.c        ****         // Update chrono.
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 8
+
+
+ 254              		.loc 1 118 0
+ 255 0008 0122     		movs	r2, #1
+ 256 000a 084B     		ldr	r3, .L18
+ 257 000c 1A70     		strb	r2, [r3]
+ 120:main.c        ****         computeDistance() ;
+ 258              		.loc 1 120 0
+ 259 000e FFF7FEFF 		bl	Chronometer_ReadCounter
+ 260              	.LVL19:
+ 261 0012 FFF7FEFF 		bl	__aeabi_ui2d
+ 262              	.LVL20:
+ 263 0016 0022     		movs	r2, #0
+ 264 0018 054B     		ldr	r3, .L18+4
+ 265 001a FFF7FEFF 		bl	__aeabi_ddiv
+ 266              	.LVL21:
+ 267 001e 054B     		ldr	r3, .L18+8
+ 268 0020 C3E90001 		strd	r0, [r3]
+ 121:main.c        ****     }
+ 269              		.loc 1 121 0
+ 270 0024 FFF7FEFF 		bl	computeDistance
+ 271              	.LVL22:
+ 272              	.L15:
+ 273 0028 08BD     		pop	{r3, pc}
+ 274              	.L19:
+ 275 002a 00BF     		.align	2
+ 276              	.L18:
+ 277 002c 00000000 		.word	response
+ 278 0030 00001840 		.word	1075314688
+ 279 0034 00000000 		.word	chrono
+ 280              		.cfi_endproc
+ 281              	.LFE66:
+ 282              		.size	Interrupt_RX_Handler, .-Interrupt_RX_Handler
+ 283              		.section	.text.update_vitesse,"ax",%progbits
+ 284              		.align	2
+ 285              		.global	update_vitesse
+ 286              		.thumb
+ 287              		.thumb_func
+ 288              		.type	update_vitesse, %function
+ 289              	update_vitesse:
+ 290              	.LFB64:
+  77:main.c        ****     PWM_Front_WriteCompare1(vitesse) ;
+ 291              		.loc 1 77 0
+ 292              		.cfi_startproc
+ 293              		@ args = 0, pretend = 0, frame = 0
+ 294              		@ frame_needed = 0, uses_anonymous_args = 0
+ 295 0000 10B5     		push	{r4, lr}
+ 296              		.cfi_def_cfa_offset 8
+ 297              		.cfi_offset 4, -8
+ 298              		.cfi_offset 14, -4
+  78:main.c        ****     PWM_Front_WriteCompare2(vitesse) ;
+ 299              		.loc 1 78 0
+ 300 0002 074C     		ldr	r4, .L22
+ 301 0004 6078     		ldrb	r0, [r4, #1]	@ zero_extendqisi2
+ 302 0006 FFF7FEFF 		bl	PWM_Front_WriteCompare1
+ 303              	.LVL23:
+  79:main.c        ****     PWM_Back_WriteCompare1(vitesse) ;
+ 304              		.loc 1 79 0
+ 305 000a 6078     		ldrb	r0, [r4, #1]	@ zero_extendqisi2
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 9
+
+
+ 306 000c FFF7FEFF 		bl	PWM_Front_WriteCompare2
+ 307              	.LVL24:
+  80:main.c        ****     PWM_Back_WriteCompare2(vitesse) ;
+ 308              		.loc 1 80 0
+ 309 0010 6078     		ldrb	r0, [r4, #1]	@ zero_extendqisi2
+ 310 0012 FFF7FEFF 		bl	PWM_Back_WriteCompare1
+ 311              	.LVL25:
+  81:main.c        **** }
+ 312              		.loc 1 81 0
+ 313 0016 6078     		ldrb	r0, [r4, #1]	@ zero_extendqisi2
+ 314 0018 FFF7FEFF 		bl	PWM_Back_WriteCompare2
+ 315              	.LVL26:
+ 316 001c 10BD     		pop	{r4, pc}
+ 317              	.L23:
+ 318 001e 00BF     		.align	2
+ 319              	.L22:
+ 320 0020 00000000 		.word	.LANCHOR0
+ 321              		.cfi_endproc
+ 322              	.LFE64:
+ 323              		.size	update_vitesse, .-update_vitesse
+ 324              		.section	.text.stop,"ax",%progbits
+ 325              		.align	2
+ 326              		.global	stop
+ 327              		.thumb
+ 328              		.thumb_func
+ 329              		.type	stop, %function
+ 330              	stop:
+ 331              	.LFB68:
+ 140:main.c        **** }
+ 141:main.c        **** 
+ 142:main.c        **** 
+ 143:main.c        **** /* STOP.
+ 144:main.c        ****  *
+ 145:main.c        ****  * @param :     None.
+ 146:main.c        ****  * @return :    None.
+ 147:main.c        ****  */
+ 148:main.c        **** void stop() {
+ 332              		.loc 1 148 0
+ 333              		.cfi_startproc
+ 334              		@ args = 0, pretend = 0, frame = 0
+ 335              		@ frame_needed = 0, uses_anonymous_args = 0
+ 336 0000 08B5     		push	{r3, lr}
+ 337              		.cfi_def_cfa_offset 8
+ 338              		.cfi_offset 3, -8
+ 339              		.cfi_offset 14, -4
+ 149:main.c        ****     Rotation_Register_Write(0x00) ; // '00000000'
+ 340              		.loc 1 149 0
+ 341 0002 0020     		movs	r0, #0
+ 342 0004 FFF7FEFF 		bl	Rotation_Register_Write
+ 343              	.LVL27:
+ 344 0008 08BD     		pop	{r3, pc}
+ 345              		.cfi_endproc
+ 346              	.LFE68:
+ 347              		.size	stop, .-stop
+ 348              		.global	__aeabi_dcmpge
+ 349 000a 00BF     		.section	.text.forward,"ax",%progbits
+ 350              		.align	2
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 10
+
+
+ 351              		.global	forward
+ 352              		.thumb
+ 353              		.thumb_func
+ 354              		.type	forward, %function
+ 355              	forward:
+ 356              	.LFB69:
+ 150:main.c        **** }
+ 151:main.c        **** 
+ 152:main.c        **** 
+ 153:main.c        **** /* GO FORWARD.
+ 154:main.c        ****  *
+ 155:main.c        ****  * @param :     None.
+ 156:main.c        ****  * @return :    None.
+ 157:main.c        ****  */
+ 158:main.c        **** void forward() {
+ 357              		.loc 1 158 0
+ 358              		.cfi_startproc
+ 359              		@ args = 0, pretend = 0, frame = 0
+ 360              		@ frame_needed = 0, uses_anonymous_args = 0
+ 361 0000 08B5     		push	{r3, lr}
+ 362              		.cfi_def_cfa_offset 8
+ 363              		.cfi_offset 3, -8
+ 364              		.cfi_offset 14, -4
+ 159:main.c        ****     if ((response == 0) || (calibratedDistance >= DISTANCE_MIN)) {
+ 365              		.loc 1 159 0
+ 366 0002 094B     		ldr	r3, .L33
+ 367 0004 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 368 0006 3BB1     		cbz	r3, .L27
+ 369              		.loc 1 159 0 is_stmt 0 discriminator 1
+ 370 0008 084B     		ldr	r3, .L33+4
+ 371 000a D3E90001 		ldrd	r0, [r3]
+ 372 000e 0022     		movs	r2, #0
+ 373 0010 074B     		ldr	r3, .L33+8
+ 374 0012 FFF7FEFF 		bl	__aeabi_dcmpge
+ 375              	.LVL28:
+ 376 0016 18B1     		cbz	r0, .L31
+ 377              	.L27:
+ 160:main.c        ****         Rotation_Register_Write(0xAA) ; // '10100110'
+ 378              		.loc 1 160 0 is_stmt 1
+ 379 0018 AA20     		movs	r0, #170
+ 380 001a FFF7FEFF 		bl	Rotation_Register_Write
+ 381              	.LVL29:
+ 382 001e 08BD     		pop	{r3, pc}
+ 383              	.L31:
+ 161:main.c        ****     }
+ 162:main.c        ****     else {
+ 163:main.c        ****         stop() ;
+ 384              		.loc 1 163 0
+ 385 0020 FFF7FEFF 		bl	stop
+ 386              	.LVL30:
+ 387 0024 08BD     		pop	{r3, pc}
+ 388              	.L34:
+ 389 0026 00BF     		.align	2
+ 390              	.L33:
+ 391 0028 00000000 		.word	response
+ 392 002c 00000000 		.word	calibratedDistance
+ 393 0030 00006940 		.word	1080623104
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 11
+
+
+ 394              		.cfi_endproc
+ 395              	.LFE69:
+ 396              		.size	forward, .-forward
+ 397              		.section	.text.backward,"ax",%progbits
+ 398              		.align	2
+ 399              		.global	backward
+ 400              		.thumb
+ 401              		.thumb_func
+ 402              		.type	backward, %function
+ 403              	backward:
+ 404              	.LFB70:
+ 164:main.c        ****     }
+ 165:main.c        **** }
+ 166:main.c        **** 
+ 167:main.c        **** 
+ 168:main.c        **** /* GO BACKWARD.
+ 169:main.c        ****  *
+ 170:main.c        ****  * @param :     None.
+ 171:main.c        ****  * @return :    None.
+ 172:main.c        ****  */
+ 173:main.c        **** void backward() {
+ 405              		.loc 1 173 0
+ 406              		.cfi_startproc
+ 407              		@ args = 0, pretend = 0, frame = 0
+ 408              		@ frame_needed = 0, uses_anonymous_args = 0
+ 409 0000 08B5     		push	{r3, lr}
+ 410              		.cfi_def_cfa_offset 8
+ 411              		.cfi_offset 3, -8
+ 412              		.cfi_offset 14, -4
+ 174:main.c        ****     Rotation_Register_Write(0x55) ; // '01011001'
+ 413              		.loc 1 174 0
+ 414 0002 5520     		movs	r0, #85
+ 415 0004 FFF7FEFF 		bl	Rotation_Register_Write
+ 416              	.LVL31:
+ 417 0008 08BD     		pop	{r3, pc}
+ 418              		.cfi_endproc
+ 419              	.LFE70:
+ 420              		.size	backward, .-backward
+ 421 000a 00BF     		.section	.text.main,"ax",%progbits
+ 422              		.align	2
+ 423              		.global	main
+ 424              		.thumb
+ 425              		.thumb_func
+ 426              		.type	main, %function
+ 427              	main:
+ 428              	.LFB71:
+ 175:main.c        **** }
+ 176:main.c        **** 
+ 177:main.c        **** /* MAIN FUNCTION
+ 178:main.c        ****  *
+ 179:main.c        ****  * @param :     None.
+ 180:main.c        ****  * @return :    None.
+ 181:main.c        ****  */
+ 182:main.c        **** int main(void) {
+ 429              		.loc 1 182 0
+ 430              		.cfi_startproc
+ 431              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 12
+
+
+ 432              		@ frame_needed = 0, uses_anonymous_args = 0
+ 433 0000 08B5     		push	{r3, lr}
+ 434              		.cfi_def_cfa_offset 8
+ 435              		.cfi_offset 3, -8
+ 436              		.cfi_offset 14, -4
+ 183:main.c        **** 
+ 184:main.c        ****     // Initialisations
+ 185:main.c        ****     Clk_Start() ;
+ 437              		.loc 1 185 0
+ 438 0002 FFF7FEFF 		bl	Clk_Start
+ 439              	.LVL32:
+ 186:main.c        ****     Clock_1_Start() ;
+ 440              		.loc 1 186 0
+ 441 0006 FFF7FEFF 		bl	Clock_1_Start
+ 442              	.LVL33:
+ 187:main.c        ****     Clock_2_Start() ;
+ 443              		.loc 1 187 0
+ 444 000a FFF7FEFF 		bl	Clock_2_Start
+ 445              	.LVL34:
+ 188:main.c        ****     
+ 189:main.c        ****     LCD_Start() ;
+ 446              		.loc 1 189 0
+ 447 000e FFF7FEFF 		bl	LCD_Start
+ 448              	.LVL35:
+ 190:main.c        ****     LCD_ClearDisplay() ;
+ 449              		.loc 1 190 0
+ 450 0012 0120     		movs	r0, #1
+ 451 0014 FFF7FEFF 		bl	LCD_WriteControl
+ 452              	.LVL36:
+ 191:main.c        ****     
+ 192:main.c        ****     Chronometer_Start() ;
+ 453              		.loc 1 192 0
+ 454 0018 FFF7FEFF 		bl	Chronometer_Start
+ 455              	.LVL37:
+ 193:main.c        ****     Comparator_Start() ;
+ 456              		.loc 1 193 0
+ 457 001c FFF7FEFF 		bl	Comparator_Start
+ 458              	.LVL38:
+ 194:main.c        ****     Counter_Pulses_Start() ;
+ 459              		.loc 1 194 0
+ 460 0020 FFF7FEFF 		bl	Counter_Pulses_Start
+ 461              	.LVL39:
+ 195:main.c        ****     Out_MAX232_Start() ;
+ 462              		.loc 1 195 0
+ 463 0024 FFF7FEFF 		bl	Out_MAX232_Start
+ 464              	.LVL40:
+ 196:main.c        ****     Pre_Ampli_Start() ;
+ 465              		.loc 1 196 0
+ 466 0028 FFF7FEFF 		bl	Pre_Ampli_Start
+ 467              	.LVL41:
+ 197:main.c        ****     Threshold_Start() ;
+ 468              		.loc 1 197 0
+ 469 002c FFF7FEFF 		bl	Threshold_Start
+ 470              	.LVL42:
+ 198:main.c        ****     Timer_TX_Start() ;
+ 471              		.loc 1 198 0
+ 472 0030 FFF7FEFF 		bl	Timer_TX_Start
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 13
+
+
+ 473              	.LVL43:
+ 199:main.c        ****     
+ 200:main.c        ****      // Enables global interrupts.
+ 201:main.c        ****     CyGlobalIntEnable ;
+ 474              		.loc 1 201 0
+ 475              	@ 201 "main.c" 1
+ 476 0034 62B6     		CPSIE   i
+ 477              	@ 0 "" 2
+ 202:main.c        ****     
+ 203:main.c        ****     // Links interrupts and corresponding handlers.
+ 204:main.c        ****     Interrupt_TX_StartEx(Interrupt_TX_Handler) ;
+ 478              		.loc 1 204 0
+ 479              		.thumb
+ 480 0036 4148     		ldr	r0, .L51
+ 481 0038 FFF7FEFF 		bl	Interrupt_TX_StartEx
+ 482              	.LVL44:
+ 205:main.c        ****     Interrupt_RX_StartEx(Interrupt_RX_Handler) ;
+ 483              		.loc 1 205 0
+ 484 003c 4048     		ldr	r0, .L51+4
+ 485 003e FFF7FEFF 		bl	Interrupt_RX_StartEx
+ 486              	.LVL45:
+ 206:main.c        ****     Interrupt_Xbee_StartEx(Interrupt_Xbee_Handler) ;
+ 487              		.loc 1 206 0
+ 488 0042 4048     		ldr	r0, .L51+8
+ 489 0044 FFF7FEFF 		bl	Interrupt_Xbee_StartEx
+ 490              	.LVL46:
+ 207:main.c        ****     
+ 208:main.c        ****     XBee_Init() ;
+ 491              		.loc 1 208 0
+ 492 0048 FFF7FEFF 		bl	XBee_Init
+ 493              	.LVL47:
+ 209:main.c        ****     XBee_Start() ;
+ 494              		.loc 1 209 0
+ 495 004c FFF7FEFF 		bl	XBee_Start
+ 496              	.LVL48:
+ 210:main.c        ****     PWM_Front_Start() ;
+ 497              		.loc 1 210 0
+ 498 0050 FFF7FEFF 		bl	PWM_Front_Start
+ 499              	.LVL49:
+ 211:main.c        ****     PWM_Back_Start() ;
+ 500              		.loc 1 211 0
+ 501 0054 FFF7FEFF 		bl	PWM_Back_Start
+ 502              	.LVL50:
+ 212:main.c        ****     
+ 213:main.c        ****     uint8 c = 0 ; // Variable à 3 états (obliger passage par tout droit avanat de tourner
+ 214:main.c        ****     stop() ; // Arret au debut
+ 503              		.loc 1 214 0
+ 504 0058 FFF7FEFF 		bl	stop
+ 505              	.LVL51:
+ 213:main.c        ****     stop() ; // Arret au debut
+ 506              		.loc 1 213 0
+ 507 005c 0022     		movs	r2, #0
+ 508              	.LVL52:
+ 509              	.L38:
+ 215:main.c        ****     
+ 216:main.c        ****     // Application code.
+ 217:main.c        ****     while (1) {
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 14
+
+
+ 218:main.c        ****         
+ 219:main.c        ****         // Choix vitesse
+ 220:main.c        ****         switch (instruction) {
+ 510              		.loc 1 220 0
+ 511 005e 3A4B     		ldr	r3, .L51+12
+ 512 0060 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 513 0062 6C2B     		cmp	r3, #108
+ 514 0064 07D0     		beq	.L40
+ 515 0066 6D2B     		cmp	r3, #109
+ 516 0068 09D0     		beq	.L41
+ 517 006a 6B2B     		cmp	r3, #107
+ 518 006c 0AD1     		bne	.L39
+ 221:main.c        ****         case (I_LOW_SPEED) :
+ 222:main.c        ****             vitesse = 127 ;
+ 519              		.loc 1 222 0
+ 520 006e 7F20     		movs	r0, #127
+ 521 0070 3549     		ldr	r1, .L51+12
+ 522 0072 4870     		strb	r0, [r1, #1]
+ 223:main.c        ****             break ;
+ 523              		.loc 1 223 0
+ 524 0074 06E0     		b	.L39
+ 525              	.L40:
+ 224:main.c        ****         case (I_MEDIUM_SPEED) : 
+ 225:main.c        ****             vitesse = 191 ;  
+ 526              		.loc 1 225 0
+ 527 0076 BF20     		movs	r0, #191
+ 528 0078 3349     		ldr	r1, .L51+12
+ 529 007a 4870     		strb	r0, [r1, #1]
+ 226:main.c        ****             break ;
+ 530              		.loc 1 226 0
+ 531 007c 02E0     		b	.L39
+ 532              	.L41:
+ 227:main.c        ****         case (I_HIGH_SPEED) : 
+ 228:main.c        ****             vitesse = 220u ;
+ 533              		.loc 1 228 0
+ 534 007e DC20     		movs	r0, #220
+ 535 0080 3149     		ldr	r1, .L51+12
+ 536 0082 4870     		strb	r0, [r1, #1]
+ 537              	.L39:
+ 229:main.c        ****             break ; 
+ 230:main.c        ****         }
+ 231:main.c        ****         
+ 232:main.c        ****         // Mouvements
+ 233:main.c        ****         
+ 234:main.c        ****         // Avancer vers l'avant
+ 235:main.c        ****         if (instruction == I_FORWARD) {  
+ 538              		.loc 1 235 0
+ 539 0084 7A2B     		cmp	r3, #122
+ 540 0086 04D1     		bne	.L43
+ 236:main.c        ****             forward() ;
+ 541              		.loc 1 236 0
+ 542 0088 FFF7FEFF 		bl	forward
+ 543              	.LVL53:
+ 237:main.c        ****             update_vitesse() ;
+ 544              		.loc 1 237 0
+ 545 008c FFF7FEFF 		bl	update_vitesse
+ 546              	.LVL54:
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 15
+
+
+ 238:main.c        ****             c = 0 ;
+ 547              		.loc 1 238 0
+ 548 0090 0022     		movs	r2, #0
+ 549              	.LVL55:
+ 550              	.L43:
+ 239:main.c        ****         }
+ 240:main.c        ****         // Reculer
+ 241:main.c        ****         if (instruction == I_BACK) {  
+ 551              		.loc 1 241 0
+ 552 0092 2D4B     		ldr	r3, .L51+12
+ 553 0094 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 554 0096 772B     		cmp	r3, #119
+ 555 0098 04D1     		bne	.L44
+ 242:main.c        ****             backward() ;
+ 556              		.loc 1 242 0
+ 557 009a FFF7FEFF 		bl	backward
+ 558              	.LVL56:
+ 243:main.c        ****             update_vitesse() ;
+ 559              		.loc 1 243 0
+ 560 009e FFF7FEFF 		bl	update_vitesse
+ 561              	.LVL57:
+ 244:main.c        ****             c = 0 ;
+ 562              		.loc 1 244 0
+ 563 00a2 0022     		movs	r2, #0
+ 564              	.LVL58:
+ 565              	.L44:
+ 245:main.c        ****         }
+ 246:main.c        ****         // Tourner à droite
+ 247:main.c        ****         if (instruction == I_RIGHT) {
+ 566              		.loc 1 247 0
+ 567 00a4 284B     		ldr	r3, .L51+12
+ 568 00a6 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 569 00a8 642B     		cmp	r3, #100
+ 570 00aa 05D1     		bne	.L45
+ 248:main.c        ****             Rotation_Register_Write(0xA5) ; // '10100101'
+ 571              		.loc 1 248 0
+ 572 00ac A520     		movs	r0, #165
+ 573 00ae FFF7FEFF 		bl	Rotation_Register_Write
+ 574              	.LVL59:
+ 249:main.c        ****             update_vitesse() ;
+ 575              		.loc 1 249 0
+ 576 00b2 FFF7FEFF 		bl	update_vitesse
+ 577              	.LVL60:
+ 250:main.c        ****             c = 0 ;
+ 578              		.loc 1 250 0
+ 579 00b6 0022     		movs	r2, #0
+ 580              	.LVL61:
+ 581              	.L45:
+ 251:main.c        ****         }
+ 252:main.c        ****         // Tourner à gauche
+ 253:main.c        ****         if (instruction == I_LEFT) { 
+ 582              		.loc 1 253 0
+ 583 00b8 234B     		ldr	r3, .L51+12
+ 584 00ba 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 585 00bc 712B     		cmp	r3, #113
+ 586 00be 05D1     		bne	.L46
+ 254:main.c        ****             Rotation_Register_Write(0x5A) ; // '01011010'
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 16
+
+
+ 587              		.loc 1 254 0
+ 588 00c0 5A20     		movs	r0, #90
+ 589 00c2 FFF7FEFF 		bl	Rotation_Register_Write
+ 590              	.LVL62:
+ 255:main.c        ****             update_vitesse() ;
+ 591              		.loc 1 255 0
+ 592 00c6 FFF7FEFF 		bl	update_vitesse
+ 593              	.LVL63:
+ 256:main.c        ****             c = 0 ;
+ 594              		.loc 1 256 0
+ 595 00ca 0022     		movs	r2, #0
+ 596              	.LVL64:
+ 597              	.L46:
+ 257:main.c        ****         }
+ 258:main.c        ****         // Arret
+ 259:main.c        ****         if (instruction == I_STOP) { 
+ 598              		.loc 1 259 0
+ 599 00cc 1E4B     		ldr	r3, .L51+12
+ 600 00ce 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 601 00d0 732B     		cmp	r3, #115
+ 602 00d2 04D1     		bne	.L47
+ 260:main.c        ****             stop() ;
+ 603              		.loc 1 260 0
+ 604 00d4 FFF7FEFF 		bl	stop
+ 605              	.LVL65:
+ 261:main.c        ****             update_vitesse() ;
+ 606              		.loc 1 261 0
+ 607 00d8 FFF7FEFF 		bl	update_vitesse
+ 608              	.LVL66:
+ 262:main.c        ****             c = 0 ;
+ 609              		.loc 1 262 0
+ 610 00dc 0022     		movs	r2, #0
+ 611              	.LVL67:
+ 612              	.L47:
+ 263:main.c        ****         }
+ 264:main.c        ****         // Tourner à gauche en avançant  
+ 265:main.c        ****         if ((instruction == I_FORWARD_LEFT) && (c != 2) && (c != 1)) {                  
+ 613              		.loc 1 265 0
+ 614 00de 1A4B     		ldr	r3, .L51+12
+ 615 00e0 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 616 00e2 612B     		cmp	r3, #97
+ 617 00e4 12D1     		bne	.L48
+ 618              		.loc 1 265 0 is_stmt 0 discriminator 1
+ 619 00e6 022A     		cmp	r2, #2
+ 620 00e8 10D0     		beq	.L48
+ 621              		.loc 1 265 0 discriminator 2
+ 622 00ea 012A     		cmp	r2, #1
+ 623 00ec 0ED0     		beq	.L48
+ 266:main.c        ****             PWM_Front_WriteCompare2(PWM_Front_ReadCompare1()+30) ;
+ 624              		.loc 1 266 0 is_stmt 1
+ 625 00ee FFF7FEFF 		bl	PWM_Front_ReadCompare1
+ 626              	.LVL68:
+ 627 00f2 1E30     		adds	r0, r0, #30
+ 628 00f4 C0B2     		uxtb	r0, r0
+ 629 00f6 FFF7FEFF 		bl	PWM_Front_WriteCompare2
+ 630              	.LVL69:
+ 267:main.c        ****             PWM_Back_WriteCompare2(PWM_Back_ReadCompare1()+30) ;
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 17
+
+
+ 631              		.loc 1 267 0
+ 632 00fa FFF7FEFF 		bl	PWM_Back_ReadCompare1
+ 633              	.LVL70:
+ 634 00fe 1E30     		adds	r0, r0, #30
+ 635 0100 C0B2     		uxtb	r0, r0
+ 636 0102 FFF7FEFF 		bl	PWM_Back_WriteCompare2
+ 637              	.LVL71:
+ 268:main.c        ****             forward() ;
+ 638              		.loc 1 268 0
+ 639 0106 FFF7FEFF 		bl	forward
+ 640              	.LVL72:
+ 269:main.c        ****             c = 1 ;
+ 641              		.loc 1 269 0
+ 642 010a 0122     		movs	r2, #1
+ 643              	.LVL73:
+ 644              	.L48:
+ 270:main.c        ****         }
+ 271:main.c        ****         // Tourner à droite en avançant
+ 272:main.c        ****         if ((instruction == I_FORWARD_RIGHT) && (c != 1) &&( c != 2)) { 
+ 645              		.loc 1 272 0
+ 646 010c 0E4B     		ldr	r3, .L51+12
+ 647 010e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 648 0110 652B     		cmp	r3, #101
+ 649 0112 A4D1     		bne	.L38
+ 650              		.loc 1 272 0 is_stmt 0 discriminator 1
+ 651 0114 012A     		cmp	r2, #1
+ 652 0116 A2D0     		beq	.L38
+ 653              		.loc 1 272 0 discriminator 2
+ 654 0118 022A     		cmp	r2, #2
+ 655 011a A0D0     		beq	.L38
+ 273:main.c        ****             PWM_Front_WriteCompare1(PWM_Front_ReadCompare1()+30) ;
+ 656              		.loc 1 273 0 is_stmt 1
+ 657 011c FFF7FEFF 		bl	PWM_Front_ReadCompare1
+ 658              	.LVL74:
+ 659 0120 1E30     		adds	r0, r0, #30
+ 660 0122 C0B2     		uxtb	r0, r0
+ 661 0124 FFF7FEFF 		bl	PWM_Front_WriteCompare1
+ 662              	.LVL75:
+ 274:main.c        ****             PWM_Back_WriteCompare1(PWM_Back_ReadCompare1()+30) ;
+ 663              		.loc 1 274 0
+ 664 0128 FFF7FEFF 		bl	PWM_Back_ReadCompare1
+ 665              	.LVL76:
+ 666 012c 1E30     		adds	r0, r0, #30
+ 667 012e C0B2     		uxtb	r0, r0
+ 668 0130 FFF7FEFF 		bl	PWM_Back_WriteCompare1
+ 669              	.LVL77:
+ 275:main.c        ****             forward() ;
+ 670              		.loc 1 275 0
+ 671 0134 FFF7FEFF 		bl	forward
+ 672              	.LVL78:
+ 276:main.c        ****             c = 2 ;
+ 673              		.loc 1 276 0
+ 674 0138 0222     		movs	r2, #2
+ 675 013a 90E7     		b	.L38
+ 676              	.L52:
+ 677              		.align	2
+ 678              	.L51:
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 18
+
+
+ 679 013c 00000000 		.word	Interrupt_TX_Handler
+ 680 0140 00000000 		.word	Interrupt_RX_Handler
+ 681 0144 00000000 		.word	Interrupt_Xbee_Handler
+ 682 0148 00000000 		.word	.LANCHOR0
+ 683              		.cfi_endproc
+ 684              	.LFE71:
+ 685              		.size	main, .-main
+ 686              		.global	instruction
+ 687              		.global	vitesse
+ 688              		.comm	str,10,4
+ 689              		.comm	calibratedDistance,8,8
+ 690              		.comm	realDistance,8,8
+ 691              		.comm	distance,8,8
+ 692              		.comm	chrono,8,8
+ 693              		.comm	response,1,1
+ 694              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 695              		.align	2
+ 696              	.LC0:
+ 697 0000 44203D20 		.ascii	"D = Infinie\000"
+ 697      496E6669 
+ 697      6E696500 
+ 698              	.LC1:
+ 699 000c 44203D20 		.ascii	"D = %d mm\000"
+ 699      2564206D 
+ 699      6D00
+ 700 0016 0000     		.space	2
+ 701              	.LC2:
+ 702 0018 20202020 		.ascii	"              \000"
+ 702      20202020 
+ 702      20202020 
+ 702      202000
+ 703 0027 00       		.space	1
+ 704              	.LC3:
+ 705 0028 49203D20 		.ascii	"I = %c\000"
+ 705      256300
+ 706 002f 00       		.bss
+ 707              		.set	.LANCHOR0,. + 0
+ 708              		.type	instruction, %object
+ 709              		.size	instruction, 1
+ 710              	instruction:
+ 711 0000 00       		.space	1
+ 712              		.type	vitesse, %object
+ 713              		.size	vitesse, 1
+ 714              	vitesse:
+ 715 0001 00       		.space	1
+ 716              		.text
+ 717              	.Letext0:
+ 718              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 719              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 720              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 721              		.file 5 "Generated_Source\\PSoC5/core_cm3.h"
+ 722              		.file 6 "Generated_Source\\PSoC5/LCD.h"
+ 723              		.file 7 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 724              		.file 8 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 725              		.file 9 "Generated_Source\\PSoC5/XBee.h"
+ 726              		.file 10 "Generated_Source\\PSoC5/Chronometer.h"
+ 727              		.file 11 "Generated_Source\\PSoC5/PWM_Front.h"
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 19
+
+
+ 728              		.file 12 "Generated_Source\\PSoC5/PWM_Back.h"
+ 729              		.file 13 "Generated_Source\\PSoC5/Rotation_Register.h"
+ 730              		.file 14 "Generated_Source\\PSoC5/Clk.h"
+ 731              		.file 15 "Generated_Source\\PSoC5/Clock_1.h"
+ 732              		.file 16 "Generated_Source\\PSoC5/Clock_2.h"
+ 733              		.file 17 "Generated_Source\\PSoC5/Comparator.h"
+ 734              		.file 18 "Generated_Source\\PSoC5/Counter_Pulses.h"
+ 735              		.file 19 "Generated_Source\\PSoC5/Out_MAX232.h"
+ 736              		.file 20 "Generated_Source\\PSoC5/Pre_Ampli.h"
+ 737              		.file 21 "Generated_Source\\PSoC5/Threshold.h"
+ 738              		.file 22 "Generated_Source\\PSoC5/Timer_TX.h"
+ 739              		.file 23 "Generated_Source\\PSoC5/Interrupt_TX.h"
+ 740              		.file 24 "Generated_Source\\PSoC5/Interrupt_RX.h"
+ 741              		.file 25 "Generated_Source\\PSoC5/Interrupt_Xbee.h"
+ 742              		.section	.debug_info,"",%progbits
+ 743              	.Ldebug_info0:
+ 744 0000 40070000 		.4byte	0x740
+ 745 0004 0400     		.2byte	0x4
+ 746 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 747 000a 04       		.byte	0x4
+ 748 000b 01       		.uleb128 0x1
+ 749 000c AF020000 		.4byte	.LASF68
+ 750 0010 01       		.byte	0x1
+ 751 0011 8E030000 		.4byte	.LASF69
+ 752 0015 67040000 		.4byte	.LASF70
+ 753 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 754 001d 00000000 		.4byte	0
+ 755 0021 00000000 		.4byte	.Ldebug_line0
+ 756 0025 02       		.uleb128 0x2
+ 757 0026 01       		.byte	0x1
+ 758 0027 06       		.byte	0x6
+ 759 0028 F7000000 		.4byte	.LASF0
+ 760 002c 02       		.uleb128 0x2
+ 761 002d 01       		.byte	0x1
+ 762 002e 08       		.byte	0x8
+ 763 002f 5D010000 		.4byte	.LASF1
+ 764 0033 02       		.uleb128 0x2
+ 765 0034 02       		.byte	0x2
+ 766 0035 05       		.byte	0x5
+ 767 0036 CA000000 		.4byte	.LASF2
+ 768 003a 02       		.uleb128 0x2
+ 769 003b 02       		.byte	0x2
+ 770 003c 07       		.byte	0x7
+ 771 003d 57020000 		.4byte	.LASF3
+ 772 0041 03       		.uleb128 0x3
+ 773 0042 BE030000 		.4byte	.LASF9
+ 774 0046 02       		.byte	0x2
+ 775 0047 3F       		.byte	0x3f
+ 776 0048 4C000000 		.4byte	0x4c
+ 777 004c 02       		.uleb128 0x2
+ 778 004d 04       		.byte	0x4
+ 779 004e 05       		.byte	0x5
+ 780 004f 35010000 		.4byte	.LASF4
+ 781 0053 02       		.uleb128 0x2
+ 782 0054 04       		.byte	0x4
+ 783 0055 07       		.byte	0x7
+ 784 0056 95030000 		.4byte	.LASF5
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 20
+
+
+ 785 005a 02       		.uleb128 0x2
+ 786 005b 08       		.byte	0x8
+ 787 005c 05       		.byte	0x5
+ 788 005d 18010000 		.4byte	.LASF6
+ 789 0061 02       		.uleb128 0x2
+ 790 0062 08       		.byte	0x8
+ 791 0063 07       		.byte	0x7
+ 792 0064 E5010000 		.4byte	.LASF7
+ 793 0068 04       		.uleb128 0x4
+ 794 0069 04       		.byte	0x4
+ 795 006a 05       		.byte	0x5
+ 796 006b 696E7400 		.ascii	"int\000"
+ 797 006f 02       		.uleb128 0x2
+ 798 0070 04       		.byte	0x4
+ 799 0071 07       		.byte	0x7
+ 800 0072 FC010000 		.4byte	.LASF8
+ 801 0076 03       		.uleb128 0x3
+ 802 0077 54030000 		.4byte	.LASF10
+ 803 007b 03       		.byte	0x3
+ 804 007c 2C       		.byte	0x2c
+ 805 007d 41000000 		.4byte	0x41
+ 806 0081 05       		.uleb128 0x5
+ 807 0082 F1000000 		.4byte	.LASF11
+ 808 0086 04       		.byte	0x4
+ 809 0087 9201     		.2byte	0x192
+ 810 0089 2C000000 		.4byte	0x2c
+ 811 008d 05       		.uleb128 0x5
+ 812 008e 87030000 		.4byte	.LASF12
+ 813 0092 04       		.byte	0x4
+ 814 0093 9401     		.2byte	0x194
+ 815 0095 53000000 		.4byte	0x53
+ 816 0099 02       		.uleb128 0x2
+ 817 009a 04       		.byte	0x4
+ 818 009b 04       		.byte	0x4
+ 819 009c 12010000 		.4byte	.LASF13
+ 820 00a0 02       		.uleb128 0x2
+ 821 00a1 08       		.byte	0x8
+ 822 00a2 04       		.byte	0x4
+ 823 00a3 0D040000 		.4byte	.LASF14
+ 824 00a7 05       		.uleb128 0x5
+ 825 00a8 75000000 		.4byte	.LASF15
+ 826 00ac 04       		.byte	0x4
+ 827 00ad A301     		.2byte	0x1a3
+ 828 00af B3000000 		.4byte	0xb3
+ 829 00b3 02       		.uleb128 0x2
+ 830 00b4 01       		.byte	0x1
+ 831 00b5 08       		.byte	0x8
+ 832 00b6 9D020000 		.4byte	.LASF16
+ 833 00ba 05       		.uleb128 0x5
+ 834 00bb A0010000 		.4byte	.LASF17
+ 835 00bf 04       		.byte	0x4
+ 836 00c0 4E02     		.2byte	0x24e
+ 837 00c2 C6000000 		.4byte	0xc6
+ 838 00c6 06       		.uleb128 0x6
+ 839 00c7 04       		.byte	0x4
+ 840 00c8 CC000000 		.4byte	0xcc
+ 841 00cc 07       		.uleb128 0x7
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 21
+
+
+ 842 00cd 02       		.uleb128 0x2
+ 843 00ce 04       		.byte	0x4
+ 844 00cf 07       		.byte	0x7
+ 845 00d0 65000000 		.4byte	.LASF18
+ 846 00d4 06       		.uleb128 0x6
+ 847 00d5 04       		.byte	0x4
+ 848 00d6 B3000000 		.4byte	0xb3
+ 849 00da 06       		.uleb128 0x6
+ 850 00db 04       		.byte	0x4
+ 851 00dc E0000000 		.4byte	0xe0
+ 852 00e0 08       		.uleb128 0x8
+ 853 00e1 B3000000 		.4byte	0xb3
+ 854 00e5 02       		.uleb128 0x2
+ 855 00e6 08       		.byte	0x8
+ 856 00e7 04       		.byte	0x4
+ 857 00e8 7D010000 		.4byte	.LASF19
+ 858 00ec 09       		.uleb128 0x9
+ 859 00ed 14040000 		.4byte	.LASF20
+ 860 00f1 01       		.byte	0x1
+ 861 00f2 5A       		.byte	0x5a
+ 862 00f3 00000000 		.4byte	.LFB65
+ 863 00f7 68000000 		.4byte	.LFE65-.LFB65
+ 864 00fb 01       		.uleb128 0x1
+ 865 00fc 9C       		.byte	0x9c
+ 866 00fd 7C010000 		.4byte	0x17c
+ 867 0101 0A       		.uleb128 0xa
+ 868 0102 2A000000 		.4byte	.LVL1
+ 869 0106 99050000 		.4byte	0x599
+ 870 010a 21010000 		.4byte	0x121
+ 871 010e 0B       		.uleb128 0xb
+ 872 010f 01       		.uleb128 0x1
+ 873 0110 51       		.byte	0x51
+ 874 0111 05       		.uleb128 0x5
+ 875 0112 03       		.byte	0x3
+ 876 0113 0C000000 		.4byte	.LC1
+ 877 0117 0B       		.uleb128 0xb
+ 878 0118 01       		.uleb128 0x1
+ 879 0119 50       		.byte	0x50
+ 880 011a 05       		.uleb128 0x5
+ 881 011b 03       		.byte	0x3
+ 882 011c 00000000 		.4byte	str
+ 883 0120 00       		.byte	0
+ 884 0121 0A       		.uleb128 0xa
+ 885 0122 32000000 		.4byte	.LVL2
+ 886 0126 B4050000 		.4byte	0x5b4
+ 887 012a 39010000 		.4byte	0x139
+ 888 012e 0B       		.uleb128 0xb
+ 889 012f 01       		.uleb128 0x1
+ 890 0130 51       		.byte	0x51
+ 891 0131 01       		.uleb128 0x1
+ 892 0132 30       		.byte	0x30
+ 893 0133 0B       		.uleb128 0xb
+ 894 0134 01       		.uleb128 0x1
+ 895 0135 50       		.byte	0x50
+ 896 0136 01       		.uleb128 0x1
+ 897 0137 31       		.byte	0x31
+ 898 0138 00       		.byte	0
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 22
+
+
+ 899 0139 0A       		.uleb128 0xa
+ 900 013a 38000000 		.4byte	.LVL3
+ 901 013e CA050000 		.4byte	0x5ca
+ 902 0142 50010000 		.4byte	0x150
+ 903 0146 0B       		.uleb128 0xb
+ 904 0147 01       		.uleb128 0x1
+ 905 0148 50       		.byte	0x50
+ 906 0149 05       		.uleb128 0x5
+ 907 014a 03       		.byte	0x3
+ 908 014b 18000000 		.4byte	.LC2
+ 909 014f 00       		.byte	0
+ 910 0150 0A       		.uleb128 0xa
+ 911 0151 40000000 		.4byte	.LVL4
+ 912 0155 B4050000 		.4byte	0x5b4
+ 913 0159 68010000 		.4byte	0x168
+ 914 015d 0B       		.uleb128 0xb
+ 915 015e 01       		.uleb128 0x1
+ 916 015f 51       		.byte	0x51
+ 917 0160 01       		.uleb128 0x1
+ 918 0161 30       		.byte	0x30
+ 919 0162 0B       		.uleb128 0xb
+ 920 0163 01       		.uleb128 0x1
+ 921 0164 50       		.byte	0x50
+ 922 0165 01       		.uleb128 0x1
+ 923 0166 31       		.byte	0x31
+ 924 0167 00       		.byte	0
+ 925 0168 0C       		.uleb128 0xc
+ 926 0169 46000000 		.4byte	.LVL5
+ 927 016d CA050000 		.4byte	0x5ca
+ 928 0171 0B       		.uleb128 0xb
+ 929 0172 01       		.uleb128 0x1
+ 930 0173 50       		.byte	0x50
+ 931 0174 05       		.uleb128 0x5
+ 932 0175 03       		.byte	0x3
+ 933 0176 00000000 		.4byte	str
+ 934 017a 00       		.byte	0
+ 935 017b 00       		.byte	0
+ 936 017c 0D       		.uleb128 0xd
+ 937 017d B3000000 		.4byte	.LASF21
+ 938 0181 01       		.byte	0x1
+ 939 0182 83       		.byte	0x83
+ 940 0183 00000000 		.4byte	.LFB67
+ 941 0187 44000000 		.4byte	.LFE67-.LFB67
+ 942 018b 01       		.uleb128 0x1
+ 943 018c 9C       		.byte	0x9c
+ 944 018d 0F020000 		.4byte	0x20f
+ 945 0191 0E       		.uleb128 0xe
+ 946 0192 06000000 		.4byte	.LVL6
+ 947 0196 E6050000 		.4byte	0x5e6
+ 948 019a 0A       		.uleb128 0xa
+ 949 019b 16000000 		.4byte	.LVL7
+ 950 019f 99050000 		.4byte	0x599
+ 951 01a3 B7010000 		.4byte	0x1b7
+ 952 01a7 0B       		.uleb128 0xb
+ 953 01a8 01       		.uleb128 0x1
+ 954 01a9 51       		.byte	0x51
+ 955 01aa 05       		.uleb128 0x5
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 23
+
+
+ 956 01ab 03       		.byte	0x3
+ 957 01ac 28000000 		.4byte	.LC3
+ 958 01b0 0B       		.uleb128 0xb
+ 959 01b1 01       		.uleb128 0x1
+ 960 01b2 50       		.byte	0x50
+ 961 01b3 02       		.uleb128 0x2
+ 962 01b4 74       		.byte	0x74
+ 963 01b5 00       		.sleb128 0
+ 964 01b6 00       		.byte	0
+ 965 01b7 0A       		.uleb128 0xa
+ 966 01b8 1E000000 		.4byte	.LVL8
+ 967 01bc B4050000 		.4byte	0x5b4
+ 968 01c0 CF010000 		.4byte	0x1cf
+ 969 01c4 0B       		.uleb128 0xb
+ 970 01c5 01       		.uleb128 0x1
+ 971 01c6 51       		.byte	0x51
+ 972 01c7 01       		.uleb128 0x1
+ 973 01c8 30       		.byte	0x30
+ 974 01c9 0B       		.uleb128 0xb
+ 975 01ca 01       		.uleb128 0x1
+ 976 01cb 50       		.byte	0x50
+ 977 01cc 01       		.uleb128 0x1
+ 978 01cd 30       		.byte	0x30
+ 979 01ce 00       		.byte	0
+ 980 01cf 0A       		.uleb128 0xa
+ 981 01d0 24000000 		.4byte	.LVL9
+ 982 01d4 CA050000 		.4byte	0x5ca
+ 983 01d8 E6010000 		.4byte	0x1e6
+ 984 01dc 0B       		.uleb128 0xb
+ 985 01dd 01       		.uleb128 0x1
+ 986 01de 50       		.byte	0x50
+ 987 01df 05       		.uleb128 0x5
+ 988 01e0 03       		.byte	0x3
+ 989 01e1 18000000 		.4byte	.LC2
+ 990 01e5 00       		.byte	0
+ 991 01e6 0A       		.uleb128 0xa
+ 992 01e7 2C000000 		.4byte	.LVL10
+ 993 01eb B4050000 		.4byte	0x5b4
+ 994 01ef FE010000 		.4byte	0x1fe
+ 995 01f3 0B       		.uleb128 0xb
+ 996 01f4 01       		.uleb128 0x1
+ 997 01f5 51       		.byte	0x51
+ 998 01f6 01       		.uleb128 0x1
+ 999 01f7 30       		.byte	0x30
+ 1000 01f8 0B       		.uleb128 0xb
+ 1001 01f9 01       		.uleb128 0x1
+ 1002 01fa 50       		.byte	0x50
+ 1003 01fb 01       		.uleb128 0x1
+ 1004 01fc 30       		.byte	0x30
+ 1005 01fd 00       		.byte	0
+ 1006 01fe 0C       		.uleb128 0xc
+ 1007 01ff 32000000 		.4byte	.LVL11
+ 1008 0203 CA050000 		.4byte	0x5ca
+ 1009 0207 0B       		.uleb128 0xb
+ 1010 0208 01       		.uleb128 0x1
+ 1011 0209 50       		.byte	0x50
+ 1012 020a 02       		.uleb128 0x2
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 24
+
+
+ 1013 020b 74       		.byte	0x74
+ 1014 020c 00       		.sleb128 0
+ 1015 020d 00       		.byte	0
+ 1016 020e 00       		.byte	0
+ 1017 020f 0F       		.uleb128 0xf
+ 1018 0210 86000000 		.4byte	.LASF24
+ 1019 0214 01       		.byte	0x1
+ 1020 0215 41       		.byte	0x41
+ 1021 0216 00000000 		.4byte	.LFB63
+ 1022 021a 90000000 		.4byte	.LFE63-.LFB63
+ 1023 021e 01       		.uleb128 0x1
+ 1024 021f 9C       		.byte	0x9c
+ 1025 0220 37020000 		.4byte	0x237
+ 1026 0224 0E       		.uleb128 0xe
+ 1027 0225 22000000 		.4byte	.LVL13
+ 1028 0229 F1050000 		.4byte	0x5f1
+ 1029 022d 0E       		.uleb128 0xe
+ 1030 022e 36000000 		.4byte	.LVL15
+ 1031 0232 0B060000 		.4byte	0x60b
+ 1032 0236 00       		.byte	0
+ 1033 0237 09       		.uleb128 0x9
+ 1034 0238 83020000 		.4byte	.LASF22
+ 1035 023c 01       		.byte	0x1
+ 1036 023d 73       		.byte	0x73
+ 1037 023e 00000000 		.4byte	.LFB66
+ 1038 0242 38000000 		.4byte	.LFE66-.LFB66
+ 1039 0246 01       		.uleb128 0x1
+ 1040 0247 9C       		.byte	0x9c
+ 1041 0248 5F020000 		.4byte	0x25f
+ 1042 024c 0E       		.uleb128 0xe
+ 1043 024d 12000000 		.4byte	.LVL19
+ 1044 0251 20060000 		.4byte	0x620
+ 1045 0255 0E       		.uleb128 0xe
+ 1046 0256 28000000 		.4byte	.LVL22
+ 1047 025a 0F020000 		.4byte	0x20f
+ 1048 025e 00       		.byte	0
+ 1049 025f 0D       		.uleb128 0xd
+ 1050 0260 03010000 		.4byte	.LASF23
+ 1051 0264 01       		.byte	0x1
+ 1052 0265 4D       		.byte	0x4d
+ 1053 0266 00000000 		.4byte	.LFB64
+ 1054 026a 24000000 		.4byte	.LFE64-.LFB64
+ 1055 026e 01       		.uleb128 0x1
+ 1056 026f 9C       		.byte	0x9c
+ 1057 0270 99020000 		.4byte	0x299
+ 1058 0274 0E       		.uleb128 0xe
+ 1059 0275 0A000000 		.4byte	.LVL23
+ 1060 0279 2B060000 		.4byte	0x62b
+ 1061 027d 0E       		.uleb128 0xe
+ 1062 027e 10000000 		.4byte	.LVL24
+ 1063 0282 3C060000 		.4byte	0x63c
+ 1064 0286 0E       		.uleb128 0xe
+ 1065 0287 16000000 		.4byte	.LVL25
+ 1066 028b 4D060000 		.4byte	0x64d
+ 1067 028f 0E       		.uleb128 0xe
+ 1068 0290 1C000000 		.4byte	.LVL26
+ 1069 0294 5E060000 		.4byte	0x65e
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 25
+
+
+ 1070 0298 00       		.byte	0
+ 1071 0299 10       		.uleb128 0x10
+ 1072 029a 98020000 		.4byte	.LASF25
+ 1073 029e 01       		.byte	0x1
+ 1074 029f 94       		.byte	0x94
+ 1075 02a0 00000000 		.4byte	.LFB68
+ 1076 02a4 0A000000 		.4byte	.LFE68-.LFB68
+ 1077 02a8 01       		.uleb128 0x1
+ 1078 02a9 9C       		.byte	0x9c
+ 1079 02aa BE020000 		.4byte	0x2be
+ 1080 02ae 0C       		.uleb128 0xc
+ 1081 02af 08000000 		.4byte	.LVL27
+ 1082 02b3 6F060000 		.4byte	0x66f
+ 1083 02b7 0B       		.uleb128 0xb
+ 1084 02b8 01       		.uleb128 0x1
+ 1085 02b9 50       		.byte	0x50
+ 1086 02ba 01       		.uleb128 0x1
+ 1087 02bb 30       		.byte	0x30
+ 1088 02bc 00       		.byte	0
+ 1089 02bd 00       		.byte	0
+ 1090 02be 0F       		.uleb128 0xf
+ 1091 02bf 00000000 		.4byte	.LASF26
+ 1092 02c3 01       		.byte	0x1
+ 1093 02c4 9E       		.byte	0x9e
+ 1094 02c5 00000000 		.4byte	.LFB69
+ 1095 02c9 34000000 		.4byte	.LFE69-.LFB69
+ 1096 02cd 01       		.uleb128 0x1
+ 1097 02ce 9C       		.byte	0x9c
+ 1098 02cf F1020000 		.4byte	0x2f1
+ 1099 02d3 0A       		.uleb128 0xa
+ 1100 02d4 1E000000 		.4byte	.LVL29
+ 1101 02d8 6F060000 		.4byte	0x66f
+ 1102 02dc E7020000 		.4byte	0x2e7
+ 1103 02e0 0B       		.uleb128 0xb
+ 1104 02e1 01       		.uleb128 0x1
+ 1105 02e2 50       		.byte	0x50
+ 1106 02e3 02       		.uleb128 0x2
+ 1107 02e4 09       		.byte	0x9
+ 1108 02e5 AA       		.byte	0xaa
+ 1109 02e6 00       		.byte	0
+ 1110 02e7 0E       		.uleb128 0xe
+ 1111 02e8 24000000 		.4byte	.LVL30
+ 1112 02ec 99020000 		.4byte	0x299
+ 1113 02f0 00       		.byte	0
+ 1114 02f1 10       		.uleb128 0x10
+ 1115 02f2 A7030000 		.4byte	.LASF27
+ 1116 02f6 01       		.byte	0x1
+ 1117 02f7 AD       		.byte	0xad
+ 1118 02f8 00000000 		.4byte	.LFB70
+ 1119 02fc 0A000000 		.4byte	.LFE70-.LFB70
+ 1120 0300 01       		.uleb128 0x1
+ 1121 0301 9C       		.byte	0x9c
+ 1122 0302 17030000 		.4byte	0x317
+ 1123 0306 0C       		.uleb128 0xc
+ 1124 0307 08000000 		.4byte	.LVL31
+ 1125 030b 6F060000 		.4byte	0x66f
+ 1126 030f 0B       		.uleb128 0xb
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 26
+
+
+ 1127 0310 01       		.uleb128 0x1
+ 1128 0311 50       		.byte	0x50
+ 1129 0312 02       		.uleb128 0x2
+ 1130 0313 08       		.byte	0x8
+ 1131 0314 55       		.byte	0x55
+ 1132 0315 00       		.byte	0
+ 1133 0316 00       		.byte	0
+ 1134 0317 11       		.uleb128 0x11
+ 1135 0318 96000000 		.4byte	.LASF71
+ 1136 031c 01       		.byte	0x1
+ 1137 031d B6       		.byte	0xb6
+ 1138 031e 68000000 		.4byte	0x68
+ 1139 0322 00000000 		.4byte	.LFB71
+ 1140 0326 4C010000 		.4byte	.LFE71-.LFB71
+ 1141 032a 01       		.uleb128 0x1
+ 1142 032b 9C       		.byte	0x9c
+ 1143 032c F0040000 		.4byte	0x4f0
+ 1144 0330 12       		.uleb128 0x12
+ 1145 0331 6300     		.ascii	"c\000"
+ 1146 0333 01       		.byte	0x1
+ 1147 0334 D5       		.byte	0xd5
+ 1148 0335 81000000 		.4byte	0x81
+ 1149 0339 00000000 		.4byte	.LLST0
+ 1150 033d 0E       		.uleb128 0xe
+ 1151 033e 06000000 		.4byte	.LVL32
+ 1152 0342 80060000 		.4byte	0x680
+ 1153 0346 0E       		.uleb128 0xe
+ 1154 0347 0A000000 		.4byte	.LVL33
+ 1155 034b 87060000 		.4byte	0x687
+ 1156 034f 0E       		.uleb128 0xe
+ 1157 0350 0E000000 		.4byte	.LVL34
+ 1158 0354 8E060000 		.4byte	0x68e
+ 1159 0358 0E       		.uleb128 0xe
+ 1160 0359 12000000 		.4byte	.LVL35
+ 1161 035d 95060000 		.4byte	0x695
+ 1162 0361 0A       		.uleb128 0xa
+ 1163 0362 18000000 		.4byte	.LVL36
+ 1164 0366 9C060000 		.4byte	0x69c
+ 1165 036a 74030000 		.4byte	0x374
+ 1166 036e 0B       		.uleb128 0xb
+ 1167 036f 01       		.uleb128 0x1
+ 1168 0370 50       		.byte	0x50
+ 1169 0371 01       		.uleb128 0x1
+ 1170 0372 31       		.byte	0x31
+ 1171 0373 00       		.byte	0
+ 1172 0374 0E       		.uleb128 0xe
+ 1173 0375 1C000000 		.4byte	.LVL37
+ 1174 0379 AD060000 		.4byte	0x6ad
+ 1175 037d 0E       		.uleb128 0xe
+ 1176 037e 20000000 		.4byte	.LVL38
+ 1177 0382 B4060000 		.4byte	0x6b4
+ 1178 0386 0E       		.uleb128 0xe
+ 1179 0387 24000000 		.4byte	.LVL39
+ 1180 038b BB060000 		.4byte	0x6bb
+ 1181 038f 0E       		.uleb128 0xe
+ 1182 0390 28000000 		.4byte	.LVL40
+ 1183 0394 C2060000 		.4byte	0x6c2
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 27
+
+
+ 1184 0398 0E       		.uleb128 0xe
+ 1185 0399 2C000000 		.4byte	.LVL41
+ 1186 039d C9060000 		.4byte	0x6c9
+ 1187 03a1 0E       		.uleb128 0xe
+ 1188 03a2 30000000 		.4byte	.LVL42
+ 1189 03a6 D0060000 		.4byte	0x6d0
+ 1190 03aa 0E       		.uleb128 0xe
+ 1191 03ab 34000000 		.4byte	.LVL43
+ 1192 03af D7060000 		.4byte	0x6d7
+ 1193 03b3 0A       		.uleb128 0xa
+ 1194 03b4 3C000000 		.4byte	.LVL44
+ 1195 03b8 DE060000 		.4byte	0x6de
+ 1196 03bc CA030000 		.4byte	0x3ca
+ 1197 03c0 0B       		.uleb128 0xb
+ 1198 03c1 01       		.uleb128 0x1
+ 1199 03c2 50       		.byte	0x50
+ 1200 03c3 05       		.uleb128 0x5
+ 1201 03c4 03       		.byte	0x3
+ 1202 03c5 00000000 		.4byte	Interrupt_TX_Handler
+ 1203 03c9 00       		.byte	0
+ 1204 03ca 0A       		.uleb128 0xa
+ 1205 03cb 42000000 		.4byte	.LVL45
+ 1206 03cf EF060000 		.4byte	0x6ef
+ 1207 03d3 E1030000 		.4byte	0x3e1
+ 1208 03d7 0B       		.uleb128 0xb
+ 1209 03d8 01       		.uleb128 0x1
+ 1210 03d9 50       		.byte	0x50
+ 1211 03da 05       		.uleb128 0x5
+ 1212 03db 03       		.byte	0x3
+ 1213 03dc 00000000 		.4byte	Interrupt_RX_Handler
+ 1214 03e0 00       		.byte	0
+ 1215 03e1 0A       		.uleb128 0xa
+ 1216 03e2 48000000 		.4byte	.LVL46
+ 1217 03e6 00070000 		.4byte	0x700
+ 1218 03ea F8030000 		.4byte	0x3f8
+ 1219 03ee 0B       		.uleb128 0xb
+ 1220 03ef 01       		.uleb128 0x1
+ 1221 03f0 50       		.byte	0x50
+ 1222 03f1 05       		.uleb128 0x5
+ 1223 03f2 03       		.byte	0x3
+ 1224 03f3 00000000 		.4byte	Interrupt_Xbee_Handler
+ 1225 03f7 00       		.byte	0
+ 1226 03f8 0E       		.uleb128 0xe
+ 1227 03f9 4C000000 		.4byte	.LVL47
+ 1228 03fd 11070000 		.4byte	0x711
+ 1229 0401 0E       		.uleb128 0xe
+ 1230 0402 50000000 		.4byte	.LVL48
+ 1231 0406 18070000 		.4byte	0x718
+ 1232 040a 0E       		.uleb128 0xe
+ 1233 040b 54000000 		.4byte	.LVL49
+ 1234 040f 1F070000 		.4byte	0x71f
+ 1235 0413 0E       		.uleb128 0xe
+ 1236 0414 58000000 		.4byte	.LVL50
+ 1237 0418 26070000 		.4byte	0x726
+ 1238 041c 0E       		.uleb128 0xe
+ 1239 041d 5C000000 		.4byte	.LVL51
+ 1240 0421 99020000 		.4byte	0x299
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 28
+
+
+ 1241 0425 0E       		.uleb128 0xe
+ 1242 0426 8C000000 		.4byte	.LVL53
+ 1243 042a BE020000 		.4byte	0x2be
+ 1244 042e 0E       		.uleb128 0xe
+ 1245 042f 90000000 		.4byte	.LVL54
+ 1246 0433 5F020000 		.4byte	0x25f
+ 1247 0437 0E       		.uleb128 0xe
+ 1248 0438 9E000000 		.4byte	.LVL56
+ 1249 043c F1020000 		.4byte	0x2f1
+ 1250 0440 0E       		.uleb128 0xe
+ 1251 0441 A2000000 		.4byte	.LVL57
+ 1252 0445 5F020000 		.4byte	0x25f
+ 1253 0449 0A       		.uleb128 0xa
+ 1254 044a B2000000 		.4byte	.LVL59
+ 1255 044e 6F060000 		.4byte	0x66f
+ 1256 0452 5D040000 		.4byte	0x45d
+ 1257 0456 0B       		.uleb128 0xb
+ 1258 0457 01       		.uleb128 0x1
+ 1259 0458 50       		.byte	0x50
+ 1260 0459 02       		.uleb128 0x2
+ 1261 045a 09       		.byte	0x9
+ 1262 045b A5       		.byte	0xa5
+ 1263 045c 00       		.byte	0
+ 1264 045d 0E       		.uleb128 0xe
+ 1265 045e B6000000 		.4byte	.LVL60
+ 1266 0462 5F020000 		.4byte	0x25f
+ 1267 0466 0A       		.uleb128 0xa
+ 1268 0467 C6000000 		.4byte	.LVL62
+ 1269 046b 6F060000 		.4byte	0x66f
+ 1270 046f 7A040000 		.4byte	0x47a
+ 1271 0473 0B       		.uleb128 0xb
+ 1272 0474 01       		.uleb128 0x1
+ 1273 0475 50       		.byte	0x50
+ 1274 0476 02       		.uleb128 0x2
+ 1275 0477 08       		.byte	0x8
+ 1276 0478 5A       		.byte	0x5a
+ 1277 0479 00       		.byte	0
+ 1278 047a 0E       		.uleb128 0xe
+ 1279 047b CA000000 		.4byte	.LVL63
+ 1280 047f 5F020000 		.4byte	0x25f
+ 1281 0483 0E       		.uleb128 0xe
+ 1282 0484 D8000000 		.4byte	.LVL65
+ 1283 0488 99020000 		.4byte	0x299
+ 1284 048c 0E       		.uleb128 0xe
+ 1285 048d DC000000 		.4byte	.LVL66
+ 1286 0491 5F020000 		.4byte	0x25f
+ 1287 0495 0E       		.uleb128 0xe
+ 1288 0496 F2000000 		.4byte	.LVL68
+ 1289 049a 2D070000 		.4byte	0x72d
+ 1290 049e 0E       		.uleb128 0xe
+ 1291 049f FA000000 		.4byte	.LVL69
+ 1292 04a3 3C060000 		.4byte	0x63c
+ 1293 04a7 0E       		.uleb128 0xe
+ 1294 04a8 FE000000 		.4byte	.LVL70
+ 1295 04ac 38070000 		.4byte	0x738
+ 1296 04b0 0E       		.uleb128 0xe
+ 1297 04b1 06010000 		.4byte	.LVL71
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 29
+
+
+ 1298 04b5 5E060000 		.4byte	0x65e
+ 1299 04b9 0E       		.uleb128 0xe
+ 1300 04ba 0A010000 		.4byte	.LVL72
+ 1301 04be BE020000 		.4byte	0x2be
+ 1302 04c2 0E       		.uleb128 0xe
+ 1303 04c3 20010000 		.4byte	.LVL74
+ 1304 04c7 2D070000 		.4byte	0x72d
+ 1305 04cb 0E       		.uleb128 0xe
+ 1306 04cc 28010000 		.4byte	.LVL75
+ 1307 04d0 2B060000 		.4byte	0x62b
+ 1308 04d4 0E       		.uleb128 0xe
+ 1309 04d5 2C010000 		.4byte	.LVL76
+ 1310 04d9 38070000 		.4byte	0x738
+ 1311 04dd 0E       		.uleb128 0xe
+ 1312 04de 34010000 		.4byte	.LVL77
+ 1313 04e2 4D060000 		.4byte	0x64d
+ 1314 04e6 0E       		.uleb128 0xe
+ 1315 04e7 38010000 		.4byte	.LVL78
+ 1316 04eb BE020000 		.4byte	0x2be
+ 1317 04ef 00       		.byte	0
+ 1318 04f0 13       		.uleb128 0x13
+ 1319 04f1 A2020000 		.4byte	.LASF28
+ 1320 04f5 05       		.byte	0x5
+ 1321 04f6 9606     		.2byte	0x696
+ 1322 04f8 FC040000 		.4byte	0x4fc
+ 1323 04fc 14       		.uleb128 0x14
+ 1324 04fd 76000000 		.4byte	0x76
+ 1325 0501 15       		.uleb128 0x15
+ 1326 0502 B0030000 		.4byte	.LASF29
+ 1327 0506 01       		.byte	0x1
+ 1328 0507 32       		.byte	0x32
+ 1329 0508 B3000000 		.4byte	0xb3
+ 1330 050c 05       		.uleb128 0x5
+ 1331 050d 03       		.byte	0x3
+ 1332 050e 00000000 		.4byte	response
+ 1333 0512 15       		.uleb128 0x15
+ 1334 0513 6E000000 		.4byte	.LASF30
+ 1335 0517 01       		.byte	0x1
+ 1336 0518 33       		.byte	0x33
+ 1337 0519 A0000000 		.4byte	0xa0
+ 1338 051d 05       		.uleb128 0x5
+ 1339 051e 03       		.byte	0x3
+ 1340 051f 00000000 		.4byte	chrono
+ 1341 0523 15       		.uleb128 0x15
+ 1342 0524 7A020000 		.4byte	.LASF31
+ 1343 0528 01       		.byte	0x1
+ 1344 0529 34       		.byte	0x34
+ 1345 052a A0000000 		.4byte	0xa0
+ 1346 052e 05       		.uleb128 0x5
+ 1347 052f 03       		.byte	0x3
+ 1348 0530 00000000 		.4byte	distance
+ 1349 0534 15       		.uleb128 0x15
+ 1350 0535 D4000000 		.4byte	.LASF32
+ 1351 0539 01       		.byte	0x1
+ 1352 053a 35       		.byte	0x35
+ 1353 053b A0000000 		.4byte	0xa0
+ 1354 053f 05       		.uleb128 0x5
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 30
+
+
+ 1355 0540 03       		.byte	0x3
+ 1356 0541 00000000 		.4byte	realDistance
+ 1357 0545 15       		.uleb128 0x15
+ 1358 0546 54040000 		.4byte	.LASF33
+ 1359 054a 01       		.byte	0x1
+ 1360 054b 36       		.byte	0x36
+ 1361 054c A0000000 		.4byte	0xa0
+ 1362 0550 05       		.uleb128 0x5
+ 1363 0551 03       		.byte	0x3
+ 1364 0552 00000000 		.4byte	calibratedDistance
+ 1365 0556 16       		.uleb128 0x16
+ 1366 0557 A7000000 		.4byte	0xa7
+ 1367 055b 66050000 		.4byte	0x566
+ 1368 055f 17       		.uleb128 0x17
+ 1369 0560 CD000000 		.4byte	0xcd
+ 1370 0564 09       		.byte	0x9
+ 1371 0565 00       		.byte	0
+ 1372 0566 18       		.uleb128 0x18
+ 1373 0567 73747200 		.ascii	"str\000"
+ 1374 056b 01       		.byte	0x1
+ 1375 056c 37       		.byte	0x37
+ 1376 056d 56050000 		.4byte	0x556
+ 1377 0571 05       		.uleb128 0x5
+ 1378 0572 03       		.byte	0x3
+ 1379 0573 00000000 		.4byte	str
+ 1380 0577 15       		.uleb128 0x15
+ 1381 0578 75010000 		.4byte	.LASF34
+ 1382 057c 01       		.byte	0x1
+ 1383 057d 38       		.byte	0x38
+ 1384 057e 81000000 		.4byte	0x81
+ 1385 0582 05       		.uleb128 0x5
+ 1386 0583 03       		.byte	0x3
+ 1387 0584 00000000 		.4byte	vitesse
+ 1388 0588 15       		.uleb128 0x15
+ 1389 0589 29040000 		.4byte	.LASF35
+ 1390 058d 01       		.byte	0x1
+ 1391 058e 39       		.byte	0x39
+ 1392 058f B3000000 		.4byte	0xb3
+ 1393 0593 05       		.uleb128 0x5
+ 1394 0594 03       		.byte	0x3
+ 1395 0595 00000000 		.4byte	instruction
+ 1396 0599 19       		.uleb128 0x19
+ 1397 059a AD010000 		.4byte	.LASF38
+ 1398 059e 07       		.byte	0x7
+ 1399 059f DE       		.byte	0xde
+ 1400 05a0 68000000 		.4byte	0x68
+ 1401 05a4 B4050000 		.4byte	0x5b4
+ 1402 05a8 1A       		.uleb128 0x1a
+ 1403 05a9 D4000000 		.4byte	0xd4
+ 1404 05ad 1A       		.uleb128 0x1a
+ 1405 05ae DA000000 		.4byte	0xda
+ 1406 05b2 1B       		.uleb128 0x1b
+ 1407 05b3 00       		.byte	0
+ 1408 05b4 1C       		.uleb128 0x1c
+ 1409 05b5 F1030000 		.4byte	.LASF36
+ 1410 05b9 06       		.byte	0x6
+ 1411 05ba 3D       		.byte	0x3d
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 31
+
+
+ 1412 05bb CA050000 		.4byte	0x5ca
+ 1413 05bf 1A       		.uleb128 0x1a
+ 1414 05c0 81000000 		.4byte	0x81
+ 1415 05c4 1A       		.uleb128 0x1a
+ 1416 05c5 81000000 		.4byte	0x81
+ 1417 05c9 00       		.byte	0
+ 1418 05ca 1C       		.uleb128 0x1c
+ 1419 05cb 09020000 		.4byte	.LASF37
+ 1420 05cf 06       		.byte	0x6
+ 1421 05d0 3C       		.byte	0x3c
+ 1422 05d1 DB050000 		.4byte	0x5db
+ 1423 05d5 1A       		.uleb128 0x1a
+ 1424 05d6 DB050000 		.4byte	0x5db
+ 1425 05da 00       		.byte	0
+ 1426 05db 06       		.uleb128 0x6
+ 1427 05dc 04       		.byte	0x4
+ 1428 05dd E1050000 		.4byte	0x5e1
+ 1429 05e1 08       		.uleb128 0x8
+ 1430 05e2 A7000000 		.4byte	0xa7
+ 1431 05e6 1D       		.uleb128 0x1d
+ 1432 05e7 47040000 		.4byte	.LASF40
+ 1433 05eb 09       		.byte	0x9
+ 1434 05ec 71       		.byte	0x71
+ 1435 05ed 81000000 		.4byte	0x81
+ 1436 05f1 1E       		.uleb128 0x1e
+ 1437 05f2 706F7700 		.ascii	"pow\000"
+ 1438 05f6 08       		.byte	0x8
+ 1439 05f7 85       		.byte	0x85
+ 1440 05f8 A0000000 		.4byte	0xa0
+ 1441 05fc 0B060000 		.4byte	0x60b
+ 1442 0600 1A       		.uleb128 0x1a
+ 1443 0601 A0000000 		.4byte	0xa0
+ 1444 0605 1A       		.uleb128 0x1a
+ 1445 0606 A0000000 		.4byte	0xa0
+ 1446 060a 00       		.byte	0
+ 1447 060b 19       		.uleb128 0x19
+ 1448 060c B9030000 		.4byte	.LASF39
+ 1449 0610 08       		.byte	0x8
+ 1450 0611 86       		.byte	0x86
+ 1451 0612 A0000000 		.4byte	0xa0
+ 1452 0616 20060000 		.4byte	0x620
+ 1453 061a 1A       		.uleb128 0x1a
+ 1454 061b A0000000 		.4byte	0xa0
+ 1455 061f 00       		.byte	0
+ 1456 0620 1D       		.uleb128 0x1d
+ 1457 0621 9B000000 		.4byte	.LASF41
+ 1458 0625 0A       		.byte	0xa
+ 1459 0626 5D       		.byte	0x5d
+ 1460 0627 8D000000 		.4byte	0x8d
+ 1461 062b 1C       		.uleb128 0x1c
+ 1462 062c B5010000 		.4byte	.LASF42
+ 1463 0630 0B       		.byte	0xb
+ 1464 0631 C7       		.byte	0xc7
+ 1465 0632 3C060000 		.4byte	0x63c
+ 1466 0636 1A       		.uleb128 0x1a
+ 1467 0637 81000000 		.4byte	0x81
+ 1468 063b 00       		.byte	0
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 32
+
+
+ 1469 063c 1C       		.uleb128 0x1c
+ 1470 063d CD010000 		.4byte	.LASF43
+ 1471 0641 0B       		.byte	0xb
+ 1472 0642 CA       		.byte	0xca
+ 1473 0643 4D060000 		.4byte	0x64d
+ 1474 0647 1A       		.uleb128 0x1a
+ 1475 0648 81000000 		.4byte	0x81
+ 1476 064c 00       		.byte	0
+ 1477 064d 1C       		.uleb128 0x1c
+ 1478 064e 16000000 		.4byte	.LASF44
+ 1479 0652 0C       		.byte	0xc
+ 1480 0653 C7       		.byte	0xc7
+ 1481 0654 5E060000 		.4byte	0x65e
+ 1482 0658 1A       		.uleb128 0x1a
+ 1483 0659 81000000 		.4byte	0x81
+ 1484 065d 00       		.byte	0
+ 1485 065e 1C       		.uleb128 0x1c
+ 1486 065f 2D000000 		.4byte	.LASF45
+ 1487 0663 0C       		.byte	0xc
+ 1488 0664 CA       		.byte	0xca
+ 1489 0665 6F060000 		.4byte	0x66f
+ 1490 0669 1A       		.uleb128 0x1a
+ 1491 066a 81000000 		.4byte	0x81
+ 1492 066e 00       		.byte	0
+ 1493 066f 1C       		.uleb128 0x1c
+ 1494 0670 C8030000 		.4byte	.LASF46
+ 1495 0674 0D       		.byte	0xd
+ 1496 0675 27       		.byte	0x27
+ 1497 0676 80060000 		.4byte	0x680
+ 1498 067a 1A       		.uleb128 0x1a
+ 1499 067b 81000000 		.4byte	0x81
+ 1500 067f 00       		.byte	0
+ 1501 0680 1F       		.uleb128 0x1f
+ 1502 0681 3E010000 		.4byte	.LASF47
+ 1503 0685 0E       		.byte	0xe
+ 1504 0686 27       		.byte	0x27
+ 1505 0687 1F       		.uleb128 0x1f
+ 1506 0688 08000000 		.4byte	.LASF48
+ 1507 068c 0F       		.byte	0xf
+ 1508 068d 27       		.byte	0x27
+ 1509 068e 1F       		.uleb128 0x1f
+ 1510 068f 34020000 		.4byte	.LASF49
+ 1511 0693 10       		.byte	0x10
+ 1512 0694 27       		.byte	0x27
+ 1513 0695 1F       		.uleb128 0x1f
+ 1514 0696 6B010000 		.4byte	.LASF50
+ 1515 069a 06       		.byte	0x6
+ 1516 069b 38       		.byte	0x38
+ 1517 069c 1C       		.uleb128 0x1c
+ 1518 069d 54000000 		.4byte	.LASF51
+ 1519 06a1 06       		.byte	0x6
+ 1520 06a2 3A       		.byte	0x3a
+ 1521 06a3 AD060000 		.4byte	0x6ad
+ 1522 06a7 1A       		.uleb128 0x1a
+ 1523 06a8 81000000 		.4byte	0x81
+ 1524 06ac 00       		.byte	0
+ 1525 06ad 1F       		.uleb128 0x1f
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 33
+
+
+ 1526 06ae 35040000 		.4byte	.LASF52
+ 1527 06b2 0A       		.byte	0xa
+ 1528 06b3 4F       		.byte	0x4f
+ 1529 06b4 1F       		.uleb128 0x1f
+ 1530 06b5 19020000 		.4byte	.LASF53
+ 1531 06b9 11       		.byte	0x11
+ 1532 06ba 3F       		.byte	0x3f
+ 1533 06bb 1F       		.uleb128 0x1f
+ 1534 06bc 5C030000 		.4byte	.LASF54
+ 1535 06c0 12       		.byte	0x12
+ 1536 06c1 4F       		.byte	0x4f
+ 1537 06c2 1F       		.uleb128 0x1f
+ 1538 06c3 E0030000 		.4byte	.LASF55
+ 1539 06c7 13       		.byte	0x13
+ 1540 06c8 92       		.byte	0x92
+ 1541 06c9 1F       		.uleb128 0x1f
+ 1542 06ca 44000000 		.4byte	.LASF56
+ 1543 06ce 14       		.byte	0x14
+ 1544 06cf 3E       		.byte	0x3e
+ 1545 06d0 1F       		.uleb128 0x1f
+ 1546 06d1 6A020000 		.4byte	.LASF57
+ 1547 06d5 15       		.byte	0x15
+ 1548 06d6 33       		.byte	0x33
+ 1549 06d7 1F       		.uleb128 0x1f
+ 1550 06d8 26010000 		.4byte	.LASF58
+ 1551 06dc 16       		.byte	0x16
+ 1552 06dd 5A       		.byte	0x5a
+ 1553 06de 1C       		.uleb128 0x1c
+ 1554 06df 48010000 		.4byte	.LASF59
+ 1555 06e3 17       		.byte	0x17
+ 1556 06e4 18       		.byte	0x18
+ 1557 06e5 EF060000 		.4byte	0x6ef
+ 1558 06e9 1A       		.uleb128 0x1a
+ 1559 06ea BA000000 		.4byte	0xba
+ 1560 06ee 00       		.byte	0
+ 1561 06ef 1C       		.uleb128 0x1c
+ 1562 06f0 42020000 		.4byte	.LASF60
+ 1563 06f4 18       		.byte	0x18
+ 1564 06f5 18       		.byte	0x18
+ 1565 06f6 00070000 		.4byte	0x700
+ 1566 06fa 1A       		.uleb128 0x1a
+ 1567 06fb BA000000 		.4byte	0xba
+ 1568 06ff 00       		.byte	0
+ 1569 0700 1C       		.uleb128 0x1c
+ 1570 0701 3D030000 		.4byte	.LASF61
+ 1571 0705 19       		.byte	0x19
+ 1572 0706 18       		.byte	0x18
+ 1573 0707 11070000 		.4byte	0x711
+ 1574 070b 1A       		.uleb128 0x1a
+ 1575 070c BA000000 		.4byte	0xba
+ 1576 0710 00       		.byte	0
+ 1577 0711 1F       		.uleb128 0x1f
+ 1578 0712 2A020000 		.4byte	.LASF62
+ 1579 0716 09       		.byte	0x9
+ 1580 0717 59       		.byte	0x59
+ 1581 0718 1F       		.uleb128 0x1f
+ 1582 0719 7B000000 		.4byte	.LASF63
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 34
+
+
+ 1583 071d 09       		.byte	0x9
+ 1584 071e 54       		.byte	0x54
+ 1585 071f 1F       		.uleb128 0x1f
+ 1586 0720 E1000000 		.4byte	.LASF64
+ 1587 0724 0B       		.byte	0xb
+ 1588 0725 92       		.byte	0x92
+ 1589 0726 1F       		.uleb128 0x1f
+ 1590 0727 FE030000 		.4byte	.LASF65
+ 1591 072b 0C       		.byte	0xc
+ 1592 072c 92       		.byte	0x92
+ 1593 072d 1D       		.uleb128 0x1d
+ 1594 072e 89010000 		.4byte	.LASF66
+ 1595 0732 0B       		.byte	0xb
+ 1596 0733 C9       		.byte	0xc9
+ 1597 0734 81000000 		.4byte	0x81
+ 1598 0738 1D       		.uleb128 0x1d
+ 1599 0739 71030000 		.4byte	.LASF67
+ 1600 073d 0C       		.byte	0xc
+ 1601 073e C9       		.byte	0xc9
+ 1602 073f 81000000 		.4byte	0x81
+ 1603 0743 00       		.byte	0
+ 1604              		.section	.debug_abbrev,"",%progbits
+ 1605              	.Ldebug_abbrev0:
+ 1606 0000 01       		.uleb128 0x1
+ 1607 0001 11       		.uleb128 0x11
+ 1608 0002 01       		.byte	0x1
+ 1609 0003 25       		.uleb128 0x25
+ 1610 0004 0E       		.uleb128 0xe
+ 1611 0005 13       		.uleb128 0x13
+ 1612 0006 0B       		.uleb128 0xb
+ 1613 0007 03       		.uleb128 0x3
+ 1614 0008 0E       		.uleb128 0xe
+ 1615 0009 1B       		.uleb128 0x1b
+ 1616 000a 0E       		.uleb128 0xe
+ 1617 000b 55       		.uleb128 0x55
+ 1618 000c 17       		.uleb128 0x17
+ 1619 000d 11       		.uleb128 0x11
+ 1620 000e 01       		.uleb128 0x1
+ 1621 000f 10       		.uleb128 0x10
+ 1622 0010 17       		.uleb128 0x17
+ 1623 0011 00       		.byte	0
+ 1624 0012 00       		.byte	0
+ 1625 0013 02       		.uleb128 0x2
+ 1626 0014 24       		.uleb128 0x24
+ 1627 0015 00       		.byte	0
+ 1628 0016 0B       		.uleb128 0xb
+ 1629 0017 0B       		.uleb128 0xb
+ 1630 0018 3E       		.uleb128 0x3e
+ 1631 0019 0B       		.uleb128 0xb
+ 1632 001a 03       		.uleb128 0x3
+ 1633 001b 0E       		.uleb128 0xe
+ 1634 001c 00       		.byte	0
+ 1635 001d 00       		.byte	0
+ 1636 001e 03       		.uleb128 0x3
+ 1637 001f 16       		.uleb128 0x16
+ 1638 0020 00       		.byte	0
+ 1639 0021 03       		.uleb128 0x3
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 35
+
+
+ 1640 0022 0E       		.uleb128 0xe
+ 1641 0023 3A       		.uleb128 0x3a
+ 1642 0024 0B       		.uleb128 0xb
+ 1643 0025 3B       		.uleb128 0x3b
+ 1644 0026 0B       		.uleb128 0xb
+ 1645 0027 49       		.uleb128 0x49
+ 1646 0028 13       		.uleb128 0x13
+ 1647 0029 00       		.byte	0
+ 1648 002a 00       		.byte	0
+ 1649 002b 04       		.uleb128 0x4
+ 1650 002c 24       		.uleb128 0x24
+ 1651 002d 00       		.byte	0
+ 1652 002e 0B       		.uleb128 0xb
+ 1653 002f 0B       		.uleb128 0xb
+ 1654 0030 3E       		.uleb128 0x3e
+ 1655 0031 0B       		.uleb128 0xb
+ 1656 0032 03       		.uleb128 0x3
+ 1657 0033 08       		.uleb128 0x8
+ 1658 0034 00       		.byte	0
+ 1659 0035 00       		.byte	0
+ 1660 0036 05       		.uleb128 0x5
+ 1661 0037 16       		.uleb128 0x16
+ 1662 0038 00       		.byte	0
+ 1663 0039 03       		.uleb128 0x3
+ 1664 003a 0E       		.uleb128 0xe
+ 1665 003b 3A       		.uleb128 0x3a
+ 1666 003c 0B       		.uleb128 0xb
+ 1667 003d 3B       		.uleb128 0x3b
+ 1668 003e 05       		.uleb128 0x5
+ 1669 003f 49       		.uleb128 0x49
+ 1670 0040 13       		.uleb128 0x13
+ 1671 0041 00       		.byte	0
+ 1672 0042 00       		.byte	0
+ 1673 0043 06       		.uleb128 0x6
+ 1674 0044 0F       		.uleb128 0xf
+ 1675 0045 00       		.byte	0
+ 1676 0046 0B       		.uleb128 0xb
+ 1677 0047 0B       		.uleb128 0xb
+ 1678 0048 49       		.uleb128 0x49
+ 1679 0049 13       		.uleb128 0x13
+ 1680 004a 00       		.byte	0
+ 1681 004b 00       		.byte	0
+ 1682 004c 07       		.uleb128 0x7
+ 1683 004d 15       		.uleb128 0x15
+ 1684 004e 00       		.byte	0
+ 1685 004f 27       		.uleb128 0x27
+ 1686 0050 19       		.uleb128 0x19
+ 1687 0051 00       		.byte	0
+ 1688 0052 00       		.byte	0
+ 1689 0053 08       		.uleb128 0x8
+ 1690 0054 26       		.uleb128 0x26
+ 1691 0055 00       		.byte	0
+ 1692 0056 49       		.uleb128 0x49
+ 1693 0057 13       		.uleb128 0x13
+ 1694 0058 00       		.byte	0
+ 1695 0059 00       		.byte	0
+ 1696 005a 09       		.uleb128 0x9
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 36
+
+
+ 1697 005b 2E       		.uleb128 0x2e
+ 1698 005c 01       		.byte	0x1
+ 1699 005d 3F       		.uleb128 0x3f
+ 1700 005e 19       		.uleb128 0x19
+ 1701 005f 03       		.uleb128 0x3
+ 1702 0060 0E       		.uleb128 0xe
+ 1703 0061 3A       		.uleb128 0x3a
+ 1704 0062 0B       		.uleb128 0xb
+ 1705 0063 3B       		.uleb128 0x3b
+ 1706 0064 0B       		.uleb128 0xb
+ 1707 0065 27       		.uleb128 0x27
+ 1708 0066 19       		.uleb128 0x19
+ 1709 0067 11       		.uleb128 0x11
+ 1710 0068 01       		.uleb128 0x1
+ 1711 0069 12       		.uleb128 0x12
+ 1712 006a 06       		.uleb128 0x6
+ 1713 006b 40       		.uleb128 0x40
+ 1714 006c 18       		.uleb128 0x18
+ 1715 006d 9642     		.uleb128 0x2116
+ 1716 006f 19       		.uleb128 0x19
+ 1717 0070 01       		.uleb128 0x1
+ 1718 0071 13       		.uleb128 0x13
+ 1719 0072 00       		.byte	0
+ 1720 0073 00       		.byte	0
+ 1721 0074 0A       		.uleb128 0xa
+ 1722 0075 898201   		.uleb128 0x4109
+ 1723 0078 01       		.byte	0x1
+ 1724 0079 11       		.uleb128 0x11
+ 1725 007a 01       		.uleb128 0x1
+ 1726 007b 31       		.uleb128 0x31
+ 1727 007c 13       		.uleb128 0x13
+ 1728 007d 01       		.uleb128 0x1
+ 1729 007e 13       		.uleb128 0x13
+ 1730 007f 00       		.byte	0
+ 1731 0080 00       		.byte	0
+ 1732 0081 0B       		.uleb128 0xb
+ 1733 0082 8A8201   		.uleb128 0x410a
+ 1734 0085 00       		.byte	0
+ 1735 0086 02       		.uleb128 0x2
+ 1736 0087 18       		.uleb128 0x18
+ 1737 0088 9142     		.uleb128 0x2111
+ 1738 008a 18       		.uleb128 0x18
+ 1739 008b 00       		.byte	0
+ 1740 008c 00       		.byte	0
+ 1741 008d 0C       		.uleb128 0xc
+ 1742 008e 898201   		.uleb128 0x4109
+ 1743 0091 01       		.byte	0x1
+ 1744 0092 11       		.uleb128 0x11
+ 1745 0093 01       		.uleb128 0x1
+ 1746 0094 31       		.uleb128 0x31
+ 1747 0095 13       		.uleb128 0x13
+ 1748 0096 00       		.byte	0
+ 1749 0097 00       		.byte	0
+ 1750 0098 0D       		.uleb128 0xd
+ 1751 0099 2E       		.uleb128 0x2e
+ 1752 009a 01       		.byte	0x1
+ 1753 009b 3F       		.uleb128 0x3f
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 37
+
+
+ 1754 009c 19       		.uleb128 0x19
+ 1755 009d 03       		.uleb128 0x3
+ 1756 009e 0E       		.uleb128 0xe
+ 1757 009f 3A       		.uleb128 0x3a
+ 1758 00a0 0B       		.uleb128 0xb
+ 1759 00a1 3B       		.uleb128 0x3b
+ 1760 00a2 0B       		.uleb128 0xb
+ 1761 00a3 27       		.uleb128 0x27
+ 1762 00a4 19       		.uleb128 0x19
+ 1763 00a5 11       		.uleb128 0x11
+ 1764 00a6 01       		.uleb128 0x1
+ 1765 00a7 12       		.uleb128 0x12
+ 1766 00a8 06       		.uleb128 0x6
+ 1767 00a9 40       		.uleb128 0x40
+ 1768 00aa 18       		.uleb128 0x18
+ 1769 00ab 9742     		.uleb128 0x2117
+ 1770 00ad 19       		.uleb128 0x19
+ 1771 00ae 01       		.uleb128 0x1
+ 1772 00af 13       		.uleb128 0x13
+ 1773 00b0 00       		.byte	0
+ 1774 00b1 00       		.byte	0
+ 1775 00b2 0E       		.uleb128 0xe
+ 1776 00b3 898201   		.uleb128 0x4109
+ 1777 00b6 00       		.byte	0
+ 1778 00b7 11       		.uleb128 0x11
+ 1779 00b8 01       		.uleb128 0x1
+ 1780 00b9 31       		.uleb128 0x31
+ 1781 00ba 13       		.uleb128 0x13
+ 1782 00bb 00       		.byte	0
+ 1783 00bc 00       		.byte	0
+ 1784 00bd 0F       		.uleb128 0xf
+ 1785 00be 2E       		.uleb128 0x2e
+ 1786 00bf 01       		.byte	0x1
+ 1787 00c0 3F       		.uleb128 0x3f
+ 1788 00c1 19       		.uleb128 0x19
+ 1789 00c2 03       		.uleb128 0x3
+ 1790 00c3 0E       		.uleb128 0xe
+ 1791 00c4 3A       		.uleb128 0x3a
+ 1792 00c5 0B       		.uleb128 0xb
+ 1793 00c6 3B       		.uleb128 0x3b
+ 1794 00c7 0B       		.uleb128 0xb
+ 1795 00c8 11       		.uleb128 0x11
+ 1796 00c9 01       		.uleb128 0x1
+ 1797 00ca 12       		.uleb128 0x12
+ 1798 00cb 06       		.uleb128 0x6
+ 1799 00cc 40       		.uleb128 0x40
+ 1800 00cd 18       		.uleb128 0x18
+ 1801 00ce 9642     		.uleb128 0x2116
+ 1802 00d0 19       		.uleb128 0x19
+ 1803 00d1 01       		.uleb128 0x1
+ 1804 00d2 13       		.uleb128 0x13
+ 1805 00d3 00       		.byte	0
+ 1806 00d4 00       		.byte	0
+ 1807 00d5 10       		.uleb128 0x10
+ 1808 00d6 2E       		.uleb128 0x2e
+ 1809 00d7 01       		.byte	0x1
+ 1810 00d8 3F       		.uleb128 0x3f
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 38
+
+
+ 1811 00d9 19       		.uleb128 0x19
+ 1812 00da 03       		.uleb128 0x3
+ 1813 00db 0E       		.uleb128 0xe
+ 1814 00dc 3A       		.uleb128 0x3a
+ 1815 00dd 0B       		.uleb128 0xb
+ 1816 00de 3B       		.uleb128 0x3b
+ 1817 00df 0B       		.uleb128 0xb
+ 1818 00e0 11       		.uleb128 0x11
+ 1819 00e1 01       		.uleb128 0x1
+ 1820 00e2 12       		.uleb128 0x12
+ 1821 00e3 06       		.uleb128 0x6
+ 1822 00e4 40       		.uleb128 0x40
+ 1823 00e5 18       		.uleb128 0x18
+ 1824 00e6 9742     		.uleb128 0x2117
+ 1825 00e8 19       		.uleb128 0x19
+ 1826 00e9 01       		.uleb128 0x1
+ 1827 00ea 13       		.uleb128 0x13
+ 1828 00eb 00       		.byte	0
+ 1829 00ec 00       		.byte	0
+ 1830 00ed 11       		.uleb128 0x11
+ 1831 00ee 2E       		.uleb128 0x2e
+ 1832 00ef 01       		.byte	0x1
+ 1833 00f0 3F       		.uleb128 0x3f
+ 1834 00f1 19       		.uleb128 0x19
+ 1835 00f2 03       		.uleb128 0x3
+ 1836 00f3 0E       		.uleb128 0xe
+ 1837 00f4 3A       		.uleb128 0x3a
+ 1838 00f5 0B       		.uleb128 0xb
+ 1839 00f6 3B       		.uleb128 0x3b
+ 1840 00f7 0B       		.uleb128 0xb
+ 1841 00f8 27       		.uleb128 0x27
+ 1842 00f9 19       		.uleb128 0x19
+ 1843 00fa 49       		.uleb128 0x49
+ 1844 00fb 13       		.uleb128 0x13
+ 1845 00fc 11       		.uleb128 0x11
+ 1846 00fd 01       		.uleb128 0x1
+ 1847 00fe 12       		.uleb128 0x12
+ 1848 00ff 06       		.uleb128 0x6
+ 1849 0100 40       		.uleb128 0x40
+ 1850 0101 18       		.uleb128 0x18
+ 1851 0102 9742     		.uleb128 0x2117
+ 1852 0104 19       		.uleb128 0x19
+ 1853 0105 01       		.uleb128 0x1
+ 1854 0106 13       		.uleb128 0x13
+ 1855 0107 00       		.byte	0
+ 1856 0108 00       		.byte	0
+ 1857 0109 12       		.uleb128 0x12
+ 1858 010a 34       		.uleb128 0x34
+ 1859 010b 00       		.byte	0
+ 1860 010c 03       		.uleb128 0x3
+ 1861 010d 08       		.uleb128 0x8
+ 1862 010e 3A       		.uleb128 0x3a
+ 1863 010f 0B       		.uleb128 0xb
+ 1864 0110 3B       		.uleb128 0x3b
+ 1865 0111 0B       		.uleb128 0xb
+ 1866 0112 49       		.uleb128 0x49
+ 1867 0113 13       		.uleb128 0x13
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 39
+
+
+ 1868 0114 02       		.uleb128 0x2
+ 1869 0115 17       		.uleb128 0x17
+ 1870 0116 00       		.byte	0
+ 1871 0117 00       		.byte	0
+ 1872 0118 13       		.uleb128 0x13
+ 1873 0119 34       		.uleb128 0x34
+ 1874 011a 00       		.byte	0
+ 1875 011b 03       		.uleb128 0x3
+ 1876 011c 0E       		.uleb128 0xe
+ 1877 011d 3A       		.uleb128 0x3a
+ 1878 011e 0B       		.uleb128 0xb
+ 1879 011f 3B       		.uleb128 0x3b
+ 1880 0120 05       		.uleb128 0x5
+ 1881 0121 49       		.uleb128 0x49
+ 1882 0122 13       		.uleb128 0x13
+ 1883 0123 3F       		.uleb128 0x3f
+ 1884 0124 19       		.uleb128 0x19
+ 1885 0125 3C       		.uleb128 0x3c
+ 1886 0126 19       		.uleb128 0x19
+ 1887 0127 00       		.byte	0
+ 1888 0128 00       		.byte	0
+ 1889 0129 14       		.uleb128 0x14
+ 1890 012a 35       		.uleb128 0x35
+ 1891 012b 00       		.byte	0
+ 1892 012c 49       		.uleb128 0x49
+ 1893 012d 13       		.uleb128 0x13
+ 1894 012e 00       		.byte	0
+ 1895 012f 00       		.byte	0
+ 1896 0130 15       		.uleb128 0x15
+ 1897 0131 34       		.uleb128 0x34
+ 1898 0132 00       		.byte	0
+ 1899 0133 03       		.uleb128 0x3
+ 1900 0134 0E       		.uleb128 0xe
+ 1901 0135 3A       		.uleb128 0x3a
+ 1902 0136 0B       		.uleb128 0xb
+ 1903 0137 3B       		.uleb128 0x3b
+ 1904 0138 0B       		.uleb128 0xb
+ 1905 0139 49       		.uleb128 0x49
+ 1906 013a 13       		.uleb128 0x13
+ 1907 013b 3F       		.uleb128 0x3f
+ 1908 013c 19       		.uleb128 0x19
+ 1909 013d 02       		.uleb128 0x2
+ 1910 013e 18       		.uleb128 0x18
+ 1911 013f 00       		.byte	0
+ 1912 0140 00       		.byte	0
+ 1913 0141 16       		.uleb128 0x16
+ 1914 0142 01       		.uleb128 0x1
+ 1915 0143 01       		.byte	0x1
+ 1916 0144 49       		.uleb128 0x49
+ 1917 0145 13       		.uleb128 0x13
+ 1918 0146 01       		.uleb128 0x1
+ 1919 0147 13       		.uleb128 0x13
+ 1920 0148 00       		.byte	0
+ 1921 0149 00       		.byte	0
+ 1922 014a 17       		.uleb128 0x17
+ 1923 014b 21       		.uleb128 0x21
+ 1924 014c 00       		.byte	0
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 40
+
+
+ 1925 014d 49       		.uleb128 0x49
+ 1926 014e 13       		.uleb128 0x13
+ 1927 014f 2F       		.uleb128 0x2f
+ 1928 0150 0B       		.uleb128 0xb
+ 1929 0151 00       		.byte	0
+ 1930 0152 00       		.byte	0
+ 1931 0153 18       		.uleb128 0x18
+ 1932 0154 34       		.uleb128 0x34
+ 1933 0155 00       		.byte	0
+ 1934 0156 03       		.uleb128 0x3
+ 1935 0157 08       		.uleb128 0x8
+ 1936 0158 3A       		.uleb128 0x3a
+ 1937 0159 0B       		.uleb128 0xb
+ 1938 015a 3B       		.uleb128 0x3b
+ 1939 015b 0B       		.uleb128 0xb
+ 1940 015c 49       		.uleb128 0x49
+ 1941 015d 13       		.uleb128 0x13
+ 1942 015e 3F       		.uleb128 0x3f
+ 1943 015f 19       		.uleb128 0x19
+ 1944 0160 02       		.uleb128 0x2
+ 1945 0161 18       		.uleb128 0x18
+ 1946 0162 00       		.byte	0
+ 1947 0163 00       		.byte	0
+ 1948 0164 19       		.uleb128 0x19
+ 1949 0165 2E       		.uleb128 0x2e
+ 1950 0166 01       		.byte	0x1
+ 1951 0167 3F       		.uleb128 0x3f
+ 1952 0168 19       		.uleb128 0x19
+ 1953 0169 03       		.uleb128 0x3
+ 1954 016a 0E       		.uleb128 0xe
+ 1955 016b 3A       		.uleb128 0x3a
+ 1956 016c 0B       		.uleb128 0xb
+ 1957 016d 3B       		.uleb128 0x3b
+ 1958 016e 0B       		.uleb128 0xb
+ 1959 016f 27       		.uleb128 0x27
+ 1960 0170 19       		.uleb128 0x19
+ 1961 0171 49       		.uleb128 0x49
+ 1962 0172 13       		.uleb128 0x13
+ 1963 0173 3C       		.uleb128 0x3c
+ 1964 0174 19       		.uleb128 0x19
+ 1965 0175 01       		.uleb128 0x1
+ 1966 0176 13       		.uleb128 0x13
+ 1967 0177 00       		.byte	0
+ 1968 0178 00       		.byte	0
+ 1969 0179 1A       		.uleb128 0x1a
+ 1970 017a 05       		.uleb128 0x5
+ 1971 017b 00       		.byte	0
+ 1972 017c 49       		.uleb128 0x49
+ 1973 017d 13       		.uleb128 0x13
+ 1974 017e 00       		.byte	0
+ 1975 017f 00       		.byte	0
+ 1976 0180 1B       		.uleb128 0x1b
+ 1977 0181 18       		.uleb128 0x18
+ 1978 0182 00       		.byte	0
+ 1979 0183 00       		.byte	0
+ 1980 0184 00       		.byte	0
+ 1981 0185 1C       		.uleb128 0x1c
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 41
+
+
+ 1982 0186 2E       		.uleb128 0x2e
+ 1983 0187 01       		.byte	0x1
+ 1984 0188 3F       		.uleb128 0x3f
+ 1985 0189 19       		.uleb128 0x19
+ 1986 018a 03       		.uleb128 0x3
+ 1987 018b 0E       		.uleb128 0xe
+ 1988 018c 3A       		.uleb128 0x3a
+ 1989 018d 0B       		.uleb128 0xb
+ 1990 018e 3B       		.uleb128 0x3b
+ 1991 018f 0B       		.uleb128 0xb
+ 1992 0190 27       		.uleb128 0x27
+ 1993 0191 19       		.uleb128 0x19
+ 1994 0192 3C       		.uleb128 0x3c
+ 1995 0193 19       		.uleb128 0x19
+ 1996 0194 01       		.uleb128 0x1
+ 1997 0195 13       		.uleb128 0x13
+ 1998 0196 00       		.byte	0
+ 1999 0197 00       		.byte	0
+ 2000 0198 1D       		.uleb128 0x1d
+ 2001 0199 2E       		.uleb128 0x2e
+ 2002 019a 00       		.byte	0
+ 2003 019b 3F       		.uleb128 0x3f
+ 2004 019c 19       		.uleb128 0x19
+ 2005 019d 03       		.uleb128 0x3
+ 2006 019e 0E       		.uleb128 0xe
+ 2007 019f 3A       		.uleb128 0x3a
+ 2008 01a0 0B       		.uleb128 0xb
+ 2009 01a1 3B       		.uleb128 0x3b
+ 2010 01a2 0B       		.uleb128 0xb
+ 2011 01a3 27       		.uleb128 0x27
+ 2012 01a4 19       		.uleb128 0x19
+ 2013 01a5 49       		.uleb128 0x49
+ 2014 01a6 13       		.uleb128 0x13
+ 2015 01a7 3C       		.uleb128 0x3c
+ 2016 01a8 19       		.uleb128 0x19
+ 2017 01a9 00       		.byte	0
+ 2018 01aa 00       		.byte	0
+ 2019 01ab 1E       		.uleb128 0x1e
+ 2020 01ac 2E       		.uleb128 0x2e
+ 2021 01ad 01       		.byte	0x1
+ 2022 01ae 3F       		.uleb128 0x3f
+ 2023 01af 19       		.uleb128 0x19
+ 2024 01b0 03       		.uleb128 0x3
+ 2025 01b1 08       		.uleb128 0x8
+ 2026 01b2 3A       		.uleb128 0x3a
+ 2027 01b3 0B       		.uleb128 0xb
+ 2028 01b4 3B       		.uleb128 0x3b
+ 2029 01b5 0B       		.uleb128 0xb
+ 2030 01b6 27       		.uleb128 0x27
+ 2031 01b7 19       		.uleb128 0x19
+ 2032 01b8 49       		.uleb128 0x49
+ 2033 01b9 13       		.uleb128 0x13
+ 2034 01ba 3C       		.uleb128 0x3c
+ 2035 01bb 19       		.uleb128 0x19
+ 2036 01bc 01       		.uleb128 0x1
+ 2037 01bd 13       		.uleb128 0x13
+ 2038 01be 00       		.byte	0
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 42
+
+
+ 2039 01bf 00       		.byte	0
+ 2040 01c0 1F       		.uleb128 0x1f
+ 2041 01c1 2E       		.uleb128 0x2e
+ 2042 01c2 00       		.byte	0
+ 2043 01c3 3F       		.uleb128 0x3f
+ 2044 01c4 19       		.uleb128 0x19
+ 2045 01c5 03       		.uleb128 0x3
+ 2046 01c6 0E       		.uleb128 0xe
+ 2047 01c7 3A       		.uleb128 0x3a
+ 2048 01c8 0B       		.uleb128 0xb
+ 2049 01c9 3B       		.uleb128 0x3b
+ 2050 01ca 0B       		.uleb128 0xb
+ 2051 01cb 27       		.uleb128 0x27
+ 2052 01cc 19       		.uleb128 0x19
+ 2053 01cd 3C       		.uleb128 0x3c
+ 2054 01ce 19       		.uleb128 0x19
+ 2055 01cf 00       		.byte	0
+ 2056 01d0 00       		.byte	0
+ 2057 01d1 00       		.byte	0
+ 2058              		.section	.debug_loc,"",%progbits
+ 2059              	.Ldebug_loc0:
+ 2060              	.LLST0:
+ 2061 0000 58000000 		.4byte	.LVL50
+ 2062 0004 5E000000 		.4byte	.LVL52
+ 2063 0008 0200     		.2byte	0x2
+ 2064 000a 30       		.byte	0x30
+ 2065 000b 9F       		.byte	0x9f
+ 2066 000c 5E000000 		.4byte	.LVL52
+ 2067 0010 8B000000 		.4byte	.LVL53-1
+ 2068 0014 0100     		.2byte	0x1
+ 2069 0016 52       		.byte	0x52
+ 2070 0017 90000000 		.4byte	.LVL54
+ 2071 001b 92000000 		.4byte	.LVL55
+ 2072 001f 0200     		.2byte	0x2
+ 2073 0021 30       		.byte	0x30
+ 2074 0022 9F       		.byte	0x9f
+ 2075 0023 92000000 		.4byte	.LVL55
+ 2076 0027 9D000000 		.4byte	.LVL56-1
+ 2077 002b 0100     		.2byte	0x1
+ 2078 002d 52       		.byte	0x52
+ 2079 002e A2000000 		.4byte	.LVL57
+ 2080 0032 A4000000 		.4byte	.LVL58
+ 2081 0036 0200     		.2byte	0x2
+ 2082 0038 30       		.byte	0x30
+ 2083 0039 9F       		.byte	0x9f
+ 2084 003a A4000000 		.4byte	.LVL58
+ 2085 003e B1000000 		.4byte	.LVL59-1
+ 2086 0042 0100     		.2byte	0x1
+ 2087 0044 52       		.byte	0x52
+ 2088 0045 B6000000 		.4byte	.LVL60
+ 2089 0049 B8000000 		.4byte	.LVL61
+ 2090 004d 0200     		.2byte	0x2
+ 2091 004f 30       		.byte	0x30
+ 2092 0050 9F       		.byte	0x9f
+ 2093 0051 B8000000 		.4byte	.LVL61
+ 2094 0055 C5000000 		.4byte	.LVL62-1
+ 2095 0059 0100     		.2byte	0x1
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 43
+
+
+ 2096 005b 52       		.byte	0x52
+ 2097 005c CA000000 		.4byte	.LVL63
+ 2098 0060 CC000000 		.4byte	.LVL64
+ 2099 0064 0200     		.2byte	0x2
+ 2100 0066 30       		.byte	0x30
+ 2101 0067 9F       		.byte	0x9f
+ 2102 0068 CC000000 		.4byte	.LVL64
+ 2103 006c D7000000 		.4byte	.LVL65-1
+ 2104 0070 0100     		.2byte	0x1
+ 2105 0072 52       		.byte	0x52
+ 2106 0073 DC000000 		.4byte	.LVL66
+ 2107 0077 DE000000 		.4byte	.LVL67
+ 2108 007b 0200     		.2byte	0x2
+ 2109 007d 30       		.byte	0x30
+ 2110 007e 9F       		.byte	0x9f
+ 2111 007f DE000000 		.4byte	.LVL67
+ 2112 0083 F1000000 		.4byte	.LVL68-1
+ 2113 0087 0100     		.2byte	0x1
+ 2114 0089 52       		.byte	0x52
+ 2115 008a 0A010000 		.4byte	.LVL72
+ 2116 008e 0C010000 		.4byte	.LVL73
+ 2117 0092 0200     		.2byte	0x2
+ 2118 0094 31       		.byte	0x31
+ 2119 0095 9F       		.byte	0x9f
+ 2120 0096 0C010000 		.4byte	.LVL73
+ 2121 009a 1F010000 		.4byte	.LVL74-1
+ 2122 009e 0100     		.2byte	0x1
+ 2123 00a0 52       		.byte	0x52
+ 2124 00a1 38010000 		.4byte	.LVL78
+ 2125 00a5 4C010000 		.4byte	.LFE71
+ 2126 00a9 0200     		.2byte	0x2
+ 2127 00ab 32       		.byte	0x32
+ 2128 00ac 9F       		.byte	0x9f
+ 2129 00ad 00000000 		.4byte	0
+ 2130 00b1 00000000 		.4byte	0
+ 2131              		.section	.debug_aranges,"",%progbits
+ 2132 0000 5C000000 		.4byte	0x5c
+ 2133 0004 0200     		.2byte	0x2
+ 2134 0006 00000000 		.4byte	.Ldebug_info0
+ 2135 000a 04       		.byte	0x4
+ 2136 000b 00       		.byte	0
+ 2137 000c 0000     		.2byte	0
+ 2138 000e 0000     		.2byte	0
+ 2139 0010 00000000 		.4byte	.LFB65
+ 2140 0014 68000000 		.4byte	.LFE65-.LFB65
+ 2141 0018 00000000 		.4byte	.LFB67
+ 2142 001c 44000000 		.4byte	.LFE67-.LFB67
+ 2143 0020 00000000 		.4byte	.LFB63
+ 2144 0024 90000000 		.4byte	.LFE63-.LFB63
+ 2145 0028 00000000 		.4byte	.LFB66
+ 2146 002c 38000000 		.4byte	.LFE66-.LFB66
+ 2147 0030 00000000 		.4byte	.LFB64
+ 2148 0034 24000000 		.4byte	.LFE64-.LFB64
+ 2149 0038 00000000 		.4byte	.LFB68
+ 2150 003c 0A000000 		.4byte	.LFE68-.LFB68
+ 2151 0040 00000000 		.4byte	.LFB69
+ 2152 0044 34000000 		.4byte	.LFE69-.LFB69
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 44
+
+
+ 2153 0048 00000000 		.4byte	.LFB70
+ 2154 004c 0A000000 		.4byte	.LFE70-.LFB70
+ 2155 0050 00000000 		.4byte	.LFB71
+ 2156 0054 4C010000 		.4byte	.LFE71-.LFB71
+ 2157 0058 00000000 		.4byte	0
+ 2158 005c 00000000 		.4byte	0
+ 2159              		.section	.debug_ranges,"",%progbits
+ 2160              	.Ldebug_ranges0:
+ 2161 0000 00000000 		.4byte	.LFB65
+ 2162 0004 68000000 		.4byte	.LFE65
+ 2163 0008 00000000 		.4byte	.LFB67
+ 2164 000c 44000000 		.4byte	.LFE67
+ 2165 0010 00000000 		.4byte	.LFB63
+ 2166 0014 90000000 		.4byte	.LFE63
+ 2167 0018 00000000 		.4byte	.LFB66
+ 2168 001c 38000000 		.4byte	.LFE66
+ 2169 0020 00000000 		.4byte	.LFB64
+ 2170 0024 24000000 		.4byte	.LFE64
+ 2171 0028 00000000 		.4byte	.LFB68
+ 2172 002c 0A000000 		.4byte	.LFE68
+ 2173 0030 00000000 		.4byte	.LFB69
+ 2174 0034 34000000 		.4byte	.LFE69
+ 2175 0038 00000000 		.4byte	.LFB70
+ 2176 003c 0A000000 		.4byte	.LFE70
+ 2177 0040 00000000 		.4byte	.LFB71
+ 2178 0044 4C010000 		.4byte	.LFE71
+ 2179 0048 00000000 		.4byte	0
+ 2180 004c 00000000 		.4byte	0
+ 2181              		.section	.debug_line,"",%progbits
+ 2182              	.Ldebug_line0:
+ 2183 0000 7C030000 		.section	.debug_str,"MS",%progbits,1
+ 2183      02006F02 
+ 2183      00000201 
+ 2183      FB0E0D00 
+ 2183      01010101 
+ 2184              	.LASF26:
+ 2185 0000 666F7277 		.ascii	"forward\000"
+ 2185      61726400 
+ 2186              	.LASF48:
+ 2187 0008 436C6F63 		.ascii	"Clock_1_Start\000"
+ 2187      6B5F315F 
+ 2187      53746172 
+ 2187      7400
+ 2188              	.LASF44:
+ 2189 0016 50574D5F 		.ascii	"PWM_Back_WriteCompare1\000"
+ 2189      4261636B 
+ 2189      5F577269 
+ 2189      7465436F 
+ 2189      6D706172 
+ 2190              	.LASF45:
+ 2191 002d 50574D5F 		.ascii	"PWM_Back_WriteCompare2\000"
+ 2191      4261636B 
+ 2191      5F577269 
+ 2191      7465436F 
+ 2191      6D706172 
+ 2192              	.LASF56:
+ 2193 0044 5072655F 		.ascii	"Pre_Ampli_Start\000"
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 45
+
+
+ 2193      416D706C 
+ 2193      695F5374 
+ 2193      61727400 
+ 2194              	.LASF51:
+ 2195 0054 4C43445F 		.ascii	"LCD_WriteControl\000"
+ 2195      57726974 
+ 2195      65436F6E 
+ 2195      74726F6C 
+ 2195      00
+ 2196              	.LASF18:
+ 2197 0065 73697A65 		.ascii	"sizetype\000"
+ 2197      74797065 
+ 2197      00
+ 2198              	.LASF30:
+ 2199 006e 6368726F 		.ascii	"chrono\000"
+ 2199      6E6F00
+ 2200              	.LASF15:
+ 2201 0075 63686172 		.ascii	"char8\000"
+ 2201      3800
+ 2202              	.LASF63:
+ 2203 007b 58426565 		.ascii	"XBee_Start\000"
+ 2203      5F537461 
+ 2203      727400
+ 2204              	.LASF24:
+ 2205 0086 636F6D70 		.ascii	"computeDistance\000"
+ 2205      75746544 
+ 2205      69737461 
+ 2205      6E636500 
+ 2206              	.LASF71:
+ 2207 0096 6D61696E 		.ascii	"main\000"
+ 2207      00
+ 2208              	.LASF41:
+ 2209 009b 4368726F 		.ascii	"Chronometer_ReadCounter\000"
+ 2209      6E6F6D65 
+ 2209      7465725F 
+ 2209      52656164 
+ 2209      436F756E 
+ 2210              	.LASF21:
+ 2211 00b3 496E7465 		.ascii	"Interrupt_Xbee_Handler\000"
+ 2211      72727570 
+ 2211      745F5862 
+ 2211      65655F48 
+ 2211      616E646C 
+ 2212              	.LASF2:
+ 2213 00ca 73686F72 		.ascii	"short int\000"
+ 2213      7420696E 
+ 2213      7400
+ 2214              	.LASF32:
+ 2215 00d4 7265616C 		.ascii	"realDistance\000"
+ 2215      44697374 
+ 2215      616E6365 
+ 2215      00
+ 2216              	.LASF64:
+ 2217 00e1 50574D5F 		.ascii	"PWM_Front_Start\000"
+ 2217      46726F6E 
+ 2217      745F5374 
+ 2217      61727400 
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 46
+
+
+ 2218              	.LASF11:
+ 2219 00f1 75696E74 		.ascii	"uint8\000"
+ 2219      3800
+ 2220              	.LASF0:
+ 2221 00f7 7369676E 		.ascii	"signed char\000"
+ 2221      65642063 
+ 2221      68617200 
+ 2222              	.LASF23:
+ 2223 0103 75706461 		.ascii	"update_vitesse\000"
+ 2223      74655F76 
+ 2223      69746573 
+ 2223      736500
+ 2224              	.LASF13:
+ 2225 0112 666C6F61 		.ascii	"float\000"
+ 2225      7400
+ 2226              	.LASF6:
+ 2227 0118 6C6F6E67 		.ascii	"long long int\000"
+ 2227      206C6F6E 
+ 2227      6720696E 
+ 2227      7400
+ 2228              	.LASF58:
+ 2229 0126 54696D65 		.ascii	"Timer_TX_Start\000"
+ 2229      725F5458 
+ 2229      5F537461 
+ 2229      727400
+ 2230              	.LASF4:
+ 2231 0135 6C6F6E67 		.ascii	"long int\000"
+ 2231      20696E74 
+ 2231      00
+ 2232              	.LASF47:
+ 2233 013e 436C6B5F 		.ascii	"Clk_Start\000"
+ 2233      53746172 
+ 2233      7400
+ 2234              	.LASF59:
+ 2235 0148 496E7465 		.ascii	"Interrupt_TX_StartEx\000"
+ 2235      72727570 
+ 2235      745F5458 
+ 2235      5F537461 
+ 2235      72744578 
+ 2236              	.LASF1:
+ 2237 015d 756E7369 		.ascii	"unsigned char\000"
+ 2237      676E6564 
+ 2237      20636861 
+ 2237      7200
+ 2238              	.LASF50:
+ 2239 016b 4C43445F 		.ascii	"LCD_Start\000"
+ 2239      53746172 
+ 2239      7400
+ 2240              	.LASF34:
+ 2241 0175 76697465 		.ascii	"vitesse\000"
+ 2241      73736500 
+ 2242              	.LASF19:
+ 2243 017d 6C6F6E67 		.ascii	"long double\000"
+ 2243      20646F75 
+ 2243      626C6500 
+ 2244              	.LASF66:
+ 2245 0189 50574D5F 		.ascii	"PWM_Front_ReadCompare1\000"
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 47
+
+
+ 2245      46726F6E 
+ 2245      745F5265 
+ 2245      6164436F 
+ 2245      6D706172 
+ 2246              	.LASF17:
+ 2247 01a0 63796973 		.ascii	"cyisraddress\000"
+ 2247      72616464 
+ 2247      72657373 
+ 2247      00
+ 2248              	.LASF38:
+ 2249 01ad 73707269 		.ascii	"sprintf\000"
+ 2249      6E746600 
+ 2250              	.LASF42:
+ 2251 01b5 50574D5F 		.ascii	"PWM_Front_WriteCompare1\000"
+ 2251      46726F6E 
+ 2251      745F5772 
+ 2251      69746543 
+ 2251      6F6D7061 
+ 2252              	.LASF43:
+ 2253 01cd 50574D5F 		.ascii	"PWM_Front_WriteCompare2\000"
+ 2253      46726F6E 
+ 2253      745F5772 
+ 2253      69746543 
+ 2253      6F6D7061 
+ 2254              	.LASF7:
+ 2255 01e5 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2255      206C6F6E 
+ 2255      6720756E 
+ 2255      7369676E 
+ 2255      65642069 
+ 2256              	.LASF8:
+ 2257 01fc 756E7369 		.ascii	"unsigned int\000"
+ 2257      676E6564 
+ 2257      20696E74 
+ 2257      00
+ 2258              	.LASF37:
+ 2259 0209 4C43445F 		.ascii	"LCD_PrintString\000"
+ 2259      5072696E 
+ 2259      74537472 
+ 2259      696E6700 
+ 2260              	.LASF53:
+ 2261 0219 436F6D70 		.ascii	"Comparator_Start\000"
+ 2261      61726174 
+ 2261      6F725F53 
+ 2261      74617274 
+ 2261      00
+ 2262              	.LASF62:
+ 2263 022a 58426565 		.ascii	"XBee_Init\000"
+ 2263      5F496E69 
+ 2263      7400
+ 2264              	.LASF49:
+ 2265 0234 436C6F63 		.ascii	"Clock_2_Start\000"
+ 2265      6B5F325F 
+ 2265      53746172 
+ 2265      7400
+ 2266              	.LASF60:
+ 2267 0242 496E7465 		.ascii	"Interrupt_RX_StartEx\000"
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 48
+
+
+ 2267      72727570 
+ 2267      745F5258 
+ 2267      5F537461 
+ 2267      72744578 
+ 2268              	.LASF3:
+ 2269 0257 73686F72 		.ascii	"short unsigned int\000"
+ 2269      7420756E 
+ 2269      7369676E 
+ 2269      65642069 
+ 2269      6E7400
+ 2270              	.LASF57:
+ 2271 026a 54687265 		.ascii	"Threshold_Start\000"
+ 2271      73686F6C 
+ 2271      645F5374 
+ 2271      61727400 
+ 2272              	.LASF31:
+ 2273 027a 64697374 		.ascii	"distance\000"
+ 2273      616E6365 
+ 2273      00
+ 2274              	.LASF22:
+ 2275 0283 496E7465 		.ascii	"Interrupt_RX_Handler\000"
+ 2275      72727570 
+ 2275      745F5258 
+ 2275      5F48616E 
+ 2275      646C6572 
+ 2276              	.LASF25:
+ 2277 0298 73746F70 		.ascii	"stop\000"
+ 2277      00
+ 2278              	.LASF16:
+ 2279 029d 63686172 		.ascii	"char\000"
+ 2279      00
+ 2280              	.LASF28:
+ 2281 02a2 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 2281      52784275 
+ 2281      66666572 
+ 2281      00
+ 2282              	.LASF68:
+ 2283 02af 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 2283      4320342E 
+ 2283      392E3320 
+ 2283      32303135 
+ 2283      30333033 
+ 2284 02e2 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 2284      20726576 
+ 2284      6973696F 
+ 2284      6E203232 
+ 2284      31323230 
+ 2285 0315 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 2285      66756E63 
+ 2285      74696F6E 
+ 2285      2D736563 
+ 2285      74696F6E 
+ 2286              	.LASF61:
+ 2287 033d 496E7465 		.ascii	"Interrupt_Xbee_StartEx\000"
+ 2287      72727570 
+ 2287      745F5862 
+ 2287      65655F53 
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 49
+
+
+ 2287      74617274 
+ 2288              	.LASF10:
+ 2289 0354 696E7433 		.ascii	"int32_t\000"
+ 2289      325F7400 
+ 2290              	.LASF54:
+ 2291 035c 436F756E 		.ascii	"Counter_Pulses_Start\000"
+ 2291      7465725F 
+ 2291      50756C73 
+ 2291      65735F53 
+ 2291      74617274 
+ 2292              	.LASF67:
+ 2293 0371 50574D5F 		.ascii	"PWM_Back_ReadCompare1\000"
+ 2293      4261636B 
+ 2293      5F526561 
+ 2293      64436F6D 
+ 2293      70617265 
+ 2294              	.LASF12:
+ 2295 0387 75696E74 		.ascii	"uint32\000"
+ 2295      333200
+ 2296              	.LASF69:
+ 2297 038e 6D61696E 		.ascii	"main.c\000"
+ 2297      2E6300
+ 2298              	.LASF5:
+ 2299 0395 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2299      20756E73 
+ 2299      69676E65 
+ 2299      6420696E 
+ 2299      7400
+ 2300              	.LASF27:
+ 2301 03a7 6261636B 		.ascii	"backward\000"
+ 2301      77617264 
+ 2301      00
+ 2302              	.LASF29:
+ 2303 03b0 72657370 		.ascii	"response\000"
+ 2303      6F6E7365 
+ 2303      00
+ 2304              	.LASF39:
+ 2305 03b9 73717274 		.ascii	"sqrt\000"
+ 2305      00
+ 2306              	.LASF9:
+ 2307 03be 5F5F696E 		.ascii	"__int32_t\000"
+ 2307      7433325F 
+ 2307      7400
+ 2308              	.LASF46:
+ 2309 03c8 526F7461 		.ascii	"Rotation_Register_Write\000"
+ 2309      74696F6E 
+ 2309      5F526567 
+ 2309      69737465 
+ 2309      725F5772 
+ 2310              	.LASF55:
+ 2311 03e0 4F75745F 		.ascii	"Out_MAX232_Start\000"
+ 2311      4D415832 
+ 2311      33325F53 
+ 2311      74617274 
+ 2311      00
+ 2312              	.LASF36:
+ 2313 03f1 4C43445F 		.ascii	"LCD_Position\000"
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccui0FIp.s 			page 50
+
+
+ 2313      506F7369 
+ 2313      74696F6E 
+ 2313      00
+ 2314              	.LASF65:
+ 2315 03fe 50574D5F 		.ascii	"PWM_Back_Start\000"
+ 2315      4261636B 
+ 2315      5F537461 
+ 2315      727400
+ 2316              	.LASF14:
+ 2317 040d 646F7562 		.ascii	"double\000"
+ 2317      6C6500
+ 2318              	.LASF20:
+ 2319 0414 496E7465 		.ascii	"Interrupt_TX_Handler\000"
+ 2319      72727570 
+ 2319      745F5458 
+ 2319      5F48616E 
+ 2319      646C6572 
+ 2320              	.LASF35:
+ 2321 0429 696E7374 		.ascii	"instruction\000"
+ 2321      72756374 
+ 2321      696F6E00 
+ 2322              	.LASF52:
+ 2323 0435 4368726F 		.ascii	"Chronometer_Start\000"
+ 2323      6E6F6D65 
+ 2323      7465725F 
+ 2323      53746172 
+ 2323      7400
+ 2324              	.LASF40:
+ 2325 0447 58426565 		.ascii	"XBee_GetChar\000"
+ 2325      5F476574 
+ 2325      43686172 
+ 2325      00
+ 2326              	.LASF33:
+ 2327 0454 63616C69 		.ascii	"calibratedDistance\000"
+ 2327      62726174 
+ 2327      65644469 
+ 2327      7374616E 
+ 2327      636500
+ 2328              	.LASF70:
+ 2329 0467 433A5C55 		.ascii	"C:\\Users\\Ludovic\\Documents\\PSoC Creator\\CY8CKI"
+ 2329      73657273 
+ 2329      5C4C7564 
+ 2329      6F766963 
+ 2329      5C446F63 
+ 2330 0495 542D3035 		.ascii	"T-050\\BE_Systemes_Embarques.cydsn\000"
+ 2330      305C4245 
+ 2330      5F537973 
+ 2330      74656D65 
+ 2330      735F456D 
+ 2331              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br

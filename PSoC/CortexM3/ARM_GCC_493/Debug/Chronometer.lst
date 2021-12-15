@@ -1,0 +1,2232 @@
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"Chronometer.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.Chronometer_Enable,"ax",%progbits
+  19              		.align	2
+  20              		.global	Chronometer_Enable
+  21              		.thumb
+  22              		.thumb_func
+  23              		.type	Chronometer_Enable, %function
+  24              	Chronometer_Enable:
+  25              	.LFB1:
+  26              		.file 1 "Generated_Source\\PSoC5\\Chronometer.c"
+   1:Generated_Source\PSoC5/Chronometer.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/Chronometer.c **** * File Name: Chronometer.c  
+   3:Generated_Source\PSoC5/Chronometer.c **** * Version 3.0
+   4:Generated_Source\PSoC5/Chronometer.c **** *
+   5:Generated_Source\PSoC5/Chronometer.c **** *  Description:
+   6:Generated_Source\PSoC5/Chronometer.c **** *     The Counter component consists of a 8, 16, 24 or 32-bit counter with
+   7:Generated_Source\PSoC5/Chronometer.c **** *     a selectable period between 2 and 2^Width - 1.  
+   8:Generated_Source\PSoC5/Chronometer.c **** *
+   9:Generated_Source\PSoC5/Chronometer.c **** *   Note:
+  10:Generated_Source\PSoC5/Chronometer.c **** *     None
+  11:Generated_Source\PSoC5/Chronometer.c **** *
+  12:Generated_Source\PSoC5/Chronometer.c **** ********************************************************************************
+  13:Generated_Source\PSoC5/Chronometer.c **** * Copyright 2008-2012, Cypress Semiconductor Corporation.  All rights reserved.
+  14:Generated_Source\PSoC5/Chronometer.c **** * You may use this file only in accordance with the license, terms, conditions, 
+  15:Generated_Source\PSoC5/Chronometer.c **** * disclaimers, and limitations in the end user license agreement accompanying 
+  16:Generated_Source\PSoC5/Chronometer.c **** * the software package with which this file was provided.
+  17:Generated_Source\PSoC5/Chronometer.c **** *******************************************************************************/
+  18:Generated_Source\PSoC5/Chronometer.c **** 
+  19:Generated_Source\PSoC5/Chronometer.c **** #include "Chronometer.h"
+  20:Generated_Source\PSoC5/Chronometer.c **** 
+  21:Generated_Source\PSoC5/Chronometer.c **** uint8 Chronometer_initVar = 0u;
+  22:Generated_Source\PSoC5/Chronometer.c **** 
+  23:Generated_Source\PSoC5/Chronometer.c **** 
+  24:Generated_Source\PSoC5/Chronometer.c **** /*******************************************************************************
+  25:Generated_Source\PSoC5/Chronometer.c **** * Function Name: Chronometer_Init
+  26:Generated_Source\PSoC5/Chronometer.c **** ********************************************************************************
+  27:Generated_Source\PSoC5/Chronometer.c **** * Summary:
+  28:Generated_Source\PSoC5/Chronometer.c **** *     Initialize to the schematic state
+  29:Generated_Source\PSoC5/Chronometer.c **** * 
+  30:Generated_Source\PSoC5/Chronometer.c **** * Parameters:  
+  31:Generated_Source\PSoC5/Chronometer.c **** *  void  
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 2
+
+
+  32:Generated_Source\PSoC5/Chronometer.c **** *
+  33:Generated_Source\PSoC5/Chronometer.c **** * Return: 
+  34:Generated_Source\PSoC5/Chronometer.c **** *  void
+  35:Generated_Source\PSoC5/Chronometer.c **** *
+  36:Generated_Source\PSoC5/Chronometer.c **** *******************************************************************************/
+  37:Generated_Source\PSoC5/Chronometer.c **** void Chronometer_Init(void) 
+  38:Generated_Source\PSoC5/Chronometer.c **** {
+  39:Generated_Source\PSoC5/Chronometer.c ****         #if (!Chronometer_UsingFixedFunction && !Chronometer_ControlRegRemoved)
+  40:Generated_Source\PSoC5/Chronometer.c ****             uint8 ctrl;
+  41:Generated_Source\PSoC5/Chronometer.c ****         #endif /* (!Chronometer_UsingFixedFunction && !Chronometer_ControlRegRemoved) */
+  42:Generated_Source\PSoC5/Chronometer.c ****         
+  43:Generated_Source\PSoC5/Chronometer.c ****         #if(!Chronometer_UsingFixedFunction) 
+  44:Generated_Source\PSoC5/Chronometer.c ****             /* Interrupt State Backup for Critical Region*/
+  45:Generated_Source\PSoC5/Chronometer.c ****             uint8 Chronometer_interruptState;
+  46:Generated_Source\PSoC5/Chronometer.c ****         #endif /* (!Chronometer_UsingFixedFunction) */
+  47:Generated_Source\PSoC5/Chronometer.c ****         
+  48:Generated_Source\PSoC5/Chronometer.c ****         #if (Chronometer_UsingFixedFunction)
+  49:Generated_Source\PSoC5/Chronometer.c ****             /* Clear all bits but the enable bit (if it's already set for Timer operation */
+  50:Generated_Source\PSoC5/Chronometer.c ****             Chronometer_CONTROL &= Chronometer_CTRL_ENABLE;
+  51:Generated_Source\PSoC5/Chronometer.c ****             
+  52:Generated_Source\PSoC5/Chronometer.c ****             /* Clear the mode bits for continuous run mode */
+  53:Generated_Source\PSoC5/Chronometer.c ****             #if (CY_PSOC5A)
+  54:Generated_Source\PSoC5/Chronometer.c ****                 Chronometer_CONTROL2 &= ((uint8)(~Chronometer_CTRL_MODE_MASK));
+  55:Generated_Source\PSoC5/Chronometer.c ****             #endif /* (CY_PSOC5A) */
+  56:Generated_Source\PSoC5/Chronometer.c ****             #if (CY_PSOC3 || CY_PSOC5LP)
+  57:Generated_Source\PSoC5/Chronometer.c ****                 Chronometer_CONTROL3 &= ((uint8)(~Chronometer_CTRL_MODE_MASK));                
+  58:Generated_Source\PSoC5/Chronometer.c ****             #endif /* (CY_PSOC3 || CY_PSOC5LP) */
+  59:Generated_Source\PSoC5/Chronometer.c ****             /* Check if One Shot mode is enabled i.e. RunMode !=0*/
+  60:Generated_Source\PSoC5/Chronometer.c ****             #if (Chronometer_RunModeUsed != 0x0u)
+  61:Generated_Source\PSoC5/Chronometer.c ****                 /* Set 3rd bit of Control register to enable one shot mode */
+  62:Generated_Source\PSoC5/Chronometer.c ****                 Chronometer_CONTROL |= Chronometer_ONESHOT;
+  63:Generated_Source\PSoC5/Chronometer.c ****             #endif /* (Chronometer_RunModeUsed != 0x0u) */
+  64:Generated_Source\PSoC5/Chronometer.c ****             
+  65:Generated_Source\PSoC5/Chronometer.c ****             /* Set the IRQ to use the status register interrupts */
+  66:Generated_Source\PSoC5/Chronometer.c ****             Chronometer_CONTROL2 |= Chronometer_CTRL2_IRQ_SEL;
+  67:Generated_Source\PSoC5/Chronometer.c ****             
+  68:Generated_Source\PSoC5/Chronometer.c ****             /* Clear and Set SYNCTC and SYNCCMP bits of RT1 register */
+  69:Generated_Source\PSoC5/Chronometer.c ****             Chronometer_RT1 &= ((uint8)(~Chronometer_RT1_MASK));
+  70:Generated_Source\PSoC5/Chronometer.c ****             Chronometer_RT1 |= Chronometer_SYNC;     
+  71:Generated_Source\PSoC5/Chronometer.c ****                     
+  72:Generated_Source\PSoC5/Chronometer.c ****             /*Enable DSI Sync all all inputs of the Timer*/
+  73:Generated_Source\PSoC5/Chronometer.c ****             Chronometer_RT1 &= ((uint8)(~Chronometer_SYNCDSI_MASK));
+  74:Generated_Source\PSoC5/Chronometer.c ****             Chronometer_RT1 |= Chronometer_SYNCDSI_EN;
+  75:Generated_Source\PSoC5/Chronometer.c **** 
+  76:Generated_Source\PSoC5/Chronometer.c ****         #else
+  77:Generated_Source\PSoC5/Chronometer.c ****             #if(!Chronometer_ControlRegRemoved)
+  78:Generated_Source\PSoC5/Chronometer.c ****             /* Set the default compare mode defined in the parameter */
+  79:Generated_Source\PSoC5/Chronometer.c ****             ctrl = Chronometer_CONTROL & ((uint8)(~Chronometer_CTRL_CMPMODE_MASK));
+  80:Generated_Source\PSoC5/Chronometer.c ****             Chronometer_CONTROL = ctrl | Chronometer_DEFAULT_COMPARE_MODE;
+  81:Generated_Source\PSoC5/Chronometer.c ****             
+  82:Generated_Source\PSoC5/Chronometer.c ****             /* Set the default capture mode defined in the parameter */
+  83:Generated_Source\PSoC5/Chronometer.c ****             ctrl = Chronometer_CONTROL & ((uint8)(~Chronometer_CTRL_CAPMODE_MASK));
+  84:Generated_Source\PSoC5/Chronometer.c ****             
+  85:Generated_Source\PSoC5/Chronometer.c ****             #if( 0 != Chronometer_CAPTURE_MODE_CONF)
+  86:Generated_Source\PSoC5/Chronometer.c ****                 Chronometer_CONTROL = ctrl | Chronometer_DEFAULT_CAPTURE_MODE;
+  87:Generated_Source\PSoC5/Chronometer.c ****             #else
+  88:Generated_Source\PSoC5/Chronometer.c ****                 Chronometer_CONTROL = ctrl;
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 3
+
+
+  89:Generated_Source\PSoC5/Chronometer.c ****             #endif /* 0 != Chronometer_CAPTURE_MODE */ 
+  90:Generated_Source\PSoC5/Chronometer.c ****             
+  91:Generated_Source\PSoC5/Chronometer.c ****             #endif /* (!Chronometer_ControlRegRemoved) */
+  92:Generated_Source\PSoC5/Chronometer.c ****         #endif /* (Chronometer_UsingFixedFunction) */
+  93:Generated_Source\PSoC5/Chronometer.c ****         
+  94:Generated_Source\PSoC5/Chronometer.c ****         /* Clear all data in the FIFO's */
+  95:Generated_Source\PSoC5/Chronometer.c ****         #if (!Chronometer_UsingFixedFunction)
+  96:Generated_Source\PSoC5/Chronometer.c ****             Chronometer_ClearFIFO();
+  97:Generated_Source\PSoC5/Chronometer.c ****         #endif /* (!Chronometer_UsingFixedFunction) */
+  98:Generated_Source\PSoC5/Chronometer.c ****         
+  99:Generated_Source\PSoC5/Chronometer.c ****         /* Set Initial values from Configuration */
+ 100:Generated_Source\PSoC5/Chronometer.c ****         Chronometer_WritePeriod(Chronometer_INIT_PERIOD_VALUE);
+ 101:Generated_Source\PSoC5/Chronometer.c ****         #if (!(Chronometer_UsingFixedFunction && (CY_PSOC5A)))
+ 102:Generated_Source\PSoC5/Chronometer.c ****             Chronometer_WriteCounter(Chronometer_INIT_COUNTER_VALUE);
+ 103:Generated_Source\PSoC5/Chronometer.c ****         #endif /* (!(Chronometer_UsingFixedFunction && (CY_PSOC5A))) */
+ 104:Generated_Source\PSoC5/Chronometer.c ****         Chronometer_SetInterruptMode(Chronometer_INIT_INTERRUPTS_MASK);
+ 105:Generated_Source\PSoC5/Chronometer.c ****         
+ 106:Generated_Source\PSoC5/Chronometer.c ****         #if (!Chronometer_UsingFixedFunction)
+ 107:Generated_Source\PSoC5/Chronometer.c ****             /* Read the status register to clear the unwanted interrupts */
+ 108:Generated_Source\PSoC5/Chronometer.c ****             (void)Chronometer_ReadStatusRegister();
+ 109:Generated_Source\PSoC5/Chronometer.c ****             /* Set the compare value (only available to non-fixed function implementation */
+ 110:Generated_Source\PSoC5/Chronometer.c ****             Chronometer_WriteCompare(Chronometer_INIT_COMPARE_VALUE);
+ 111:Generated_Source\PSoC5/Chronometer.c ****             /* Use the interrupt output of the status register for IRQ output */
+ 112:Generated_Source\PSoC5/Chronometer.c ****             
+ 113:Generated_Source\PSoC5/Chronometer.c ****             /* CyEnterCriticalRegion and CyExitCriticalRegion are used to mark following region cri
+ 114:Generated_Source\PSoC5/Chronometer.c ****             /* Enter Critical Region*/
+ 115:Generated_Source\PSoC5/Chronometer.c ****             Chronometer_interruptState = CyEnterCriticalSection();
+ 116:Generated_Source\PSoC5/Chronometer.c ****             
+ 117:Generated_Source\PSoC5/Chronometer.c ****             Chronometer_STATUS_AUX_CTRL |= Chronometer_STATUS_ACTL_INT_EN_MASK;
+ 118:Generated_Source\PSoC5/Chronometer.c ****             
+ 119:Generated_Source\PSoC5/Chronometer.c ****             /* Exit Critical Region*/
+ 120:Generated_Source\PSoC5/Chronometer.c ****             CyExitCriticalSection(Chronometer_interruptState);
+ 121:Generated_Source\PSoC5/Chronometer.c ****             
+ 122:Generated_Source\PSoC5/Chronometer.c ****         #endif /* (!Chronometer_UsingFixedFunction) */
+ 123:Generated_Source\PSoC5/Chronometer.c **** }
+ 124:Generated_Source\PSoC5/Chronometer.c **** 
+ 125:Generated_Source\PSoC5/Chronometer.c **** 
+ 126:Generated_Source\PSoC5/Chronometer.c **** /*******************************************************************************
+ 127:Generated_Source\PSoC5/Chronometer.c **** * Function Name: Chronometer_Enable
+ 128:Generated_Source\PSoC5/Chronometer.c **** ********************************************************************************
+ 129:Generated_Source\PSoC5/Chronometer.c **** * Summary:
+ 130:Generated_Source\PSoC5/Chronometer.c **** *     Enable the Counter
+ 131:Generated_Source\PSoC5/Chronometer.c **** * 
+ 132:Generated_Source\PSoC5/Chronometer.c **** * Parameters:  
+ 133:Generated_Source\PSoC5/Chronometer.c **** *  void  
+ 134:Generated_Source\PSoC5/Chronometer.c **** *
+ 135:Generated_Source\PSoC5/Chronometer.c **** * Return: 
+ 136:Generated_Source\PSoC5/Chronometer.c **** *  void
+ 137:Generated_Source\PSoC5/Chronometer.c **** *
+ 138:Generated_Source\PSoC5/Chronometer.c **** * Side Effects: 
+ 139:Generated_Source\PSoC5/Chronometer.c **** *   If the Enable mode is set to Hardware only then this function has no effect 
+ 140:Generated_Source\PSoC5/Chronometer.c **** *   on the operation of the counter.
+ 141:Generated_Source\PSoC5/Chronometer.c **** *
+ 142:Generated_Source\PSoC5/Chronometer.c **** *******************************************************************************/
+ 143:Generated_Source\PSoC5/Chronometer.c **** void Chronometer_Enable(void) 
+ 144:Generated_Source\PSoC5/Chronometer.c **** {
+  27              		.loc 1 144 0
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 4
+
+
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+ 145:Generated_Source\PSoC5/Chronometer.c ****     /* Globally Enable the Fixed Function Block chosen */
+ 146:Generated_Source\PSoC5/Chronometer.c ****     #if (Chronometer_UsingFixedFunction)
+ 147:Generated_Source\PSoC5/Chronometer.c ****         Chronometer_GLOBAL_ENABLE |= Chronometer_BLOCK_EN_MASK;
+ 148:Generated_Source\PSoC5/Chronometer.c ****         Chronometer_GLOBAL_STBY_ENABLE |= Chronometer_BLOCK_STBY_EN_MASK;
+ 149:Generated_Source\PSoC5/Chronometer.c ****     #endif /* (Chronometer_UsingFixedFunction) */  
+ 150:Generated_Source\PSoC5/Chronometer.c ****         
+ 151:Generated_Source\PSoC5/Chronometer.c ****     /* Enable the counter from the control register  */
+ 152:Generated_Source\PSoC5/Chronometer.c ****     /* If Fixed Function then make sure Mode is set correctly */
+ 153:Generated_Source\PSoC5/Chronometer.c ****     /* else make sure reset is clear */
+ 154:Generated_Source\PSoC5/Chronometer.c ****     #if(!Chronometer_ControlRegRemoved || Chronometer_UsingFixedFunction)
+ 155:Generated_Source\PSoC5/Chronometer.c ****         Chronometer_CONTROL |= Chronometer_CTRL_ENABLE;                
+  32              		.loc 1 155 0
+  33 0000 024A     		ldr	r2, .L2
+  34 0002 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  35 0004 43F08003 		orr	r3, r3, #128
+  36 0008 1370     		strb	r3, [r2]
+  37 000a 7047     		bx	lr
+  38              	.L3:
+  39              		.align	2
+  40              	.L2:
+  41 000c 76650040 		.word	1073767798
+  42              		.cfi_endproc
+  43              	.LFE1:
+  44              		.size	Chronometer_Enable, .-Chronometer_Enable
+  45              		.section	.text.Chronometer_Stop,"ax",%progbits
+  46              		.align	2
+  47              		.global	Chronometer_Stop
+  48              		.thumb
+  49              		.thumb_func
+  50              		.type	Chronometer_Stop, %function
+  51              	Chronometer_Stop:
+  52              	.LFB3:
+ 156:Generated_Source\PSoC5/Chronometer.c ****     #endif /* (!Chronometer_ControlRegRemoved || Chronometer_UsingFixedFunction) */
+ 157:Generated_Source\PSoC5/Chronometer.c ****     
+ 158:Generated_Source\PSoC5/Chronometer.c **** }
+ 159:Generated_Source\PSoC5/Chronometer.c **** 
+ 160:Generated_Source\PSoC5/Chronometer.c **** 
+ 161:Generated_Source\PSoC5/Chronometer.c **** /*******************************************************************************
+ 162:Generated_Source\PSoC5/Chronometer.c **** * Function Name: Chronometer_Start
+ 163:Generated_Source\PSoC5/Chronometer.c **** ********************************************************************************
+ 164:Generated_Source\PSoC5/Chronometer.c **** * Summary:
+ 165:Generated_Source\PSoC5/Chronometer.c **** *  Enables the counter for operation 
+ 166:Generated_Source\PSoC5/Chronometer.c **** *
+ 167:Generated_Source\PSoC5/Chronometer.c **** * Parameters:  
+ 168:Generated_Source\PSoC5/Chronometer.c **** *  void  
+ 169:Generated_Source\PSoC5/Chronometer.c **** *
+ 170:Generated_Source\PSoC5/Chronometer.c **** * Return: 
+ 171:Generated_Source\PSoC5/Chronometer.c **** *  void
+ 172:Generated_Source\PSoC5/Chronometer.c **** *
+ 173:Generated_Source\PSoC5/Chronometer.c **** * Global variables:
+ 174:Generated_Source\PSoC5/Chronometer.c **** *  Chronometer_initVar: Is modified when this function is called for the  
+ 175:Generated_Source\PSoC5/Chronometer.c **** *   first time. Is used to ensure that initialization happens only once.
+ 176:Generated_Source\PSoC5/Chronometer.c **** *
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 5
+
+
+ 177:Generated_Source\PSoC5/Chronometer.c **** *******************************************************************************/
+ 178:Generated_Source\PSoC5/Chronometer.c **** void Chronometer_Start(void) 
+ 179:Generated_Source\PSoC5/Chronometer.c **** {
+ 180:Generated_Source\PSoC5/Chronometer.c ****     if(Chronometer_initVar == 0u)
+ 181:Generated_Source\PSoC5/Chronometer.c ****     {
+ 182:Generated_Source\PSoC5/Chronometer.c ****         Chronometer_Init();
+ 183:Generated_Source\PSoC5/Chronometer.c ****         
+ 184:Generated_Source\PSoC5/Chronometer.c ****         Chronometer_initVar = 1u; /* Clear this bit for Initialization */        
+ 185:Generated_Source\PSoC5/Chronometer.c ****     }
+ 186:Generated_Source\PSoC5/Chronometer.c ****     
+ 187:Generated_Source\PSoC5/Chronometer.c ****     /* Enable the Counter */
+ 188:Generated_Source\PSoC5/Chronometer.c ****     Chronometer_Enable();        
+ 189:Generated_Source\PSoC5/Chronometer.c **** }
+ 190:Generated_Source\PSoC5/Chronometer.c **** 
+ 191:Generated_Source\PSoC5/Chronometer.c **** 
+ 192:Generated_Source\PSoC5/Chronometer.c **** /*******************************************************************************
+ 193:Generated_Source\PSoC5/Chronometer.c **** * Function Name: Chronometer_Stop
+ 194:Generated_Source\PSoC5/Chronometer.c **** ********************************************************************************
+ 195:Generated_Source\PSoC5/Chronometer.c **** * Summary:
+ 196:Generated_Source\PSoC5/Chronometer.c **** * Halts the counter, but does not change any modes or disable interrupts.
+ 197:Generated_Source\PSoC5/Chronometer.c **** *
+ 198:Generated_Source\PSoC5/Chronometer.c **** * Parameters:  
+ 199:Generated_Source\PSoC5/Chronometer.c **** *  void  
+ 200:Generated_Source\PSoC5/Chronometer.c **** *
+ 201:Generated_Source\PSoC5/Chronometer.c **** * Return: 
+ 202:Generated_Source\PSoC5/Chronometer.c **** *  void
+ 203:Generated_Source\PSoC5/Chronometer.c **** *
+ 204:Generated_Source\PSoC5/Chronometer.c **** * Side Effects: If the Enable mode is set to Hardware only then this function
+ 205:Generated_Source\PSoC5/Chronometer.c **** *               has no effect on the operation of the counter.
+ 206:Generated_Source\PSoC5/Chronometer.c **** *
+ 207:Generated_Source\PSoC5/Chronometer.c **** *******************************************************************************/
+ 208:Generated_Source\PSoC5/Chronometer.c **** void Chronometer_Stop(void) 
+ 209:Generated_Source\PSoC5/Chronometer.c **** {
+  53              		.loc 1 209 0
+  54              		.cfi_startproc
+  55              		@ args = 0, pretend = 0, frame = 0
+  56              		@ frame_needed = 0, uses_anonymous_args = 0
+  57              		@ link register save eliminated.
+ 210:Generated_Source\PSoC5/Chronometer.c ****     /* Disable Counter */
+ 211:Generated_Source\PSoC5/Chronometer.c ****     #if(!Chronometer_ControlRegRemoved || Chronometer_UsingFixedFunction)
+ 212:Generated_Source\PSoC5/Chronometer.c ****         Chronometer_CONTROL &= ((uint8)(~Chronometer_CTRL_ENABLE));        
+  58              		.loc 1 212 0
+  59 0000 024A     		ldr	r2, .L5
+  60 0002 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  61 0004 03F07F03 		and	r3, r3, #127
+  62 0008 1370     		strb	r3, [r2]
+  63 000a 7047     		bx	lr
+  64              	.L6:
+  65              		.align	2
+  66              	.L5:
+  67 000c 76650040 		.word	1073767798
+  68              		.cfi_endproc
+  69              	.LFE3:
+  70              		.size	Chronometer_Stop, .-Chronometer_Stop
+  71              		.section	.text.Chronometer_SetInterruptMode,"ax",%progbits
+  72              		.align	2
+  73              		.global	Chronometer_SetInterruptMode
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 6
+
+
+  74              		.thumb
+  75              		.thumb_func
+  76              		.type	Chronometer_SetInterruptMode, %function
+  77              	Chronometer_SetInterruptMode:
+  78              	.LFB4:
+ 213:Generated_Source\PSoC5/Chronometer.c ****     #endif /* (!Chronometer_ControlRegRemoved || Chronometer_UsingFixedFunction) */
+ 214:Generated_Source\PSoC5/Chronometer.c ****     
+ 215:Generated_Source\PSoC5/Chronometer.c ****     /* Globally disable the Fixed Function Block chosen */
+ 216:Generated_Source\PSoC5/Chronometer.c ****     #if (Chronometer_UsingFixedFunction)
+ 217:Generated_Source\PSoC5/Chronometer.c ****         Chronometer_GLOBAL_ENABLE &= ((uint8)(~Chronometer_BLOCK_EN_MASK));
+ 218:Generated_Source\PSoC5/Chronometer.c ****         Chronometer_GLOBAL_STBY_ENABLE &= ((uint8)(~Chronometer_BLOCK_STBY_EN_MASK));
+ 219:Generated_Source\PSoC5/Chronometer.c ****     #endif /* (Chronometer_UsingFixedFunction) */
+ 220:Generated_Source\PSoC5/Chronometer.c **** }
+ 221:Generated_Source\PSoC5/Chronometer.c **** 
+ 222:Generated_Source\PSoC5/Chronometer.c **** 
+ 223:Generated_Source\PSoC5/Chronometer.c **** /*******************************************************************************
+ 224:Generated_Source\PSoC5/Chronometer.c **** * Function Name: Chronometer_SetInterruptMode
+ 225:Generated_Source\PSoC5/Chronometer.c **** ********************************************************************************
+ 226:Generated_Source\PSoC5/Chronometer.c **** * Summary:
+ 227:Generated_Source\PSoC5/Chronometer.c **** * Configures which interrupt sources are enabled to generate the final interrupt
+ 228:Generated_Source\PSoC5/Chronometer.c **** *
+ 229:Generated_Source\PSoC5/Chronometer.c **** * Parameters:  
+ 230:Generated_Source\PSoC5/Chronometer.c **** *  InterruptsMask: This parameter is an or'd collection of the status bits
+ 231:Generated_Source\PSoC5/Chronometer.c **** *                   which will be allowed to generate the counters interrupt.   
+ 232:Generated_Source\PSoC5/Chronometer.c **** *
+ 233:Generated_Source\PSoC5/Chronometer.c **** * Return: 
+ 234:Generated_Source\PSoC5/Chronometer.c **** *  void
+ 235:Generated_Source\PSoC5/Chronometer.c **** *
+ 236:Generated_Source\PSoC5/Chronometer.c **** *******************************************************************************/
+ 237:Generated_Source\PSoC5/Chronometer.c **** void Chronometer_SetInterruptMode(uint8 interruptsMask) 
+ 238:Generated_Source\PSoC5/Chronometer.c **** {
+  79              		.loc 1 238 0
+  80              		.cfi_startproc
+  81              		@ args = 0, pretend = 0, frame = 0
+  82              		@ frame_needed = 0, uses_anonymous_args = 0
+  83              		@ link register save eliminated.
+  84              	.LVL0:
+ 239:Generated_Source\PSoC5/Chronometer.c ****     Chronometer_STATUS_MASK = interruptsMask;
+  85              		.loc 1 239 0
+  86 0000 014B     		ldr	r3, .L8
+  87 0002 1870     		strb	r0, [r3]
+  88 0004 7047     		bx	lr
+  89              	.L9:
+  90 0006 00BF     		.align	2
+  91              	.L8:
+  92 0008 87650040 		.word	1073767815
+  93              		.cfi_endproc
+  94              	.LFE4:
+  95              		.size	Chronometer_SetInterruptMode, .-Chronometer_SetInterruptMode
+  96              		.section	.text.Chronometer_ReadStatusRegister,"ax",%progbits
+  97              		.align	2
+  98              		.global	Chronometer_ReadStatusRegister
+  99              		.thumb
+ 100              		.thumb_func
+ 101              		.type	Chronometer_ReadStatusRegister, %function
+ 102              	Chronometer_ReadStatusRegister:
+ 103              	.LFB5:
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 7
+
+
+ 240:Generated_Source\PSoC5/Chronometer.c **** }
+ 241:Generated_Source\PSoC5/Chronometer.c **** 
+ 242:Generated_Source\PSoC5/Chronometer.c **** 
+ 243:Generated_Source\PSoC5/Chronometer.c **** /*******************************************************************************
+ 244:Generated_Source\PSoC5/Chronometer.c **** * Function Name: Chronometer_ReadStatusRegister
+ 245:Generated_Source\PSoC5/Chronometer.c **** ********************************************************************************
+ 246:Generated_Source\PSoC5/Chronometer.c **** * Summary:
+ 247:Generated_Source\PSoC5/Chronometer.c **** *   Reads the status register and returns it's state. This function should use
+ 248:Generated_Source\PSoC5/Chronometer.c **** *       defined types for the bit-field information as the bits in this
+ 249:Generated_Source\PSoC5/Chronometer.c **** *       register may be permuteable.
+ 250:Generated_Source\PSoC5/Chronometer.c **** *
+ 251:Generated_Source\PSoC5/Chronometer.c **** * Parameters:  
+ 252:Generated_Source\PSoC5/Chronometer.c **** *  void
+ 253:Generated_Source\PSoC5/Chronometer.c **** *
+ 254:Generated_Source\PSoC5/Chronometer.c **** * Return: 
+ 255:Generated_Source\PSoC5/Chronometer.c **** *  (uint8) The contents of the status register
+ 256:Generated_Source\PSoC5/Chronometer.c **** *
+ 257:Generated_Source\PSoC5/Chronometer.c **** * Side Effects:
+ 258:Generated_Source\PSoC5/Chronometer.c **** *   Status register bits may be clear on read. 
+ 259:Generated_Source\PSoC5/Chronometer.c **** *
+ 260:Generated_Source\PSoC5/Chronometer.c **** *******************************************************************************/
+ 261:Generated_Source\PSoC5/Chronometer.c **** uint8   Chronometer_ReadStatusRegister(void) 
+ 262:Generated_Source\PSoC5/Chronometer.c **** {
+ 104              		.loc 1 262 0
+ 105              		.cfi_startproc
+ 106              		@ args = 0, pretend = 0, frame = 0
+ 107              		@ frame_needed = 0, uses_anonymous_args = 0
+ 108              		@ link register save eliminated.
+ 263:Generated_Source\PSoC5/Chronometer.c ****     return Chronometer_STATUS;
+ 109              		.loc 1 263 0
+ 110 0000 014B     		ldr	r3, .L11
+ 111 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 264:Generated_Source\PSoC5/Chronometer.c **** }
+ 112              		.loc 1 264 0
+ 113 0004 7047     		bx	lr
+ 114              	.L12:
+ 115 0006 00BF     		.align	2
+ 116              	.L11:
+ 117 0008 67650040 		.word	1073767783
+ 118              		.cfi_endproc
+ 119              	.LFE5:
+ 120              		.size	Chronometer_ReadStatusRegister, .-Chronometer_ReadStatusRegister
+ 121              		.section	.text.Chronometer_ReadControlRegister,"ax",%progbits
+ 122              		.align	2
+ 123              		.global	Chronometer_ReadControlRegister
+ 124              		.thumb
+ 125              		.thumb_func
+ 126              		.type	Chronometer_ReadControlRegister, %function
+ 127              	Chronometer_ReadControlRegister:
+ 128              	.LFB6:
+ 265:Generated_Source\PSoC5/Chronometer.c **** 
+ 266:Generated_Source\PSoC5/Chronometer.c **** 
+ 267:Generated_Source\PSoC5/Chronometer.c **** #if(!Chronometer_ControlRegRemoved)
+ 268:Generated_Source\PSoC5/Chronometer.c **** /*******************************************************************************
+ 269:Generated_Source\PSoC5/Chronometer.c **** * Function Name: Chronometer_ReadControlRegister
+ 270:Generated_Source\PSoC5/Chronometer.c **** ********************************************************************************
+ 271:Generated_Source\PSoC5/Chronometer.c **** * Summary:
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 8
+
+
+ 272:Generated_Source\PSoC5/Chronometer.c **** *   Reads the control register and returns it's state. This function should use
+ 273:Generated_Source\PSoC5/Chronometer.c **** *       defined types for the bit-field information as the bits in this
+ 274:Generated_Source\PSoC5/Chronometer.c **** *       register may be permuteable.
+ 275:Generated_Source\PSoC5/Chronometer.c **** *
+ 276:Generated_Source\PSoC5/Chronometer.c **** * Parameters:  
+ 277:Generated_Source\PSoC5/Chronometer.c **** *  void
+ 278:Generated_Source\PSoC5/Chronometer.c **** *
+ 279:Generated_Source\PSoC5/Chronometer.c **** * Return: 
+ 280:Generated_Source\PSoC5/Chronometer.c **** *  (uint8) The contents of the control register
+ 281:Generated_Source\PSoC5/Chronometer.c **** *
+ 282:Generated_Source\PSoC5/Chronometer.c **** *******************************************************************************/
+ 283:Generated_Source\PSoC5/Chronometer.c **** uint8   Chronometer_ReadControlRegister(void) 
+ 284:Generated_Source\PSoC5/Chronometer.c **** {
+ 129              		.loc 1 284 0
+ 130              		.cfi_startproc
+ 131              		@ args = 0, pretend = 0, frame = 0
+ 132              		@ frame_needed = 0, uses_anonymous_args = 0
+ 133              		@ link register save eliminated.
+ 285:Generated_Source\PSoC5/Chronometer.c ****     return Chronometer_CONTROL;
+ 134              		.loc 1 285 0
+ 135 0000 014B     		ldr	r3, .L14
+ 136 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 286:Generated_Source\PSoC5/Chronometer.c **** }
+ 137              		.loc 1 286 0
+ 138 0004 7047     		bx	lr
+ 139              	.L15:
+ 140 0006 00BF     		.align	2
+ 141              	.L14:
+ 142 0008 76650040 		.word	1073767798
+ 143              		.cfi_endproc
+ 144              	.LFE6:
+ 145              		.size	Chronometer_ReadControlRegister, .-Chronometer_ReadControlRegister
+ 146              		.section	.text.Chronometer_WriteControlRegister,"ax",%progbits
+ 147              		.align	2
+ 148              		.global	Chronometer_WriteControlRegister
+ 149              		.thumb
+ 150              		.thumb_func
+ 151              		.type	Chronometer_WriteControlRegister, %function
+ 152              	Chronometer_WriteControlRegister:
+ 153              	.LFB7:
+ 287:Generated_Source\PSoC5/Chronometer.c **** 
+ 288:Generated_Source\PSoC5/Chronometer.c **** 
+ 289:Generated_Source\PSoC5/Chronometer.c **** /*******************************************************************************
+ 290:Generated_Source\PSoC5/Chronometer.c **** * Function Name: Chronometer_WriteControlRegister
+ 291:Generated_Source\PSoC5/Chronometer.c **** ********************************************************************************
+ 292:Generated_Source\PSoC5/Chronometer.c **** * Summary:
+ 293:Generated_Source\PSoC5/Chronometer.c **** *   Sets the bit-field of the control register.  This function should use
+ 294:Generated_Source\PSoC5/Chronometer.c **** *       defined types for the bit-field information as the bits in this
+ 295:Generated_Source\PSoC5/Chronometer.c **** *       register may be permuteable.
+ 296:Generated_Source\PSoC5/Chronometer.c **** *
+ 297:Generated_Source\PSoC5/Chronometer.c **** * Parameters:  
+ 298:Generated_Source\PSoC5/Chronometer.c **** *  void
+ 299:Generated_Source\PSoC5/Chronometer.c **** *
+ 300:Generated_Source\PSoC5/Chronometer.c **** * Return: 
+ 301:Generated_Source\PSoC5/Chronometer.c **** *  (uint8) The contents of the control register
+ 302:Generated_Source\PSoC5/Chronometer.c **** *
+ 303:Generated_Source\PSoC5/Chronometer.c **** *******************************************************************************/
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 9
+
+
+ 304:Generated_Source\PSoC5/Chronometer.c **** void    Chronometer_WriteControlRegister(uint8 control) 
+ 305:Generated_Source\PSoC5/Chronometer.c **** {
+ 154              		.loc 1 305 0
+ 155              		.cfi_startproc
+ 156              		@ args = 0, pretend = 0, frame = 0
+ 157              		@ frame_needed = 0, uses_anonymous_args = 0
+ 158              		@ link register save eliminated.
+ 159              	.LVL1:
+ 306:Generated_Source\PSoC5/Chronometer.c ****     Chronometer_CONTROL = control;
+ 160              		.loc 1 306 0
+ 161 0000 014B     		ldr	r3, .L17
+ 162 0002 1870     		strb	r0, [r3]
+ 163 0004 7047     		bx	lr
+ 164              	.L18:
+ 165 0006 00BF     		.align	2
+ 166              	.L17:
+ 167 0008 76650040 		.word	1073767798
+ 168              		.cfi_endproc
+ 169              	.LFE7:
+ 170              		.size	Chronometer_WriteControlRegister, .-Chronometer_WriteControlRegister
+ 171              		.section	.text.Chronometer_WriteCounter,"ax",%progbits
+ 172              		.align	2
+ 173              		.global	Chronometer_WriteCounter
+ 174              		.thumb
+ 175              		.thumb_func
+ 176              		.type	Chronometer_WriteCounter, %function
+ 177              	Chronometer_WriteCounter:
+ 178              	.LFB8:
+ 307:Generated_Source\PSoC5/Chronometer.c **** }
+ 308:Generated_Source\PSoC5/Chronometer.c **** 
+ 309:Generated_Source\PSoC5/Chronometer.c **** #endif  /* (!Chronometer_ControlRegRemoved) */
+ 310:Generated_Source\PSoC5/Chronometer.c **** 
+ 311:Generated_Source\PSoC5/Chronometer.c **** 
+ 312:Generated_Source\PSoC5/Chronometer.c **** #if (!(Chronometer_UsingFixedFunction && (CY_PSOC5A)))
+ 313:Generated_Source\PSoC5/Chronometer.c **** /*******************************************************************************
+ 314:Generated_Source\PSoC5/Chronometer.c **** * Function Name: Chronometer_WriteCounter
+ 315:Generated_Source\PSoC5/Chronometer.c **** ********************************************************************************
+ 316:Generated_Source\PSoC5/Chronometer.c **** * Summary:
+ 317:Generated_Source\PSoC5/Chronometer.c **** *   This funtion is used to set the counter to a specific value
+ 318:Generated_Source\PSoC5/Chronometer.c **** *
+ 319:Generated_Source\PSoC5/Chronometer.c **** * Parameters:  
+ 320:Generated_Source\PSoC5/Chronometer.c **** *  counter:  New counter value. 
+ 321:Generated_Source\PSoC5/Chronometer.c **** *
+ 322:Generated_Source\PSoC5/Chronometer.c **** * Return: 
+ 323:Generated_Source\PSoC5/Chronometer.c **** *  void 
+ 324:Generated_Source\PSoC5/Chronometer.c **** *
+ 325:Generated_Source\PSoC5/Chronometer.c **** *******************************************************************************/
+ 326:Generated_Source\PSoC5/Chronometer.c **** void Chronometer_WriteCounter(uint32 counter) \
+ 327:Generated_Source\PSoC5/Chronometer.c ****                                    
+ 328:Generated_Source\PSoC5/Chronometer.c **** {
+ 179              		.loc 1 328 0
+ 180              		.cfi_startproc
+ 181              		@ args = 0, pretend = 0, frame = 0
+ 182              		@ frame_needed = 0, uses_anonymous_args = 0
+ 183              		@ link register save eliminated.
+ 184              	.LVL2:
+ 329:Generated_Source\PSoC5/Chronometer.c ****     #if(Chronometer_UsingFixedFunction)
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 10
+
+
+ 330:Generated_Source\PSoC5/Chronometer.c ****         /* assert if block is already enabled */
+ 331:Generated_Source\PSoC5/Chronometer.c ****         CYASSERT (0u == (Chronometer_GLOBAL_ENABLE & Chronometer_BLOCK_EN_MASK));
+ 332:Generated_Source\PSoC5/Chronometer.c ****         /* If block is disabled, enable it and then write the counter */
+ 333:Generated_Source\PSoC5/Chronometer.c ****         Chronometer_GLOBAL_ENABLE |= Chronometer_BLOCK_EN_MASK;
+ 334:Generated_Source\PSoC5/Chronometer.c ****         CY_SET_REG16(Chronometer_COUNTER_LSB_PTR, (uint16)counter);
+ 335:Generated_Source\PSoC5/Chronometer.c ****         Chronometer_GLOBAL_ENABLE &= ((uint8)(~Chronometer_BLOCK_EN_MASK));
+ 336:Generated_Source\PSoC5/Chronometer.c ****     #else
+ 337:Generated_Source\PSoC5/Chronometer.c ****         CY_SET_REG32(Chronometer_COUNTER_LSB_PTR, counter);
+ 185              		.loc 1 337 0
+ 186 0000 014B     		ldr	r3, .L20
+ 187 0002 1860     		str	r0, [r3]
+ 188 0004 7047     		bx	lr
+ 189              	.L21:
+ 190 0006 00BF     		.align	2
+ 191              	.L20:
+ 192 0008 04650040 		.word	1073767684
+ 193              		.cfi_endproc
+ 194              	.LFE8:
+ 195              		.size	Chronometer_WriteCounter, .-Chronometer_WriteCounter
+ 196              		.section	.text.Chronometer_ReadCounter,"ax",%progbits
+ 197              		.align	2
+ 198              		.global	Chronometer_ReadCounter
+ 199              		.thumb
+ 200              		.thumb_func
+ 201              		.type	Chronometer_ReadCounter, %function
+ 202              	Chronometer_ReadCounter:
+ 203              	.LFB9:
+ 338:Generated_Source\PSoC5/Chronometer.c ****     #endif /* (Chronometer_UsingFixedFunction) */
+ 339:Generated_Source\PSoC5/Chronometer.c **** }
+ 340:Generated_Source\PSoC5/Chronometer.c **** #endif /* (!(Chronometer_UsingFixedFunction && (CY_PSOC5A))) */
+ 341:Generated_Source\PSoC5/Chronometer.c **** 
+ 342:Generated_Source\PSoC5/Chronometer.c **** 
+ 343:Generated_Source\PSoC5/Chronometer.c **** /*******************************************************************************
+ 344:Generated_Source\PSoC5/Chronometer.c **** * Function Name: Chronometer_ReadCounter
+ 345:Generated_Source\PSoC5/Chronometer.c **** ********************************************************************************
+ 346:Generated_Source\PSoC5/Chronometer.c **** * Summary:
+ 347:Generated_Source\PSoC5/Chronometer.c **** * Returns the current value of the counter.  It doesn't matter
+ 348:Generated_Source\PSoC5/Chronometer.c **** * if the counter is enabled or running.
+ 349:Generated_Source\PSoC5/Chronometer.c **** *
+ 350:Generated_Source\PSoC5/Chronometer.c **** * Parameters:  
+ 351:Generated_Source\PSoC5/Chronometer.c **** *  void:  
+ 352:Generated_Source\PSoC5/Chronometer.c **** *
+ 353:Generated_Source\PSoC5/Chronometer.c **** * Return: 
+ 354:Generated_Source\PSoC5/Chronometer.c **** *  (uint32) The present value of the counter.
+ 355:Generated_Source\PSoC5/Chronometer.c **** *
+ 356:Generated_Source\PSoC5/Chronometer.c **** *******************************************************************************/
+ 357:Generated_Source\PSoC5/Chronometer.c **** uint32 Chronometer_ReadCounter(void) 
+ 358:Generated_Source\PSoC5/Chronometer.c **** {
+ 204              		.loc 1 358 0
+ 205              		.cfi_startproc
+ 206              		@ args = 0, pretend = 0, frame = 0
+ 207              		@ frame_needed = 0, uses_anonymous_args = 0
+ 208              		@ link register save eliminated.
+ 359:Generated_Source\PSoC5/Chronometer.c ****     /* Force capture by reading Accumulator */
+ 360:Generated_Source\PSoC5/Chronometer.c ****     /* Must first do a software capture to be able to read the counter */
+ 361:Generated_Source\PSoC5/Chronometer.c ****     /* It is up to the user code to make sure there isn't already captured data in the FIFO */
+ 362:Generated_Source\PSoC5/Chronometer.c ****     #if(Chronometer_UsingFixedFunction)
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 11
+
+
+ 363:Generated_Source\PSoC5/Chronometer.c **** 		(void)CY_GET_REG16(Chronometer_COUNTER_LSB_PTR);
+ 364:Generated_Source\PSoC5/Chronometer.c **** 	#else
+ 365:Generated_Source\PSoC5/Chronometer.c **** 		(void)CY_GET_REG8(Chronometer_COUNTER_LSB_PTR_8BIT);
+ 209              		.loc 1 365 0
+ 210 0000 024B     		ldr	r3, .L23
+ 211 0002 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 366:Generated_Source\PSoC5/Chronometer.c **** 	#endif/* (Chronometer_UsingFixedFunction) */
+ 367:Generated_Source\PSoC5/Chronometer.c ****     
+ 368:Generated_Source\PSoC5/Chronometer.c ****     /* Read the data from the FIFO (or capture register for Fixed Function)*/
+ 369:Generated_Source\PSoC5/Chronometer.c ****     #if(Chronometer_UsingFixedFunction)
+ 370:Generated_Source\PSoC5/Chronometer.c ****         return ((uint32)CY_GET_REG16(Chronometer_STATICCOUNT_LSB_PTR));
+ 371:Generated_Source\PSoC5/Chronometer.c ****     #else
+ 372:Generated_Source\PSoC5/Chronometer.c ****         return (CY_GET_REG32(Chronometer_STATICCOUNT_LSB_PTR));
+ 212              		.loc 1 372 0
+ 213 0004 024B     		ldr	r3, .L23+4
+ 214 0006 1868     		ldr	r0, [r3]
+ 373:Generated_Source\PSoC5/Chronometer.c ****     #endif /* (Chronometer_UsingFixedFunction) */
+ 374:Generated_Source\PSoC5/Chronometer.c **** }
+ 215              		.loc 1 374 0
+ 216 0008 7047     		bx	lr
+ 217              	.L24:
+ 218 000a 00BF     		.align	2
+ 219              	.L23:
+ 220 000c 04650040 		.word	1073767684
+ 221 0010 44650040 		.word	1073767748
+ 222              		.cfi_endproc
+ 223              	.LFE9:
+ 224              		.size	Chronometer_ReadCounter, .-Chronometer_ReadCounter
+ 225              		.section	.text.Chronometer_ReadCapture,"ax",%progbits
+ 226              		.align	2
+ 227              		.global	Chronometer_ReadCapture
+ 228              		.thumb
+ 229              		.thumb_func
+ 230              		.type	Chronometer_ReadCapture, %function
+ 231              	Chronometer_ReadCapture:
+ 232              	.LFB10:
+ 375:Generated_Source\PSoC5/Chronometer.c **** 
+ 376:Generated_Source\PSoC5/Chronometer.c **** 
+ 377:Generated_Source\PSoC5/Chronometer.c **** /*******************************************************************************
+ 378:Generated_Source\PSoC5/Chronometer.c **** * Function Name: Chronometer_ReadCapture
+ 379:Generated_Source\PSoC5/Chronometer.c **** ********************************************************************************
+ 380:Generated_Source\PSoC5/Chronometer.c **** * Summary:
+ 381:Generated_Source\PSoC5/Chronometer.c **** *   This function returns the last value captured.
+ 382:Generated_Source\PSoC5/Chronometer.c **** *
+ 383:Generated_Source\PSoC5/Chronometer.c **** * Parameters:  
+ 384:Generated_Source\PSoC5/Chronometer.c **** *  void
+ 385:Generated_Source\PSoC5/Chronometer.c **** *
+ 386:Generated_Source\PSoC5/Chronometer.c **** * Return: 
+ 387:Generated_Source\PSoC5/Chronometer.c **** *  (uint32) Present Capture value.
+ 388:Generated_Source\PSoC5/Chronometer.c **** *
+ 389:Generated_Source\PSoC5/Chronometer.c **** *******************************************************************************/
+ 390:Generated_Source\PSoC5/Chronometer.c **** uint32 Chronometer_ReadCapture(void) 
+ 391:Generated_Source\PSoC5/Chronometer.c **** {
+ 233              		.loc 1 391 0
+ 234              		.cfi_startproc
+ 235              		@ args = 0, pretend = 0, frame = 0
+ 236              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 12
+
+
+ 237              		@ link register save eliminated.
+ 392:Generated_Source\PSoC5/Chronometer.c ****     #if(Chronometer_UsingFixedFunction)
+ 393:Generated_Source\PSoC5/Chronometer.c ****         return ((uint32)CY_GET_REG16(Chronometer_STATICCOUNT_LSB_PTR));
+ 394:Generated_Source\PSoC5/Chronometer.c ****     #else
+ 395:Generated_Source\PSoC5/Chronometer.c ****         return (CY_GET_REG32(Chronometer_STATICCOUNT_LSB_PTR));
+ 238              		.loc 1 395 0
+ 239 0000 014B     		ldr	r3, .L26
+ 240 0002 1868     		ldr	r0, [r3]
+ 396:Generated_Source\PSoC5/Chronometer.c ****     #endif /* (Chronometer_UsingFixedFunction) */
+ 397:Generated_Source\PSoC5/Chronometer.c **** }
+ 241              		.loc 1 397 0
+ 242 0004 7047     		bx	lr
+ 243              	.L27:
+ 244 0006 00BF     		.align	2
+ 245              	.L26:
+ 246 0008 44650040 		.word	1073767748
+ 247              		.cfi_endproc
+ 248              	.LFE10:
+ 249              		.size	Chronometer_ReadCapture, .-Chronometer_ReadCapture
+ 250              		.section	.text.Chronometer_WritePeriod,"ax",%progbits
+ 251              		.align	2
+ 252              		.global	Chronometer_WritePeriod
+ 253              		.thumb
+ 254              		.thumb_func
+ 255              		.type	Chronometer_WritePeriod, %function
+ 256              	Chronometer_WritePeriod:
+ 257              	.LFB11:
+ 398:Generated_Source\PSoC5/Chronometer.c **** 
+ 399:Generated_Source\PSoC5/Chronometer.c **** 
+ 400:Generated_Source\PSoC5/Chronometer.c **** /*******************************************************************************
+ 401:Generated_Source\PSoC5/Chronometer.c **** * Function Name: Chronometer_WritePeriod
+ 402:Generated_Source\PSoC5/Chronometer.c **** ********************************************************************************
+ 403:Generated_Source\PSoC5/Chronometer.c **** * Summary:
+ 404:Generated_Source\PSoC5/Chronometer.c **** * Changes the period of the counter.  The new period 
+ 405:Generated_Source\PSoC5/Chronometer.c **** * will be loaded the next time terminal count is detected.
+ 406:Generated_Source\PSoC5/Chronometer.c **** *
+ 407:Generated_Source\PSoC5/Chronometer.c **** * Parameters:  
+ 408:Generated_Source\PSoC5/Chronometer.c **** *  period: (uint32) A value of 0 will result in
+ 409:Generated_Source\PSoC5/Chronometer.c **** *         the counter remaining at zero.  
+ 410:Generated_Source\PSoC5/Chronometer.c **** *
+ 411:Generated_Source\PSoC5/Chronometer.c **** * Return: 
+ 412:Generated_Source\PSoC5/Chronometer.c **** *  void
+ 413:Generated_Source\PSoC5/Chronometer.c **** *
+ 414:Generated_Source\PSoC5/Chronometer.c **** *******************************************************************************/
+ 415:Generated_Source\PSoC5/Chronometer.c **** void Chronometer_WritePeriod(uint32 period) 
+ 416:Generated_Source\PSoC5/Chronometer.c **** {
+ 258              		.loc 1 416 0
+ 259              		.cfi_startproc
+ 260              		@ args = 0, pretend = 0, frame = 0
+ 261              		@ frame_needed = 0, uses_anonymous_args = 0
+ 262              		@ link register save eliminated.
+ 263              	.LVL3:
+ 417:Generated_Source\PSoC5/Chronometer.c ****     #if(Chronometer_UsingFixedFunction)
+ 418:Generated_Source\PSoC5/Chronometer.c ****         CY_SET_REG16(Chronometer_PERIOD_LSB_PTR,(uint16)period);
+ 419:Generated_Source\PSoC5/Chronometer.c ****     #else
+ 420:Generated_Source\PSoC5/Chronometer.c ****         CY_SET_REG32(Chronometer_PERIOD_LSB_PTR, period);
+ 264              		.loc 1 420 0
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 13
+
+
+ 265 0000 014B     		ldr	r3, .L29
+ 266 0002 1860     		str	r0, [r3]
+ 267 0004 7047     		bx	lr
+ 268              	.L30:
+ 269 0006 00BF     		.align	2
+ 270              	.L29:
+ 271 0008 24650040 		.word	1073767716
+ 272              		.cfi_endproc
+ 273              	.LFE11:
+ 274              		.size	Chronometer_WritePeriod, .-Chronometer_WritePeriod
+ 275              		.section	.text.Chronometer_ReadPeriod,"ax",%progbits
+ 276              		.align	2
+ 277              		.global	Chronometer_ReadPeriod
+ 278              		.thumb
+ 279              		.thumb_func
+ 280              		.type	Chronometer_ReadPeriod, %function
+ 281              	Chronometer_ReadPeriod:
+ 282              	.LFB12:
+ 421:Generated_Source\PSoC5/Chronometer.c ****     #endif /* (Chronometer_UsingFixedFunction) */
+ 422:Generated_Source\PSoC5/Chronometer.c **** }
+ 423:Generated_Source\PSoC5/Chronometer.c **** 
+ 424:Generated_Source\PSoC5/Chronometer.c **** 
+ 425:Generated_Source\PSoC5/Chronometer.c **** /*******************************************************************************
+ 426:Generated_Source\PSoC5/Chronometer.c **** * Function Name: Chronometer_ReadPeriod
+ 427:Generated_Source\PSoC5/Chronometer.c **** ********************************************************************************
+ 428:Generated_Source\PSoC5/Chronometer.c **** * Summary:
+ 429:Generated_Source\PSoC5/Chronometer.c **** * Reads the current period value without affecting counter operation.
+ 430:Generated_Source\PSoC5/Chronometer.c **** *
+ 431:Generated_Source\PSoC5/Chronometer.c **** * Parameters:  
+ 432:Generated_Source\PSoC5/Chronometer.c **** *  void:  
+ 433:Generated_Source\PSoC5/Chronometer.c **** *
+ 434:Generated_Source\PSoC5/Chronometer.c **** * Return: 
+ 435:Generated_Source\PSoC5/Chronometer.c **** *  (uint32) Present period value.
+ 436:Generated_Source\PSoC5/Chronometer.c **** *
+ 437:Generated_Source\PSoC5/Chronometer.c **** *******************************************************************************/
+ 438:Generated_Source\PSoC5/Chronometer.c **** uint32 Chronometer_ReadPeriod(void) 
+ 439:Generated_Source\PSoC5/Chronometer.c **** {
+ 283              		.loc 1 439 0
+ 284              		.cfi_startproc
+ 285              		@ args = 0, pretend = 0, frame = 0
+ 286              		@ frame_needed = 0, uses_anonymous_args = 0
+ 287              		@ link register save eliminated.
+ 440:Generated_Source\PSoC5/Chronometer.c ****     #if(Chronometer_UsingFixedFunction)
+ 441:Generated_Source\PSoC5/Chronometer.c ****         return ((uint32)CY_GET_REG16(Chronometer_PERIOD_LSB_PTR));
+ 442:Generated_Source\PSoC5/Chronometer.c ****     #else
+ 443:Generated_Source\PSoC5/Chronometer.c ****         return (CY_GET_REG32(Chronometer_PERIOD_LSB_PTR));
+ 288              		.loc 1 443 0
+ 289 0000 014B     		ldr	r3, .L32
+ 290 0002 1868     		ldr	r0, [r3]
+ 444:Generated_Source\PSoC5/Chronometer.c ****     #endif /* (Chronometer_UsingFixedFunction) */
+ 445:Generated_Source\PSoC5/Chronometer.c **** }
+ 291              		.loc 1 445 0
+ 292 0004 7047     		bx	lr
+ 293              	.L33:
+ 294 0006 00BF     		.align	2
+ 295              	.L32:
+ 296 0008 24650040 		.word	1073767716
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 14
+
+
+ 297              		.cfi_endproc
+ 298              	.LFE12:
+ 299              		.size	Chronometer_ReadPeriod, .-Chronometer_ReadPeriod
+ 300              		.section	.text.Chronometer_WriteCompare,"ax",%progbits
+ 301              		.align	2
+ 302              		.global	Chronometer_WriteCompare
+ 303              		.thumb
+ 304              		.thumb_func
+ 305              		.type	Chronometer_WriteCompare, %function
+ 306              	Chronometer_WriteCompare:
+ 307              	.LFB13:
+ 446:Generated_Source\PSoC5/Chronometer.c **** 
+ 447:Generated_Source\PSoC5/Chronometer.c **** 
+ 448:Generated_Source\PSoC5/Chronometer.c **** #if (!Chronometer_UsingFixedFunction)
+ 449:Generated_Source\PSoC5/Chronometer.c **** /*******************************************************************************
+ 450:Generated_Source\PSoC5/Chronometer.c **** * Function Name: Chronometer_WriteCompare
+ 451:Generated_Source\PSoC5/Chronometer.c **** ********************************************************************************
+ 452:Generated_Source\PSoC5/Chronometer.c **** * Summary:
+ 453:Generated_Source\PSoC5/Chronometer.c **** * Changes the compare value.  The compare output will 
+ 454:Generated_Source\PSoC5/Chronometer.c **** * reflect the new value on the next UDB clock.  The compare output will be 
+ 455:Generated_Source\PSoC5/Chronometer.c **** * driven high when the present counter value compares true based on the 
+ 456:Generated_Source\PSoC5/Chronometer.c **** * configured compare mode setting. 
+ 457:Generated_Source\PSoC5/Chronometer.c **** *
+ 458:Generated_Source\PSoC5/Chronometer.c **** * Parameters:  
+ 459:Generated_Source\PSoC5/Chronometer.c **** *  Compare:  New compare value. 
+ 460:Generated_Source\PSoC5/Chronometer.c **** *
+ 461:Generated_Source\PSoC5/Chronometer.c **** * Return: 
+ 462:Generated_Source\PSoC5/Chronometer.c **** *  void
+ 463:Generated_Source\PSoC5/Chronometer.c **** *
+ 464:Generated_Source\PSoC5/Chronometer.c **** *******************************************************************************/
+ 465:Generated_Source\PSoC5/Chronometer.c **** void Chronometer_WriteCompare(uint32 compare) \
+ 466:Generated_Source\PSoC5/Chronometer.c ****                                    
+ 467:Generated_Source\PSoC5/Chronometer.c **** {
+ 308              		.loc 1 467 0
+ 309              		.cfi_startproc
+ 310              		@ args = 0, pretend = 0, frame = 0
+ 311              		@ frame_needed = 0, uses_anonymous_args = 0
+ 312              		@ link register save eliminated.
+ 313              	.LVL4:
+ 468:Generated_Source\PSoC5/Chronometer.c ****     #if(Chronometer_UsingFixedFunction)
+ 469:Generated_Source\PSoC5/Chronometer.c ****         CY_SET_REG16(Chronometer_COMPARE_LSB_PTR, (uint16)compare);
+ 470:Generated_Source\PSoC5/Chronometer.c ****     #else
+ 471:Generated_Source\PSoC5/Chronometer.c ****         CY_SET_REG32(Chronometer_COMPARE_LSB_PTR, compare);
+ 314              		.loc 1 471 0
+ 315 0000 014B     		ldr	r3, .L35
+ 316 0002 1860     		str	r0, [r3]
+ 317 0004 7047     		bx	lr
+ 318              	.L36:
+ 319 0006 00BF     		.align	2
+ 320              	.L35:
+ 321 0008 34650040 		.word	1073767732
+ 322              		.cfi_endproc
+ 323              	.LFE13:
+ 324              		.size	Chronometer_WriteCompare, .-Chronometer_WriteCompare
+ 325              		.section	.text.Chronometer_ReadCompare,"ax",%progbits
+ 326              		.align	2
+ 327              		.global	Chronometer_ReadCompare
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 15
+
+
+ 328              		.thumb
+ 329              		.thumb_func
+ 330              		.type	Chronometer_ReadCompare, %function
+ 331              	Chronometer_ReadCompare:
+ 332              	.LFB14:
+ 472:Generated_Source\PSoC5/Chronometer.c ****     #endif /* (Chronometer_UsingFixedFunction) */
+ 473:Generated_Source\PSoC5/Chronometer.c **** }
+ 474:Generated_Source\PSoC5/Chronometer.c **** 
+ 475:Generated_Source\PSoC5/Chronometer.c **** 
+ 476:Generated_Source\PSoC5/Chronometer.c **** /*******************************************************************************
+ 477:Generated_Source\PSoC5/Chronometer.c **** * Function Name: Chronometer_ReadCompare
+ 478:Generated_Source\PSoC5/Chronometer.c **** ********************************************************************************
+ 479:Generated_Source\PSoC5/Chronometer.c **** * Summary:
+ 480:Generated_Source\PSoC5/Chronometer.c **** * Returns the compare value.
+ 481:Generated_Source\PSoC5/Chronometer.c **** *
+ 482:Generated_Source\PSoC5/Chronometer.c **** * Parameters:  
+ 483:Generated_Source\PSoC5/Chronometer.c **** *  void:
+ 484:Generated_Source\PSoC5/Chronometer.c **** *
+ 485:Generated_Source\PSoC5/Chronometer.c **** * Return: 
+ 486:Generated_Source\PSoC5/Chronometer.c **** *  (uint32) Present compare value.
+ 487:Generated_Source\PSoC5/Chronometer.c **** *
+ 488:Generated_Source\PSoC5/Chronometer.c **** *******************************************************************************/
+ 489:Generated_Source\PSoC5/Chronometer.c **** uint32 Chronometer_ReadCompare(void) 
+ 490:Generated_Source\PSoC5/Chronometer.c **** {
+ 333              		.loc 1 490 0
+ 334              		.cfi_startproc
+ 335              		@ args = 0, pretend = 0, frame = 0
+ 336              		@ frame_needed = 0, uses_anonymous_args = 0
+ 337              		@ link register save eliminated.
+ 491:Generated_Source\PSoC5/Chronometer.c ****     return (CY_GET_REG32(Chronometer_COMPARE_LSB_PTR));
+ 338              		.loc 1 491 0
+ 339 0000 014B     		ldr	r3, .L38
+ 340 0002 1868     		ldr	r0, [r3]
+ 492:Generated_Source\PSoC5/Chronometer.c **** }
+ 341              		.loc 1 492 0
+ 342 0004 7047     		bx	lr
+ 343              	.L39:
+ 344 0006 00BF     		.align	2
+ 345              	.L38:
+ 346 0008 34650040 		.word	1073767732
+ 347              		.cfi_endproc
+ 348              	.LFE14:
+ 349              		.size	Chronometer_ReadCompare, .-Chronometer_ReadCompare
+ 350              		.section	.text.Chronometer_ClearFIFO,"ax",%progbits
+ 351              		.align	2
+ 352              		.global	Chronometer_ClearFIFO
+ 353              		.thumb
+ 354              		.thumb_func
+ 355              		.type	Chronometer_ClearFIFO, %function
+ 356              	Chronometer_ClearFIFO:
+ 357              	.LFB15:
+ 493:Generated_Source\PSoC5/Chronometer.c **** 
+ 494:Generated_Source\PSoC5/Chronometer.c **** 
+ 495:Generated_Source\PSoC5/Chronometer.c **** #if (Chronometer_COMPARE_MODE_SOFTWARE)
+ 496:Generated_Source\PSoC5/Chronometer.c **** /*******************************************************************************
+ 497:Generated_Source\PSoC5/Chronometer.c **** * Function Name: Chronometer_SetCompareMode
+ 498:Generated_Source\PSoC5/Chronometer.c **** ********************************************************************************
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 16
+
+
+ 499:Generated_Source\PSoC5/Chronometer.c **** * Summary:
+ 500:Generated_Source\PSoC5/Chronometer.c **** *  Sets the software controlled Compare Mode.
+ 501:Generated_Source\PSoC5/Chronometer.c **** *
+ 502:Generated_Source\PSoC5/Chronometer.c **** * Parameters:
+ 503:Generated_Source\PSoC5/Chronometer.c **** *  compareMode:  Compare Mode Enumerated Type.
+ 504:Generated_Source\PSoC5/Chronometer.c **** *
+ 505:Generated_Source\PSoC5/Chronometer.c **** * Return:
+ 506:Generated_Source\PSoC5/Chronometer.c **** *  void
+ 507:Generated_Source\PSoC5/Chronometer.c **** *
+ 508:Generated_Source\PSoC5/Chronometer.c **** *******************************************************************************/
+ 509:Generated_Source\PSoC5/Chronometer.c **** void Chronometer_SetCompareMode(uint8 compareMode) 
+ 510:Generated_Source\PSoC5/Chronometer.c **** {
+ 511:Generated_Source\PSoC5/Chronometer.c ****     /* Clear the compare mode bits in the control register */
+ 512:Generated_Source\PSoC5/Chronometer.c ****     Chronometer_CONTROL &= ((uint8)(~Chronometer_CTRL_CMPMODE_MASK));
+ 513:Generated_Source\PSoC5/Chronometer.c ****     
+ 514:Generated_Source\PSoC5/Chronometer.c ****     /* Write the new setting */
+ 515:Generated_Source\PSoC5/Chronometer.c ****     Chronometer_CONTROL |= compareMode;
+ 516:Generated_Source\PSoC5/Chronometer.c **** }
+ 517:Generated_Source\PSoC5/Chronometer.c **** #endif  /* (Chronometer_COMPARE_MODE_SOFTWARE) */
+ 518:Generated_Source\PSoC5/Chronometer.c **** 
+ 519:Generated_Source\PSoC5/Chronometer.c **** 
+ 520:Generated_Source\PSoC5/Chronometer.c **** #if (Chronometer_CAPTURE_MODE_SOFTWARE)
+ 521:Generated_Source\PSoC5/Chronometer.c **** /*******************************************************************************
+ 522:Generated_Source\PSoC5/Chronometer.c **** * Function Name: Chronometer_SetCaptureMode
+ 523:Generated_Source\PSoC5/Chronometer.c **** ********************************************************************************
+ 524:Generated_Source\PSoC5/Chronometer.c **** * Summary:
+ 525:Generated_Source\PSoC5/Chronometer.c **** *  Sets the software controlled Capture Mode.
+ 526:Generated_Source\PSoC5/Chronometer.c **** *
+ 527:Generated_Source\PSoC5/Chronometer.c **** * Parameters:
+ 528:Generated_Source\PSoC5/Chronometer.c **** *  captureMode:  Capture Mode Enumerated Type.
+ 529:Generated_Source\PSoC5/Chronometer.c **** *
+ 530:Generated_Source\PSoC5/Chronometer.c **** * Return:
+ 531:Generated_Source\PSoC5/Chronometer.c **** *  void
+ 532:Generated_Source\PSoC5/Chronometer.c **** *
+ 533:Generated_Source\PSoC5/Chronometer.c **** *******************************************************************************/
+ 534:Generated_Source\PSoC5/Chronometer.c **** void Chronometer_SetCaptureMode(uint8 captureMode) 
+ 535:Generated_Source\PSoC5/Chronometer.c **** {
+ 536:Generated_Source\PSoC5/Chronometer.c ****     /* Clear the capture mode bits in the control register */
+ 537:Generated_Source\PSoC5/Chronometer.c ****     Chronometer_CONTROL &= ((uint8)(~Chronometer_CTRL_CAPMODE_MASK));
+ 538:Generated_Source\PSoC5/Chronometer.c ****     
+ 539:Generated_Source\PSoC5/Chronometer.c ****     /* Write the new setting */
+ 540:Generated_Source\PSoC5/Chronometer.c ****     Chronometer_CONTROL |= ((uint8)((uint8)captureMode << Chronometer_CTRL_CAPMODE0_SHIFT));
+ 541:Generated_Source\PSoC5/Chronometer.c **** }
+ 542:Generated_Source\PSoC5/Chronometer.c **** #endif  /* (Chronometer_CAPTURE_MODE_SOFTWARE) */
+ 543:Generated_Source\PSoC5/Chronometer.c **** 
+ 544:Generated_Source\PSoC5/Chronometer.c **** 
+ 545:Generated_Source\PSoC5/Chronometer.c **** /*******************************************************************************
+ 546:Generated_Source\PSoC5/Chronometer.c **** * Function Name: Chronometer_ClearFIFO
+ 547:Generated_Source\PSoC5/Chronometer.c **** ********************************************************************************
+ 548:Generated_Source\PSoC5/Chronometer.c **** * Summary:
+ 549:Generated_Source\PSoC5/Chronometer.c **** *   This function clears all capture data from the capture FIFO
+ 550:Generated_Source\PSoC5/Chronometer.c **** *
+ 551:Generated_Source\PSoC5/Chronometer.c **** * Parameters:  
+ 552:Generated_Source\PSoC5/Chronometer.c **** *  void:
+ 553:Generated_Source\PSoC5/Chronometer.c **** *
+ 554:Generated_Source\PSoC5/Chronometer.c **** * Return: 
+ 555:Generated_Source\PSoC5/Chronometer.c **** *  None
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 17
+
+
+ 556:Generated_Source\PSoC5/Chronometer.c **** *
+ 557:Generated_Source\PSoC5/Chronometer.c **** *******************************************************************************/
+ 558:Generated_Source\PSoC5/Chronometer.c **** void Chronometer_ClearFIFO(void) 
+ 559:Generated_Source\PSoC5/Chronometer.c **** {
+ 358              		.loc 1 559 0
+ 359              		.cfi_startproc
+ 360              		@ args = 0, pretend = 0, frame = 0
+ 361              		@ frame_needed = 0, uses_anonymous_args = 0
+ 362 0000 08B5     		push	{r3, lr}
+ 363              		.cfi_def_cfa_offset 8
+ 364              		.cfi_offset 3, -8
+ 365              		.cfi_offset 14, -4
+ 560:Generated_Source\PSoC5/Chronometer.c **** 
+ 561:Generated_Source\PSoC5/Chronometer.c ****     while(0u != (Chronometer_ReadStatusRegister() & Chronometer_STATUS_FIFONEMP))
+ 366              		.loc 1 561 0
+ 367 0002 01E0     		b	.L41
+ 368              	.L42:
+ 562:Generated_Source\PSoC5/Chronometer.c ****     {
+ 563:Generated_Source\PSoC5/Chronometer.c ****         (void)Chronometer_ReadCapture();
+ 369              		.loc 1 563 0
+ 370 0004 FFF7FEFF 		bl	Chronometer_ReadCapture
+ 371              	.LVL5:
+ 372              	.L41:
+ 561:Generated_Source\PSoC5/Chronometer.c ****     {
+ 373              		.loc 1 561 0
+ 374 0008 FFF7FEFF 		bl	Chronometer_ReadStatusRegister
+ 375              	.LVL6:
+ 376 000c 10F0400F 		tst	r0, #64
+ 377 0010 F8D1     		bne	.L42
+ 564:Generated_Source\PSoC5/Chronometer.c ****     }
+ 565:Generated_Source\PSoC5/Chronometer.c **** 
+ 566:Generated_Source\PSoC5/Chronometer.c **** }
+ 378              		.loc 1 566 0
+ 379 0012 08BD     		pop	{r3, pc}
+ 380              		.cfi_endproc
+ 381              	.LFE15:
+ 382              		.size	Chronometer_ClearFIFO, .-Chronometer_ClearFIFO
+ 383              		.section	.text.Chronometer_Init,"ax",%progbits
+ 384              		.align	2
+ 385              		.global	Chronometer_Init
+ 386              		.thumb
+ 387              		.thumb_func
+ 388              		.type	Chronometer_Init, %function
+ 389              	Chronometer_Init:
+ 390              	.LFB0:
+  38:Generated_Source\PSoC5/Chronometer.c ****         #if (!Chronometer_UsingFixedFunction && !Chronometer_ControlRegRemoved)
+ 391              		.loc 1 38 0
+ 392              		.cfi_startproc
+ 393              		@ args = 0, pretend = 0, frame = 0
+ 394              		@ frame_needed = 0, uses_anonymous_args = 0
+ 395 0000 08B5     		push	{r3, lr}
+ 396              		.cfi_def_cfa_offset 8
+ 397              		.cfi_offset 3, -8
+ 398              		.cfi_offset 14, -4
+  79:Generated_Source\PSoC5/Chronometer.c ****             Chronometer_CONTROL = ctrl | Chronometer_DEFAULT_COMPARE_MODE;
+ 399              		.loc 1 79 0
+ 400 0002 124B     		ldr	r3, .L46
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 18
+
+
+ 401 0004 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 402 0006 02F0F802 		and	r2, r2, #248
+ 403              	.LVL7:
+  80:Generated_Source\PSoC5/Chronometer.c ****             
+ 404              		.loc 1 80 0
+ 405 000a 1A70     		strb	r2, [r3]
+  83:Generated_Source\PSoC5/Chronometer.c ****             
+ 406              		.loc 1 83 0
+ 407 000c 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 408              	.LVL8:
+ 409 000e 02F0FC02 		and	r2, r2, #252
+ 410              	.LVL9:
+  88:Generated_Source\PSoC5/Chronometer.c ****             #endif /* 0 != Chronometer_CAPTURE_MODE */ 
+ 411              		.loc 1 88 0
+ 412 0012 1A70     		strb	r2, [r3]
+  96:Generated_Source\PSoC5/Chronometer.c ****         #endif /* (!Chronometer_UsingFixedFunction) */
+ 413              		.loc 1 96 0
+ 414 0014 FFF7FEFF 		bl	Chronometer_ClearFIFO
+ 415              	.LVL10:
+ 100:Generated_Source\PSoC5/Chronometer.c ****         #if (!(Chronometer_UsingFixedFunction && (CY_PSOC5A)))
+ 416              		.loc 1 100 0
+ 417 0018 4FF0FF30 		mov	r0, #-1
+ 418 001c FFF7FEFF 		bl	Chronometer_WritePeriod
+ 419              	.LVL11:
+ 102:Generated_Source\PSoC5/Chronometer.c ****         #endif /* (!(Chronometer_UsingFixedFunction && (CY_PSOC5A))) */
+ 420              		.loc 1 102 0
+ 421 0020 0020     		movs	r0, #0
+ 422 0022 FFF7FEFF 		bl	Chronometer_WriteCounter
+ 423              	.LVL12:
+ 104:Generated_Source\PSoC5/Chronometer.c ****         
+ 424              		.loc 1 104 0
+ 425 0026 0020     		movs	r0, #0
+ 426 0028 FFF7FEFF 		bl	Chronometer_SetInterruptMode
+ 427              	.LVL13:
+ 108:Generated_Source\PSoC5/Chronometer.c ****             /* Set the compare value (only available to non-fixed function implementation */
+ 428              		.loc 1 108 0
+ 429 002c FFF7FEFF 		bl	Chronometer_ReadStatusRegister
+ 430              	.LVL14:
+ 110:Generated_Source\PSoC5/Chronometer.c ****             /* Use the interrupt output of the status register for IRQ output */
+ 431              		.loc 1 110 0
+ 432 0030 4FF0FF30 		mov	r0, #-1
+ 433 0034 FFF7FEFF 		bl	Chronometer_WriteCompare
+ 434              	.LVL15:
+ 115:Generated_Source\PSoC5/Chronometer.c ****             
+ 435              		.loc 1 115 0
+ 436 0038 FFF7FEFF 		bl	CyEnterCriticalSection
+ 437              	.LVL16:
+ 117:Generated_Source\PSoC5/Chronometer.c ****             
+ 438              		.loc 1 117 0
+ 439 003c 044A     		ldr	r2, .L46+4
+ 440 003e 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 441 0040 43F01003 		orr	r3, r3, #16
+ 442 0044 1370     		strb	r3, [r2]
+ 120:Generated_Source\PSoC5/Chronometer.c ****             
+ 443              		.loc 1 120 0
+ 444 0046 FFF7FEFF 		bl	CyExitCriticalSection
+ 445              	.LVL17:
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 19
+
+
+ 446 004a 08BD     		pop	{r3, pc}
+ 447              	.L47:
+ 448              		.align	2
+ 449              	.L46:
+ 450 004c 76650040 		.word	1073767798
+ 451 0050 97650040 		.word	1073767831
+ 452              		.cfi_endproc
+ 453              	.LFE0:
+ 454              		.size	Chronometer_Init, .-Chronometer_Init
+ 455              		.section	.text.Chronometer_Start,"ax",%progbits
+ 456              		.align	2
+ 457              		.global	Chronometer_Start
+ 458              		.thumb
+ 459              		.thumb_func
+ 460              		.type	Chronometer_Start, %function
+ 461              	Chronometer_Start:
+ 462              	.LFB2:
+ 179:Generated_Source\PSoC5/Chronometer.c ****     if(Chronometer_initVar == 0u)
+ 463              		.loc 1 179 0
+ 464              		.cfi_startproc
+ 465              		@ args = 0, pretend = 0, frame = 0
+ 466              		@ frame_needed = 0, uses_anonymous_args = 0
+ 467 0000 08B5     		push	{r3, lr}
+ 468              		.cfi_def_cfa_offset 8
+ 469              		.cfi_offset 3, -8
+ 470              		.cfi_offset 14, -4
+ 180:Generated_Source\PSoC5/Chronometer.c ****     {
+ 471              		.loc 1 180 0
+ 472 0002 054B     		ldr	r3, .L51
+ 473 0004 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 474 0006 23B9     		cbnz	r3, .L49
+ 182:Generated_Source\PSoC5/Chronometer.c ****         
+ 475              		.loc 1 182 0
+ 476 0008 FFF7FEFF 		bl	Chronometer_Init
+ 477              	.LVL18:
+ 184:Generated_Source\PSoC5/Chronometer.c ****     }
+ 478              		.loc 1 184 0
+ 479 000c 0122     		movs	r2, #1
+ 480 000e 024B     		ldr	r3, .L51
+ 481 0010 1A70     		strb	r2, [r3]
+ 482              	.L49:
+ 188:Generated_Source\PSoC5/Chronometer.c **** }
+ 483              		.loc 1 188 0
+ 484 0012 FFF7FEFF 		bl	Chronometer_Enable
+ 485              	.LVL19:
+ 486 0016 08BD     		pop	{r3, pc}
+ 487              	.L52:
+ 488              		.align	2
+ 489              	.L51:
+ 490 0018 00000000 		.word	.LANCHOR0
+ 491              		.cfi_endproc
+ 492              	.LFE2:
+ 493              		.size	Chronometer_Start, .-Chronometer_Start
+ 494              		.global	Chronometer_initVar
+ 495              		.bss
+ 496              		.set	.LANCHOR0,. + 0
+ 497              		.type	Chronometer_initVar, %object
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 20
+
+
+ 498              		.size	Chronometer_initVar, 1
+ 499              	Chronometer_initVar:
+ 500 0000 00       		.space	1
+ 501              		.text
+ 502              	.Letext0:
+ 503              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 504              		.file 3 "Generated_Source\\PSoC5\\CyLib.h"
+ 505              		.section	.debug_info,"",%progbits
+ 506              	.Ldebug_info0:
+ 507 0000 3B030000 		.4byte	0x33b
+ 508 0004 0400     		.2byte	0x4
+ 509 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 510 000a 04       		.byte	0x4
+ 511 000b 01       		.uleb128 0x1
+ 512 000c 9A010000 		.4byte	.LASF40
+ 513 0010 01       		.byte	0x1
+ 514 0011 90020000 		.4byte	.LASF41
+ 515 0015 11030000 		.4byte	.LASF42
+ 516 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 517 001d 00000000 		.4byte	0
+ 518 0021 00000000 		.4byte	.Ldebug_line0
+ 519 0025 02       		.uleb128 0x2
+ 520 0026 01       		.byte	0x1
+ 521 0027 06       		.byte	0x6
+ 522 0028 A0030000 		.4byte	.LASF0
+ 523 002c 02       		.uleb128 0x2
+ 524 002d 01       		.byte	0x1
+ 525 002e 08       		.byte	0x8
+ 526 002f F8000000 		.4byte	.LASF1
+ 527 0033 02       		.uleb128 0x2
+ 528 0034 02       		.byte	0x2
+ 529 0035 05       		.byte	0x5
+ 530 0036 8D030000 		.4byte	.LASF2
+ 531 003a 02       		.uleb128 0x2
+ 532 003b 02       		.byte	0x2
+ 533 003c 07       		.byte	0x7
+ 534 003d 9B000000 		.4byte	.LASF3
+ 535 0041 02       		.uleb128 0x2
+ 536 0042 04       		.byte	0x4
+ 537 0043 05       		.byte	0x5
+ 538 0044 97030000 		.4byte	.LASF4
+ 539 0048 02       		.uleb128 0x2
+ 540 0049 04       		.byte	0x4
+ 541 004a 07       		.byte	0x7
+ 542 004b 0B010000 		.4byte	.LASF5
+ 543 004f 02       		.uleb128 0x2
+ 544 0050 08       		.byte	0x8
+ 545 0051 05       		.byte	0x5
+ 546 0052 61030000 		.4byte	.LASF6
+ 547 0056 02       		.uleb128 0x2
+ 548 0057 08       		.byte	0x8
+ 549 0058 07       		.byte	0x7
+ 550 0059 E1000000 		.4byte	.LASF7
+ 551 005d 03       		.uleb128 0x3
+ 552 005e 04       		.byte	0x4
+ 553 005f 05       		.byte	0x5
+ 554 0060 696E7400 		.ascii	"int\000"
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 21
+
+
+ 555 0064 02       		.uleb128 0x2
+ 556 0065 04       		.byte	0x4
+ 557 0066 07       		.byte	0x7
+ 558 0067 3F020000 		.4byte	.LASF8
+ 559 006b 04       		.uleb128 0x4
+ 560 006c 3E010000 		.4byte	.LASF9
+ 561 0070 02       		.byte	0x2
+ 562 0071 9201     		.2byte	0x192
+ 563 0073 2C000000 		.4byte	0x2c
+ 564 0077 04       		.uleb128 0x4
+ 565 0078 93010000 		.4byte	.LASF10
+ 566 007c 02       		.byte	0x2
+ 567 007d 9401     		.2byte	0x194
+ 568 007f 48000000 		.4byte	0x48
+ 569 0083 02       		.uleb128 0x2
+ 570 0084 04       		.byte	0x4
+ 571 0085 04       		.byte	0x4
+ 572 0086 D3000000 		.4byte	.LASF11
+ 573 008a 02       		.uleb128 0x2
+ 574 008b 08       		.byte	0x8
+ 575 008c 04       		.byte	0x4
+ 576 008d 6C010000 		.4byte	.LASF12
+ 577 0091 02       		.uleb128 0x2
+ 578 0092 01       		.byte	0x1
+ 579 0093 08       		.byte	0x8
+ 580 0094 6F030000 		.4byte	.LASF13
+ 581 0098 04       		.uleb128 0x4
+ 582 0099 06010000 		.4byte	.LASF14
+ 583 009d 02       		.byte	0x2
+ 584 009e 3C02     		.2byte	0x23c
+ 585 00a0 A4000000 		.4byte	0xa4
+ 586 00a4 05       		.uleb128 0x5
+ 587 00a5 6B000000 		.4byte	0x6b
+ 588 00a9 04       		.uleb128 0x4
+ 589 00aa 00000000 		.4byte	.LASF15
+ 590 00ae 02       		.byte	0x2
+ 591 00af 3E02     		.2byte	0x23e
+ 592 00b1 B5000000 		.4byte	0xb5
+ 593 00b5 05       		.uleb128 0x5
+ 594 00b6 77000000 		.4byte	0x77
+ 595 00ba 02       		.uleb128 0x2
+ 596 00bb 04       		.byte	0x4
+ 597 00bc 07       		.byte	0x7
+ 598 00bd 08030000 		.4byte	.LASF16
+ 599 00c1 06       		.uleb128 0x6
+ 600 00c2 3E000000 		.4byte	.LASF17
+ 601 00c6 01       		.byte	0x1
+ 602 00c7 8F       		.byte	0x8f
+ 603 00c8 00000000 		.4byte	.LFB1
+ 604 00cc 10000000 		.4byte	.LFE1-.LFB1
+ 605 00d0 01       		.uleb128 0x1
+ 606 00d1 9C       		.byte	0x9c
+ 607 00d2 06       		.uleb128 0x6
+ 608 00d3 5B010000 		.4byte	.LASF18
+ 609 00d7 01       		.byte	0x1
+ 610 00d8 D0       		.byte	0xd0
+ 611 00d9 00000000 		.4byte	.LFB3
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 22
+
+
+ 612 00dd 10000000 		.4byte	.LFE3-.LFB3
+ 613 00e1 01       		.uleb128 0x1
+ 614 00e2 9C       		.byte	0x9c
+ 615 00e3 07       		.uleb128 0x7
+ 616 00e4 06000000 		.4byte	.LASF21
+ 617 00e8 01       		.byte	0x1
+ 618 00e9 ED       		.byte	0xed
+ 619 00ea 00000000 		.4byte	.LFB4
+ 620 00ee 0C000000 		.4byte	.LFE4-.LFB4
+ 621 00f2 01       		.uleb128 0x1
+ 622 00f3 9C       		.byte	0x9c
+ 623 00f4 06010000 		.4byte	0x106
+ 624 00f8 08       		.uleb128 0x8
+ 625 00f9 4C010000 		.4byte	.LASF23
+ 626 00fd 01       		.byte	0x1
+ 627 00fe ED       		.byte	0xed
+ 628 00ff 6B000000 		.4byte	0x6b
+ 629 0103 01       		.uleb128 0x1
+ 630 0104 50       		.byte	0x50
+ 631 0105 00       		.byte	0
+ 632 0106 09       		.uleb128 0x9
+ 633 0107 CD020000 		.4byte	.LASF19
+ 634 010b 01       		.byte	0x1
+ 635 010c 0501     		.2byte	0x105
+ 636 010e 6B000000 		.4byte	0x6b
+ 637 0112 00000000 		.4byte	.LFB5
+ 638 0116 0C000000 		.4byte	.LFE5-.LFB5
+ 639 011a 01       		.uleb128 0x1
+ 640 011b 9C       		.byte	0x9c
+ 641 011c 09       		.uleb128 0x9
+ 642 011d 73010000 		.4byte	.LASF20
+ 643 0121 01       		.byte	0x1
+ 644 0122 1B01     		.2byte	0x11b
+ 645 0124 6B000000 		.4byte	0x6b
+ 646 0128 00000000 		.4byte	.LFB6
+ 647 012c 0C000000 		.4byte	.LFE6-.LFB6
+ 648 0130 01       		.uleb128 0x1
+ 649 0131 9C       		.byte	0x9c
+ 650 0132 0A       		.uleb128 0xa
+ 651 0133 1D010000 		.4byte	.LASF22
+ 652 0137 01       		.byte	0x1
+ 653 0138 3001     		.2byte	0x130
+ 654 013a 00000000 		.4byte	.LFB7
+ 655 013e 0C000000 		.4byte	.LFE7-.LFB7
+ 656 0142 01       		.uleb128 0x1
+ 657 0143 9C       		.byte	0x9c
+ 658 0144 57010000 		.4byte	0x157
+ 659 0148 0B       		.uleb128 0xb
+ 660 0149 44010000 		.4byte	.LASF24
+ 661 014d 01       		.byte	0x1
+ 662 014e 3001     		.2byte	0x130
+ 663 0150 6B000000 		.4byte	0x6b
+ 664 0154 01       		.uleb128 0x1
+ 665 0155 50       		.byte	0x50
+ 666 0156 00       		.byte	0
+ 667 0157 0A       		.uleb128 0xa
+ 668 0158 82000000 		.4byte	.LASF25
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 23
+
+
+ 669 015c 01       		.byte	0x1
+ 670 015d 4601     		.2byte	0x146
+ 671 015f 00000000 		.4byte	.LFB8
+ 672 0163 0C000000 		.4byte	.LFE8-.LFB8
+ 673 0167 01       		.uleb128 0x1
+ 674 0168 9C       		.byte	0x9c
+ 675 0169 7C010000 		.4byte	0x17c
+ 676 016d 0B       		.uleb128 0xb
+ 677 016e D9000000 		.4byte	.LASF26
+ 678 0172 01       		.byte	0x1
+ 679 0173 4601     		.2byte	0x146
+ 680 0175 77000000 		.4byte	0x77
+ 681 0179 01       		.uleb128 0x1
+ 682 017a 50       		.byte	0x50
+ 683 017b 00       		.byte	0
+ 684 017c 09       		.uleb128 0x9
+ 685 017d B4030000 		.4byte	.LASF27
+ 686 0181 01       		.byte	0x1
+ 687 0182 6501     		.2byte	0x165
+ 688 0184 77000000 		.4byte	0x77
+ 689 0188 00000000 		.4byte	.LFB9
+ 690 018c 14000000 		.4byte	.LFE9-.LFB9
+ 691 0190 01       		.uleb128 0x1
+ 692 0191 9C       		.byte	0x9c
+ 693 0192 09       		.uleb128 0x9
+ 694 0193 B5020000 		.4byte	.LASF28
+ 695 0197 01       		.byte	0x1
+ 696 0198 8601     		.2byte	0x186
+ 697 019a 77000000 		.4byte	0x77
+ 698 019e 00000000 		.4byte	.LFB10
+ 699 01a2 0C000000 		.4byte	.LFE10-.LFB10
+ 700 01a6 01       		.uleb128 0x1
+ 701 01a7 9C       		.byte	0x9c
+ 702 01a8 0A       		.uleb128 0xa
+ 703 01a9 63000000 		.4byte	.LASF29
+ 704 01ad 01       		.byte	0x1
+ 705 01ae 9F01     		.2byte	0x19f
+ 706 01b0 00000000 		.4byte	.LFB11
+ 707 01b4 0C000000 		.4byte	.LFE11-.LFB11
+ 708 01b8 01       		.uleb128 0x1
+ 709 01b9 9C       		.byte	0x9c
+ 710 01ba CD010000 		.4byte	0x1cd
+ 711 01be 0B       		.uleb128 0xb
+ 712 01bf 7B000000 		.4byte	.LASF30
+ 713 01c3 01       		.byte	0x1
+ 714 01c4 9F01     		.2byte	0x19f
+ 715 01c6 77000000 		.4byte	0x77
+ 716 01ca 01       		.uleb128 0x1
+ 717 01cb 50       		.byte	0x50
+ 718 01cc 00       		.byte	0
+ 719 01cd 09       		.uleb128 0x9
+ 720 01ce EC020000 		.4byte	.LASF31
+ 721 01d2 01       		.byte	0x1
+ 722 01d3 B601     		.2byte	0x1b6
+ 723 01d5 77000000 		.4byte	0x77
+ 724 01d9 00000000 		.4byte	.LFB12
+ 725 01dd 0C000000 		.4byte	.LFE12-.LFB12
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 24
+
+
+ 726 01e1 01       		.uleb128 0x1
+ 727 01e2 9C       		.byte	0x9c
+ 728 01e3 0A       		.uleb128 0xa
+ 729 01e4 74030000 		.4byte	.LASF32
+ 730 01e8 01       		.byte	0x1
+ 731 01e9 D101     		.2byte	0x1d1
+ 732 01eb 00000000 		.4byte	.LFB13
+ 733 01ef 0C000000 		.4byte	.LFE13-.LFB13
+ 734 01f3 01       		.uleb128 0x1
+ 735 01f4 9C       		.byte	0x9c
+ 736 01f5 08020000 		.4byte	0x208
+ 737 01f9 0B       		.uleb128 0xb
+ 738 01fa AC030000 		.4byte	.LASF33
+ 739 01fe 01       		.byte	0x1
+ 740 01ff D101     		.2byte	0x1d1
+ 741 0201 77000000 		.4byte	0x77
+ 742 0205 01       		.uleb128 0x1
+ 743 0206 50       		.byte	0x50
+ 744 0207 00       		.byte	0
+ 745 0208 09       		.uleb128 0x9
+ 746 0209 4C020000 		.4byte	.LASF34
+ 747 020d 01       		.byte	0x1
+ 748 020e E901     		.2byte	0x1e9
+ 749 0210 77000000 		.4byte	0x77
+ 750 0214 00000000 		.4byte	.LFB14
+ 751 0218 0C000000 		.4byte	.LFE14-.LFB14
+ 752 021c 01       		.uleb128 0x1
+ 753 021d 9C       		.byte	0x9c
+ 754 021e 0A       		.uleb128 0xa
+ 755 021f 64020000 		.4byte	.LASF35
+ 756 0223 01       		.byte	0x1
+ 757 0224 2E02     		.2byte	0x22e
+ 758 0226 00000000 		.4byte	.LFB15
+ 759 022a 14000000 		.4byte	.LFE15-.LFB15
+ 760 022e 01       		.uleb128 0x1
+ 761 022f 9C       		.byte	0x9c
+ 762 0230 47020000 		.4byte	0x247
+ 763 0234 0C       		.uleb128 0xc
+ 764 0235 08000000 		.4byte	.LVL5
+ 765 0239 92010000 		.4byte	0x192
+ 766 023d 0C       		.uleb128 0xc
+ 767 023e 0C000000 		.4byte	.LVL6
+ 768 0242 06010000 		.4byte	0x106
+ 769 0246 00       		.byte	0
+ 770 0247 07       		.uleb128 0x7
+ 771 0248 C2000000 		.4byte	.LASF36
+ 772 024c 01       		.byte	0x1
+ 773 024d 25       		.byte	0x25
+ 774 024e 00000000 		.4byte	.LFB0
+ 775 0252 54000000 		.4byte	.LFE0-.LFB0
+ 776 0256 01       		.uleb128 0x1
+ 777 0257 9C       		.byte	0x9c
+ 778 0258 ED020000 		.4byte	0x2ed
+ 779 025c 0D       		.uleb128 0xd
+ 780 025d 03030000 		.4byte	.LASF37
+ 781 0261 01       		.byte	0x1
+ 782 0262 28       		.byte	0x28
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 25
+
+
+ 783 0263 6B000000 		.4byte	0x6b
+ 784 0267 00000000 		.4byte	.LLST0
+ 785 026b 0D       		.uleb128 0xd
+ 786 026c 23000000 		.4byte	.LASF38
+ 787 0270 01       		.byte	0x1
+ 788 0271 2D       		.byte	0x2d
+ 789 0272 6B000000 		.4byte	0x6b
+ 790 0276 2A000000 		.4byte	.LLST1
+ 791 027a 0C       		.uleb128 0xc
+ 792 027b 18000000 		.4byte	.LVL10
+ 793 027f 1E020000 		.4byte	0x21e
+ 794 0283 0E       		.uleb128 0xe
+ 795 0284 20000000 		.4byte	.LVL11
+ 796 0288 A8010000 		.4byte	0x1a8
+ 797 028c 97020000 		.4byte	0x297
+ 798 0290 0F       		.uleb128 0xf
+ 799 0291 01       		.uleb128 0x1
+ 800 0292 50       		.byte	0x50
+ 801 0293 02       		.uleb128 0x2
+ 802 0294 09       		.byte	0x9
+ 803 0295 FF       		.byte	0xff
+ 804 0296 00       		.byte	0
+ 805 0297 0E       		.uleb128 0xe
+ 806 0298 26000000 		.4byte	.LVL12
+ 807 029c 57010000 		.4byte	0x157
+ 808 02a0 AA020000 		.4byte	0x2aa
+ 809 02a4 0F       		.uleb128 0xf
+ 810 02a5 01       		.uleb128 0x1
+ 811 02a6 50       		.byte	0x50
+ 812 02a7 01       		.uleb128 0x1
+ 813 02a8 30       		.byte	0x30
+ 814 02a9 00       		.byte	0
+ 815 02aa 0E       		.uleb128 0xe
+ 816 02ab 2C000000 		.4byte	.LVL13
+ 817 02af E3000000 		.4byte	0xe3
+ 818 02b3 BD020000 		.4byte	0x2bd
+ 819 02b7 0F       		.uleb128 0xf
+ 820 02b8 01       		.uleb128 0x1
+ 821 02b9 50       		.byte	0x50
+ 822 02ba 01       		.uleb128 0x1
+ 823 02bb 30       		.byte	0x30
+ 824 02bc 00       		.byte	0
+ 825 02bd 0C       		.uleb128 0xc
+ 826 02be 30000000 		.4byte	.LVL14
+ 827 02c2 06010000 		.4byte	0x106
+ 828 02c6 0E       		.uleb128 0xe
+ 829 02c7 38000000 		.4byte	.LVL15
+ 830 02cb E3010000 		.4byte	0x1e3
+ 831 02cf DA020000 		.4byte	0x2da
+ 832 02d3 0F       		.uleb128 0xf
+ 833 02d4 01       		.uleb128 0x1
+ 834 02d5 50       		.byte	0x50
+ 835 02d6 02       		.uleb128 0x2
+ 836 02d7 09       		.byte	0x9
+ 837 02d8 FF       		.byte	0xff
+ 838 02d9 00       		.byte	0
+ 839 02da 0C       		.uleb128 0xc
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 26
+
+
+ 840 02db 3C000000 		.4byte	.LVL16
+ 841 02df 26030000 		.4byte	0x326
+ 842 02e3 0C       		.uleb128 0xc
+ 843 02e4 4A000000 		.4byte	.LVL17
+ 844 02e8 31030000 		.4byte	0x331
+ 845 02ec 00       		.byte	0
+ 846 02ed 07       		.uleb128 0x7
+ 847 02ee 51000000 		.4byte	.LASF39
+ 848 02f2 01       		.byte	0x1
+ 849 02f3 B2       		.byte	0xb2
+ 850 02f4 00000000 		.4byte	.LFB2
+ 851 02f8 1C000000 		.4byte	.LFE2-.LFB2
+ 852 02fc 01       		.uleb128 0x1
+ 853 02fd 9C       		.byte	0x9c
+ 854 02fe 15030000 		.4byte	0x315
+ 855 0302 0C       		.uleb128 0xc
+ 856 0303 0C000000 		.4byte	.LVL18
+ 857 0307 47020000 		.4byte	0x247
+ 858 030b 0C       		.uleb128 0xc
+ 859 030c 16000000 		.4byte	.LVL19
+ 860 0310 C1000000 		.4byte	0xc1
+ 861 0314 00       		.byte	0
+ 862 0315 10       		.uleb128 0x10
+ 863 0316 AE000000 		.4byte	.LASF43
+ 864 031a 01       		.byte	0x1
+ 865 031b 15       		.byte	0x15
+ 866 031c 6B000000 		.4byte	0x6b
+ 867 0320 05       		.uleb128 0x5
+ 868 0321 03       		.byte	0x3
+ 869 0322 00000000 		.4byte	Chronometer_initVar
+ 870 0326 11       		.uleb128 0x11
+ 871 0327 28020000 		.4byte	.LASF44
+ 872 032b 03       		.byte	0x3
+ 873 032c 7D       		.byte	0x7d
+ 874 032d 6B000000 		.4byte	0x6b
+ 875 0331 12       		.uleb128 0x12
+ 876 0332 7A020000 		.4byte	.LASF45
+ 877 0336 03       		.byte	0x3
+ 878 0337 7E       		.byte	0x7e
+ 879 0338 13       		.uleb128 0x13
+ 880 0339 6B000000 		.4byte	0x6b
+ 881 033d 00       		.byte	0
+ 882 033e 00       		.byte	0
+ 883              		.section	.debug_abbrev,"",%progbits
+ 884              	.Ldebug_abbrev0:
+ 885 0000 01       		.uleb128 0x1
+ 886 0001 11       		.uleb128 0x11
+ 887 0002 01       		.byte	0x1
+ 888 0003 25       		.uleb128 0x25
+ 889 0004 0E       		.uleb128 0xe
+ 890 0005 13       		.uleb128 0x13
+ 891 0006 0B       		.uleb128 0xb
+ 892 0007 03       		.uleb128 0x3
+ 893 0008 0E       		.uleb128 0xe
+ 894 0009 1B       		.uleb128 0x1b
+ 895 000a 0E       		.uleb128 0xe
+ 896 000b 55       		.uleb128 0x55
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 27
+
+
+ 897 000c 17       		.uleb128 0x17
+ 898 000d 11       		.uleb128 0x11
+ 899 000e 01       		.uleb128 0x1
+ 900 000f 10       		.uleb128 0x10
+ 901 0010 17       		.uleb128 0x17
+ 902 0011 00       		.byte	0
+ 903 0012 00       		.byte	0
+ 904 0013 02       		.uleb128 0x2
+ 905 0014 24       		.uleb128 0x24
+ 906 0015 00       		.byte	0
+ 907 0016 0B       		.uleb128 0xb
+ 908 0017 0B       		.uleb128 0xb
+ 909 0018 3E       		.uleb128 0x3e
+ 910 0019 0B       		.uleb128 0xb
+ 911 001a 03       		.uleb128 0x3
+ 912 001b 0E       		.uleb128 0xe
+ 913 001c 00       		.byte	0
+ 914 001d 00       		.byte	0
+ 915 001e 03       		.uleb128 0x3
+ 916 001f 24       		.uleb128 0x24
+ 917 0020 00       		.byte	0
+ 918 0021 0B       		.uleb128 0xb
+ 919 0022 0B       		.uleb128 0xb
+ 920 0023 3E       		.uleb128 0x3e
+ 921 0024 0B       		.uleb128 0xb
+ 922 0025 03       		.uleb128 0x3
+ 923 0026 08       		.uleb128 0x8
+ 924 0027 00       		.byte	0
+ 925 0028 00       		.byte	0
+ 926 0029 04       		.uleb128 0x4
+ 927 002a 16       		.uleb128 0x16
+ 928 002b 00       		.byte	0
+ 929 002c 03       		.uleb128 0x3
+ 930 002d 0E       		.uleb128 0xe
+ 931 002e 3A       		.uleb128 0x3a
+ 932 002f 0B       		.uleb128 0xb
+ 933 0030 3B       		.uleb128 0x3b
+ 934 0031 05       		.uleb128 0x5
+ 935 0032 49       		.uleb128 0x49
+ 936 0033 13       		.uleb128 0x13
+ 937 0034 00       		.byte	0
+ 938 0035 00       		.byte	0
+ 939 0036 05       		.uleb128 0x5
+ 940 0037 35       		.uleb128 0x35
+ 941 0038 00       		.byte	0
+ 942 0039 49       		.uleb128 0x49
+ 943 003a 13       		.uleb128 0x13
+ 944 003b 00       		.byte	0
+ 945 003c 00       		.byte	0
+ 946 003d 06       		.uleb128 0x6
+ 947 003e 2E       		.uleb128 0x2e
+ 948 003f 00       		.byte	0
+ 949 0040 3F       		.uleb128 0x3f
+ 950 0041 19       		.uleb128 0x19
+ 951 0042 03       		.uleb128 0x3
+ 952 0043 0E       		.uleb128 0xe
+ 953 0044 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 28
+
+
+ 954 0045 0B       		.uleb128 0xb
+ 955 0046 3B       		.uleb128 0x3b
+ 956 0047 0B       		.uleb128 0xb
+ 957 0048 27       		.uleb128 0x27
+ 958 0049 19       		.uleb128 0x19
+ 959 004a 11       		.uleb128 0x11
+ 960 004b 01       		.uleb128 0x1
+ 961 004c 12       		.uleb128 0x12
+ 962 004d 06       		.uleb128 0x6
+ 963 004e 40       		.uleb128 0x40
+ 964 004f 18       		.uleb128 0x18
+ 965 0050 9742     		.uleb128 0x2117
+ 966 0052 19       		.uleb128 0x19
+ 967 0053 00       		.byte	0
+ 968 0054 00       		.byte	0
+ 969 0055 07       		.uleb128 0x7
+ 970 0056 2E       		.uleb128 0x2e
+ 971 0057 01       		.byte	0x1
+ 972 0058 3F       		.uleb128 0x3f
+ 973 0059 19       		.uleb128 0x19
+ 974 005a 03       		.uleb128 0x3
+ 975 005b 0E       		.uleb128 0xe
+ 976 005c 3A       		.uleb128 0x3a
+ 977 005d 0B       		.uleb128 0xb
+ 978 005e 3B       		.uleb128 0x3b
+ 979 005f 0B       		.uleb128 0xb
+ 980 0060 27       		.uleb128 0x27
+ 981 0061 19       		.uleb128 0x19
+ 982 0062 11       		.uleb128 0x11
+ 983 0063 01       		.uleb128 0x1
+ 984 0064 12       		.uleb128 0x12
+ 985 0065 06       		.uleb128 0x6
+ 986 0066 40       		.uleb128 0x40
+ 987 0067 18       		.uleb128 0x18
+ 988 0068 9742     		.uleb128 0x2117
+ 989 006a 19       		.uleb128 0x19
+ 990 006b 01       		.uleb128 0x1
+ 991 006c 13       		.uleb128 0x13
+ 992 006d 00       		.byte	0
+ 993 006e 00       		.byte	0
+ 994 006f 08       		.uleb128 0x8
+ 995 0070 05       		.uleb128 0x5
+ 996 0071 00       		.byte	0
+ 997 0072 03       		.uleb128 0x3
+ 998 0073 0E       		.uleb128 0xe
+ 999 0074 3A       		.uleb128 0x3a
+ 1000 0075 0B       		.uleb128 0xb
+ 1001 0076 3B       		.uleb128 0x3b
+ 1002 0077 0B       		.uleb128 0xb
+ 1003 0078 49       		.uleb128 0x49
+ 1004 0079 13       		.uleb128 0x13
+ 1005 007a 02       		.uleb128 0x2
+ 1006 007b 18       		.uleb128 0x18
+ 1007 007c 00       		.byte	0
+ 1008 007d 00       		.byte	0
+ 1009 007e 09       		.uleb128 0x9
+ 1010 007f 2E       		.uleb128 0x2e
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 29
+
+
+ 1011 0080 00       		.byte	0
+ 1012 0081 3F       		.uleb128 0x3f
+ 1013 0082 19       		.uleb128 0x19
+ 1014 0083 03       		.uleb128 0x3
+ 1015 0084 0E       		.uleb128 0xe
+ 1016 0085 3A       		.uleb128 0x3a
+ 1017 0086 0B       		.uleb128 0xb
+ 1018 0087 3B       		.uleb128 0x3b
+ 1019 0088 05       		.uleb128 0x5
+ 1020 0089 27       		.uleb128 0x27
+ 1021 008a 19       		.uleb128 0x19
+ 1022 008b 49       		.uleb128 0x49
+ 1023 008c 13       		.uleb128 0x13
+ 1024 008d 11       		.uleb128 0x11
+ 1025 008e 01       		.uleb128 0x1
+ 1026 008f 12       		.uleb128 0x12
+ 1027 0090 06       		.uleb128 0x6
+ 1028 0091 40       		.uleb128 0x40
+ 1029 0092 18       		.uleb128 0x18
+ 1030 0093 9742     		.uleb128 0x2117
+ 1031 0095 19       		.uleb128 0x19
+ 1032 0096 00       		.byte	0
+ 1033 0097 00       		.byte	0
+ 1034 0098 0A       		.uleb128 0xa
+ 1035 0099 2E       		.uleb128 0x2e
+ 1036 009a 01       		.byte	0x1
+ 1037 009b 3F       		.uleb128 0x3f
+ 1038 009c 19       		.uleb128 0x19
+ 1039 009d 03       		.uleb128 0x3
+ 1040 009e 0E       		.uleb128 0xe
+ 1041 009f 3A       		.uleb128 0x3a
+ 1042 00a0 0B       		.uleb128 0xb
+ 1043 00a1 3B       		.uleb128 0x3b
+ 1044 00a2 05       		.uleb128 0x5
+ 1045 00a3 27       		.uleb128 0x27
+ 1046 00a4 19       		.uleb128 0x19
+ 1047 00a5 11       		.uleb128 0x11
+ 1048 00a6 01       		.uleb128 0x1
+ 1049 00a7 12       		.uleb128 0x12
+ 1050 00a8 06       		.uleb128 0x6
+ 1051 00a9 40       		.uleb128 0x40
+ 1052 00aa 18       		.uleb128 0x18
+ 1053 00ab 9742     		.uleb128 0x2117
+ 1054 00ad 19       		.uleb128 0x19
+ 1055 00ae 01       		.uleb128 0x1
+ 1056 00af 13       		.uleb128 0x13
+ 1057 00b0 00       		.byte	0
+ 1058 00b1 00       		.byte	0
+ 1059 00b2 0B       		.uleb128 0xb
+ 1060 00b3 05       		.uleb128 0x5
+ 1061 00b4 00       		.byte	0
+ 1062 00b5 03       		.uleb128 0x3
+ 1063 00b6 0E       		.uleb128 0xe
+ 1064 00b7 3A       		.uleb128 0x3a
+ 1065 00b8 0B       		.uleb128 0xb
+ 1066 00b9 3B       		.uleb128 0x3b
+ 1067 00ba 05       		.uleb128 0x5
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 30
+
+
+ 1068 00bb 49       		.uleb128 0x49
+ 1069 00bc 13       		.uleb128 0x13
+ 1070 00bd 02       		.uleb128 0x2
+ 1071 00be 18       		.uleb128 0x18
+ 1072 00bf 00       		.byte	0
+ 1073 00c0 00       		.byte	0
+ 1074 00c1 0C       		.uleb128 0xc
+ 1075 00c2 898201   		.uleb128 0x4109
+ 1076 00c5 00       		.byte	0
+ 1077 00c6 11       		.uleb128 0x11
+ 1078 00c7 01       		.uleb128 0x1
+ 1079 00c8 31       		.uleb128 0x31
+ 1080 00c9 13       		.uleb128 0x13
+ 1081 00ca 00       		.byte	0
+ 1082 00cb 00       		.byte	0
+ 1083 00cc 0D       		.uleb128 0xd
+ 1084 00cd 34       		.uleb128 0x34
+ 1085 00ce 00       		.byte	0
+ 1086 00cf 03       		.uleb128 0x3
+ 1087 00d0 0E       		.uleb128 0xe
+ 1088 00d1 3A       		.uleb128 0x3a
+ 1089 00d2 0B       		.uleb128 0xb
+ 1090 00d3 3B       		.uleb128 0x3b
+ 1091 00d4 0B       		.uleb128 0xb
+ 1092 00d5 49       		.uleb128 0x49
+ 1093 00d6 13       		.uleb128 0x13
+ 1094 00d7 02       		.uleb128 0x2
+ 1095 00d8 17       		.uleb128 0x17
+ 1096 00d9 00       		.byte	0
+ 1097 00da 00       		.byte	0
+ 1098 00db 0E       		.uleb128 0xe
+ 1099 00dc 898201   		.uleb128 0x4109
+ 1100 00df 01       		.byte	0x1
+ 1101 00e0 11       		.uleb128 0x11
+ 1102 00e1 01       		.uleb128 0x1
+ 1103 00e2 31       		.uleb128 0x31
+ 1104 00e3 13       		.uleb128 0x13
+ 1105 00e4 01       		.uleb128 0x1
+ 1106 00e5 13       		.uleb128 0x13
+ 1107 00e6 00       		.byte	0
+ 1108 00e7 00       		.byte	0
+ 1109 00e8 0F       		.uleb128 0xf
+ 1110 00e9 8A8201   		.uleb128 0x410a
+ 1111 00ec 00       		.byte	0
+ 1112 00ed 02       		.uleb128 0x2
+ 1113 00ee 18       		.uleb128 0x18
+ 1114 00ef 9142     		.uleb128 0x2111
+ 1115 00f1 18       		.uleb128 0x18
+ 1116 00f2 00       		.byte	0
+ 1117 00f3 00       		.byte	0
+ 1118 00f4 10       		.uleb128 0x10
+ 1119 00f5 34       		.uleb128 0x34
+ 1120 00f6 00       		.byte	0
+ 1121 00f7 03       		.uleb128 0x3
+ 1122 00f8 0E       		.uleb128 0xe
+ 1123 00f9 3A       		.uleb128 0x3a
+ 1124 00fa 0B       		.uleb128 0xb
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 31
+
+
+ 1125 00fb 3B       		.uleb128 0x3b
+ 1126 00fc 0B       		.uleb128 0xb
+ 1127 00fd 49       		.uleb128 0x49
+ 1128 00fe 13       		.uleb128 0x13
+ 1129 00ff 3F       		.uleb128 0x3f
+ 1130 0100 19       		.uleb128 0x19
+ 1131 0101 02       		.uleb128 0x2
+ 1132 0102 18       		.uleb128 0x18
+ 1133 0103 00       		.byte	0
+ 1134 0104 00       		.byte	0
+ 1135 0105 11       		.uleb128 0x11
+ 1136 0106 2E       		.uleb128 0x2e
+ 1137 0107 00       		.byte	0
+ 1138 0108 3F       		.uleb128 0x3f
+ 1139 0109 19       		.uleb128 0x19
+ 1140 010a 03       		.uleb128 0x3
+ 1141 010b 0E       		.uleb128 0xe
+ 1142 010c 3A       		.uleb128 0x3a
+ 1143 010d 0B       		.uleb128 0xb
+ 1144 010e 3B       		.uleb128 0x3b
+ 1145 010f 0B       		.uleb128 0xb
+ 1146 0110 27       		.uleb128 0x27
+ 1147 0111 19       		.uleb128 0x19
+ 1148 0112 49       		.uleb128 0x49
+ 1149 0113 13       		.uleb128 0x13
+ 1150 0114 3C       		.uleb128 0x3c
+ 1151 0115 19       		.uleb128 0x19
+ 1152 0116 00       		.byte	0
+ 1153 0117 00       		.byte	0
+ 1154 0118 12       		.uleb128 0x12
+ 1155 0119 2E       		.uleb128 0x2e
+ 1156 011a 01       		.byte	0x1
+ 1157 011b 3F       		.uleb128 0x3f
+ 1158 011c 19       		.uleb128 0x19
+ 1159 011d 03       		.uleb128 0x3
+ 1160 011e 0E       		.uleb128 0xe
+ 1161 011f 3A       		.uleb128 0x3a
+ 1162 0120 0B       		.uleb128 0xb
+ 1163 0121 3B       		.uleb128 0x3b
+ 1164 0122 0B       		.uleb128 0xb
+ 1165 0123 27       		.uleb128 0x27
+ 1166 0124 19       		.uleb128 0x19
+ 1167 0125 3C       		.uleb128 0x3c
+ 1168 0126 19       		.uleb128 0x19
+ 1169 0127 00       		.byte	0
+ 1170 0128 00       		.byte	0
+ 1171 0129 13       		.uleb128 0x13
+ 1172 012a 05       		.uleb128 0x5
+ 1173 012b 00       		.byte	0
+ 1174 012c 49       		.uleb128 0x49
+ 1175 012d 13       		.uleb128 0x13
+ 1176 012e 00       		.byte	0
+ 1177 012f 00       		.byte	0
+ 1178 0130 00       		.byte	0
+ 1179              		.section	.debug_loc,"",%progbits
+ 1180              	.Ldebug_loc0:
+ 1181              	.LLST0:
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 32
+
+
+ 1182 0000 0A000000 		.4byte	.LVL7
+ 1183 0004 0E000000 		.4byte	.LVL8
+ 1184 0008 0100     		.2byte	0x1
+ 1185 000a 52       		.byte	0x52
+ 1186 000b 0E000000 		.4byte	.LVL8
+ 1187 000f 12000000 		.4byte	.LVL9
+ 1188 0013 0200     		.2byte	0x2
+ 1189 0015 73       		.byte	0x73
+ 1190 0016 00       		.sleb128 0
+ 1191 0017 12000000 		.4byte	.LVL9
+ 1192 001b 17000000 		.4byte	.LVL10-1
+ 1193 001f 0100     		.2byte	0x1
+ 1194 0021 52       		.byte	0x52
+ 1195 0022 00000000 		.4byte	0
+ 1196 0026 00000000 		.4byte	0
+ 1197              	.LLST1:
+ 1198 002a 3C000000 		.4byte	.LVL16
+ 1199 002e 49000000 		.4byte	.LVL17-1
+ 1200 0032 0100     		.2byte	0x1
+ 1201 0034 50       		.byte	0x50
+ 1202 0035 00000000 		.4byte	0
+ 1203 0039 00000000 		.4byte	0
+ 1204              		.section	.debug_aranges,"",%progbits
+ 1205 0000 94000000 		.4byte	0x94
+ 1206 0004 0200     		.2byte	0x2
+ 1207 0006 00000000 		.4byte	.Ldebug_info0
+ 1208 000a 04       		.byte	0x4
+ 1209 000b 00       		.byte	0
+ 1210 000c 0000     		.2byte	0
+ 1211 000e 0000     		.2byte	0
+ 1212 0010 00000000 		.4byte	.LFB1
+ 1213 0014 10000000 		.4byte	.LFE1-.LFB1
+ 1214 0018 00000000 		.4byte	.LFB3
+ 1215 001c 10000000 		.4byte	.LFE3-.LFB3
+ 1216 0020 00000000 		.4byte	.LFB4
+ 1217 0024 0C000000 		.4byte	.LFE4-.LFB4
+ 1218 0028 00000000 		.4byte	.LFB5
+ 1219 002c 0C000000 		.4byte	.LFE5-.LFB5
+ 1220 0030 00000000 		.4byte	.LFB6
+ 1221 0034 0C000000 		.4byte	.LFE6-.LFB6
+ 1222 0038 00000000 		.4byte	.LFB7
+ 1223 003c 0C000000 		.4byte	.LFE7-.LFB7
+ 1224 0040 00000000 		.4byte	.LFB8
+ 1225 0044 0C000000 		.4byte	.LFE8-.LFB8
+ 1226 0048 00000000 		.4byte	.LFB9
+ 1227 004c 14000000 		.4byte	.LFE9-.LFB9
+ 1228 0050 00000000 		.4byte	.LFB10
+ 1229 0054 0C000000 		.4byte	.LFE10-.LFB10
+ 1230 0058 00000000 		.4byte	.LFB11
+ 1231 005c 0C000000 		.4byte	.LFE11-.LFB11
+ 1232 0060 00000000 		.4byte	.LFB12
+ 1233 0064 0C000000 		.4byte	.LFE12-.LFB12
+ 1234 0068 00000000 		.4byte	.LFB13
+ 1235 006c 0C000000 		.4byte	.LFE13-.LFB13
+ 1236 0070 00000000 		.4byte	.LFB14
+ 1237 0074 0C000000 		.4byte	.LFE14-.LFB14
+ 1238 0078 00000000 		.4byte	.LFB15
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 33
+
+
+ 1239 007c 14000000 		.4byte	.LFE15-.LFB15
+ 1240 0080 00000000 		.4byte	.LFB0
+ 1241 0084 54000000 		.4byte	.LFE0-.LFB0
+ 1242 0088 00000000 		.4byte	.LFB2
+ 1243 008c 1C000000 		.4byte	.LFE2-.LFB2
+ 1244 0090 00000000 		.4byte	0
+ 1245 0094 00000000 		.4byte	0
+ 1246              		.section	.debug_ranges,"",%progbits
+ 1247              	.Ldebug_ranges0:
+ 1248 0000 00000000 		.4byte	.LFB1
+ 1249 0004 10000000 		.4byte	.LFE1
+ 1250 0008 00000000 		.4byte	.LFB3
+ 1251 000c 10000000 		.4byte	.LFE3
+ 1252 0010 00000000 		.4byte	.LFB4
+ 1253 0014 0C000000 		.4byte	.LFE4
+ 1254 0018 00000000 		.4byte	.LFB5
+ 1255 001c 0C000000 		.4byte	.LFE5
+ 1256 0020 00000000 		.4byte	.LFB6
+ 1257 0024 0C000000 		.4byte	.LFE6
+ 1258 0028 00000000 		.4byte	.LFB7
+ 1259 002c 0C000000 		.4byte	.LFE7
+ 1260 0030 00000000 		.4byte	.LFB8
+ 1261 0034 0C000000 		.4byte	.LFE8
+ 1262 0038 00000000 		.4byte	.LFB9
+ 1263 003c 14000000 		.4byte	.LFE9
+ 1264 0040 00000000 		.4byte	.LFB10
+ 1265 0044 0C000000 		.4byte	.LFE10
+ 1266 0048 00000000 		.4byte	.LFB11
+ 1267 004c 0C000000 		.4byte	.LFE11
+ 1268 0050 00000000 		.4byte	.LFB12
+ 1269 0054 0C000000 		.4byte	.LFE12
+ 1270 0058 00000000 		.4byte	.LFB13
+ 1271 005c 0C000000 		.4byte	.LFE13
+ 1272 0060 00000000 		.4byte	.LFB14
+ 1273 0064 0C000000 		.4byte	.LFE14
+ 1274 0068 00000000 		.4byte	.LFB15
+ 1275 006c 14000000 		.4byte	.LFE15
+ 1276 0070 00000000 		.4byte	.LFB0
+ 1277 0074 54000000 		.4byte	.LFE0
+ 1278 0078 00000000 		.4byte	.LFB2
+ 1279 007c 1C000000 		.4byte	.LFE2
+ 1280 0080 00000000 		.4byte	0
+ 1281 0084 00000000 		.4byte	0
+ 1282              		.section	.debug_line,"",%progbits
+ 1283              	.Ldebug_line0:
+ 1284 0000 87010000 		.section	.debug_str,"MS",%progbits,1
+ 1284      02005300 
+ 1284      00000201 
+ 1284      FB0E0D00 
+ 1284      01010101 
+ 1285              	.LASF15:
+ 1286 0000 72656733 		.ascii	"reg32\000"
+ 1286      3200
+ 1287              	.LASF21:
+ 1288 0006 4368726F 		.ascii	"Chronometer_SetInterruptMode\000"
+ 1288      6E6F6D65 
+ 1288      7465725F 
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 34
+
+
+ 1288      53657449 
+ 1288      6E746572 
+ 1289              	.LASF38:
+ 1290 0023 4368726F 		.ascii	"Chronometer_interruptState\000"
+ 1290      6E6F6D65 
+ 1290      7465725F 
+ 1290      696E7465 
+ 1290      72727570 
+ 1291              	.LASF17:
+ 1292 003e 4368726F 		.ascii	"Chronometer_Enable\000"
+ 1292      6E6F6D65 
+ 1292      7465725F 
+ 1292      456E6162 
+ 1292      6C6500
+ 1293              	.LASF39:
+ 1294 0051 4368726F 		.ascii	"Chronometer_Start\000"
+ 1294      6E6F6D65 
+ 1294      7465725F 
+ 1294      53746172 
+ 1294      7400
+ 1295              	.LASF29:
+ 1296 0063 4368726F 		.ascii	"Chronometer_WritePeriod\000"
+ 1296      6E6F6D65 
+ 1296      7465725F 
+ 1296      57726974 
+ 1296      65506572 
+ 1297              	.LASF30:
+ 1298 007b 70657269 		.ascii	"period\000"
+ 1298      6F6400
+ 1299              	.LASF25:
+ 1300 0082 4368726F 		.ascii	"Chronometer_WriteCounter\000"
+ 1300      6E6F6D65 
+ 1300      7465725F 
+ 1300      57726974 
+ 1300      65436F75 
+ 1301              	.LASF3:
+ 1302 009b 73686F72 		.ascii	"short unsigned int\000"
+ 1302      7420756E 
+ 1302      7369676E 
+ 1302      65642069 
+ 1302      6E7400
+ 1303              	.LASF43:
+ 1304 00ae 4368726F 		.ascii	"Chronometer_initVar\000"
+ 1304      6E6F6D65 
+ 1304      7465725F 
+ 1304      696E6974 
+ 1304      56617200 
+ 1305              	.LASF36:
+ 1306 00c2 4368726F 		.ascii	"Chronometer_Init\000"
+ 1306      6E6F6D65 
+ 1306      7465725F 
+ 1306      496E6974 
+ 1306      00
+ 1307              	.LASF11:
+ 1308 00d3 666C6F61 		.ascii	"float\000"
+ 1308      7400
+ 1309              	.LASF26:
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 35
+
+
+ 1310 00d9 636F756E 		.ascii	"counter\000"
+ 1310      74657200 
+ 1311              	.LASF7:
+ 1312 00e1 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1312      206C6F6E 
+ 1312      6720756E 
+ 1312      7369676E 
+ 1312      65642069 
+ 1313              	.LASF1:
+ 1314 00f8 756E7369 		.ascii	"unsigned char\000"
+ 1314      676E6564 
+ 1314      20636861 
+ 1314      7200
+ 1315              	.LASF14:
+ 1316 0106 72656738 		.ascii	"reg8\000"
+ 1316      00
+ 1317              	.LASF5:
+ 1318 010b 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1318      20756E73 
+ 1318      69676E65 
+ 1318      6420696E 
+ 1318      7400
+ 1319              	.LASF22:
+ 1320 011d 4368726F 		.ascii	"Chronometer_WriteControlRegister\000"
+ 1320      6E6F6D65 
+ 1320      7465725F 
+ 1320      57726974 
+ 1320      65436F6E 
+ 1321              	.LASF9:
+ 1322 013e 75696E74 		.ascii	"uint8\000"
+ 1322      3800
+ 1323              	.LASF24:
+ 1324 0144 636F6E74 		.ascii	"control\000"
+ 1324      726F6C00 
+ 1325              	.LASF23:
+ 1326 014c 696E7465 		.ascii	"interruptsMask\000"
+ 1326      72727570 
+ 1326      74734D61 
+ 1326      736B00
+ 1327              	.LASF18:
+ 1328 015b 4368726F 		.ascii	"Chronometer_Stop\000"
+ 1328      6E6F6D65 
+ 1328      7465725F 
+ 1328      53746F70 
+ 1328      00
+ 1329              	.LASF12:
+ 1330 016c 646F7562 		.ascii	"double\000"
+ 1330      6C6500
+ 1331              	.LASF20:
+ 1332 0173 4368726F 		.ascii	"Chronometer_ReadControlRegister\000"
+ 1332      6E6F6D65 
+ 1332      7465725F 
+ 1332      52656164 
+ 1332      436F6E74 
+ 1333              	.LASF10:
+ 1334 0193 75696E74 		.ascii	"uint32\000"
+ 1334      333200
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 36
+
+
+ 1335              	.LASF40:
+ 1336 019a 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 1336      4320342E 
+ 1336      392E3320 
+ 1336      32303135 
+ 1336      30333033 
+ 1337 01cd 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 1337      20726576 
+ 1337      6973696F 
+ 1337      6E203232 
+ 1337      31323230 
+ 1338 0200 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 1338      66756E63 
+ 1338      74696F6E 
+ 1338      2D736563 
+ 1338      74696F6E 
+ 1339              	.LASF44:
+ 1340 0228 4379456E 		.ascii	"CyEnterCriticalSection\000"
+ 1340      74657243 
+ 1340      72697469 
+ 1340      63616C53 
+ 1340      65637469 
+ 1341              	.LASF8:
+ 1342 023f 756E7369 		.ascii	"unsigned int\000"
+ 1342      676E6564 
+ 1342      20696E74 
+ 1342      00
+ 1343              	.LASF34:
+ 1344 024c 4368726F 		.ascii	"Chronometer_ReadCompare\000"
+ 1344      6E6F6D65 
+ 1344      7465725F 
+ 1344      52656164 
+ 1344      436F6D70 
+ 1345              	.LASF35:
+ 1346 0264 4368726F 		.ascii	"Chronometer_ClearFIFO\000"
+ 1346      6E6F6D65 
+ 1346      7465725F 
+ 1346      436C6561 
+ 1346      72464946 
+ 1347              	.LASF45:
+ 1348 027a 43794578 		.ascii	"CyExitCriticalSection\000"
+ 1348      69744372 
+ 1348      69746963 
+ 1348      616C5365 
+ 1348      6374696F 
+ 1349              	.LASF41:
+ 1350 0290 47656E65 		.ascii	"Generated_Source\\PSoC5\\Chronometer.c\000"
+ 1350      72617465 
+ 1350      645F536F 
+ 1350      75726365 
+ 1350      5C50536F 
+ 1351              	.LASF28:
+ 1352 02b5 4368726F 		.ascii	"Chronometer_ReadCapture\000"
+ 1352      6E6F6D65 
+ 1352      7465725F 
+ 1352      52656164 
+ 1352      43617074 
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 37
+
+
+ 1353              	.LASF19:
+ 1354 02cd 4368726F 		.ascii	"Chronometer_ReadStatusRegister\000"
+ 1354      6E6F6D65 
+ 1354      7465725F 
+ 1354      52656164 
+ 1354      53746174 
+ 1355              	.LASF31:
+ 1356 02ec 4368726F 		.ascii	"Chronometer_ReadPeriod\000"
+ 1356      6E6F6D65 
+ 1356      7465725F 
+ 1356      52656164 
+ 1356      50657269 
+ 1357              	.LASF37:
+ 1358 0303 6374726C 		.ascii	"ctrl\000"
+ 1358      00
+ 1359              	.LASF16:
+ 1360 0308 73697A65 		.ascii	"sizetype\000"
+ 1360      74797065 
+ 1360      00
+ 1361              	.LASF42:
+ 1362 0311 433A5C55 		.ascii	"C:\\Users\\Ludovic\\Documents\\PSoC Creator\\CY8CKI"
+ 1362      73657273 
+ 1362      5C4C7564 
+ 1362      6F766963 
+ 1362      5C446F63 
+ 1363 033f 542D3035 		.ascii	"T-050\\BE_Systemes_Embarques.cydsn\000"
+ 1363      305C4245 
+ 1363      5F537973 
+ 1363      74656D65 
+ 1363      735F456D 
+ 1364              	.LASF6:
+ 1365 0361 6C6F6E67 		.ascii	"long long int\000"
+ 1365      206C6F6E 
+ 1365      6720696E 
+ 1365      7400
+ 1366              	.LASF13:
+ 1367 036f 63686172 		.ascii	"char\000"
+ 1367      00
+ 1368              	.LASF32:
+ 1369 0374 4368726F 		.ascii	"Chronometer_WriteCompare\000"
+ 1369      6E6F6D65 
+ 1369      7465725F 
+ 1369      57726974 
+ 1369      65436F6D 
+ 1370              	.LASF2:
+ 1371 038d 73686F72 		.ascii	"short int\000"
+ 1371      7420696E 
+ 1371      7400
+ 1372              	.LASF4:
+ 1373 0397 6C6F6E67 		.ascii	"long int\000"
+ 1373      20696E74 
+ 1373      00
+ 1374              	.LASF0:
+ 1375 03a0 7369676E 		.ascii	"signed char\000"
+ 1375      65642063 
+ 1375      68617200 
+ 1376              	.LASF33:
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccG1D9hO.s 			page 38
+
+
+ 1377 03ac 636F6D70 		.ascii	"compare\000"
+ 1377      61726500 
+ 1378              	.LASF27:
+ 1379 03b4 4368726F 		.ascii	"Chronometer_ReadCounter\000"
+ 1379      6E6F6D65 
+ 1379      7465725F 
+ 1379      52656164 
+ 1379      436F756E 
+ 1380              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br

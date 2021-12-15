@@ -1,0 +1,2918 @@
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"cymetadata.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.global	cy_metadata
+  19              		.global	cy_meta_flashprotect
+  20              		.global	cy_meta_wonvl
+  21              		.global	cy_meta_custnvl
+  22              		.global	cy_meta_configecc
+  23              		.section	.cyconfigecc,"a",%progbits
+  24              		.align	2
+  25              		.type	cy_meta_configecc, %object
+  26              		.size	cy_meta_configecc, 2284
+  27              	cy_meta_configecc:
+  28 0000 0A       		.byte	10
+  29 0001 52       		.byte	82
+  30 0002 00       		.byte	0
+  31 0003 40       		.byte	64
+  32 0004 04       		.byte	4
+  33 0005 64       		.byte	100
+  34 0006 00       		.byte	0
+  35 0007 40       		.byte	64
+  36 0008 03       		.byte	3
+  37 0009 65       		.byte	101
+  38 000a 00       		.byte	0
+  39 000b 40       		.byte	64
+  40 000c 02       		.byte	2
+  41 000d 01       		.byte	1
+  42 000e 01       		.byte	1
+  43 000f 40       		.byte	64
+  44 0010 4A       		.byte	74
+  45 0011 02       		.byte	2
+  46 0012 01       		.byte	1
+  47 0013 40       		.byte	64
+  48 0014 2A       		.byte	42
+  49 0015 03       		.byte	3
+  50 0016 01       		.byte	1
+  51 0017 40       		.byte	64
+  52 0018 42       		.byte	66
+  53 0019 04       		.byte	4
+  54 001a 01       		.byte	1
+  55 001b 40       		.byte	64
+  56 001c 29       		.byte	41
+  57 001d 05       		.byte	5
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 2
+
+
+  58 001e 01       		.byte	1
+  59 001f 40       		.byte	64
+  60 0020 40       		.byte	64
+  61 0021 06       		.byte	6
+  62 0022 01       		.byte	1
+  63 0023 40       		.byte	64
+  64 0024 29       		.byte	41
+  65 0025 07       		.byte	7
+  66 0026 01       		.byte	1
+  67 0027 40       		.byte	64
+  68 0028 31       		.byte	49
+  69 0029 08       		.byte	8
+  70 002a 01       		.byte	1
+  71 002b 40       		.byte	64
+  72 002c 26       		.byte	38
+  73 002d 09       		.byte	9
+  74 002e 01       		.byte	1
+  75 002f 40       		.byte	64
+  76 0030 01       		.byte	1
+  77 0031 0F       		.byte	15
+  78 0032 01       		.byte	1
+  79 0033 40       		.byte	64
+  80 0034 37       		.byte	55
+  81 0035 14       		.byte	20
+  82 0036 01       		.byte	1
+  83 0037 40       		.byte	64
+  84 0038 2E       		.byte	46
+  85 0039 15       		.byte	21
+  86 003a 01       		.byte	1
+  87 003b 40       		.byte	64
+  88 003c 4C       		.byte	76
+  89 003d 16       		.byte	22
+  90 003e 01       		.byte	1
+  91 003f 40       		.byte	64
+  92 0040 2E       		.byte	46
+  93 0041 17       		.byte	23
+  94 0042 01       		.byte	1
+  95 0043 40       		.byte	64
+  96 0044 5E       		.byte	94
+  97 0045 18       		.byte	24
+  98 0046 01       		.byte	1
+  99 0047 40       		.byte	64
+ 100 0048 3E       		.byte	62
+ 101 0049 19       		.byte	25
+ 102 004a 01       		.byte	1
+ 103 004b 40       		.byte	64
+ 104 004c 5A       		.byte	90
+ 105 004d 1A       		.byte	26
+ 106 004e 01       		.byte	1
+ 107 004f 40       		.byte	64
+ 108 0050 48       		.byte	72
+ 109 0051 1B       		.byte	27
+ 110 0052 01       		.byte	1
+ 111 0053 40       		.byte	64
+ 112 0054 09       		.byte	9
+ 113 0055 40       		.byte	64
+ 114 0056 01       		.byte	1
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 3
+
+
+ 115 0057 40       		.byte	64
+ 116 0058 0B       		.byte	11
+ 117 0059 41       		.byte	65
+ 118 005a 01       		.byte	1
+ 119 005b 40       		.byte	64
+ 120 005c 03       		.byte	3
+ 121 005d 42       		.byte	66
+ 122 005e 01       		.byte	1
+ 123 005f 40       		.byte	64
+ 124 0060 01       		.byte	1
+ 125 0061 43       		.byte	67
+ 126 0062 01       		.byte	1
+ 127 0063 40       		.byte	64
+ 128 0064 05       		.byte	5
+ 129 0065 44       		.byte	68
+ 130 0066 01       		.byte	1
+ 131 0067 40       		.byte	64
+ 132 0068 01       		.byte	1
+ 133 0069 48       		.byte	72
+ 134 006a 01       		.byte	1
+ 135 006b 40       		.byte	64
+ 136 006c 17       		.byte	23
+ 137 006d 49       		.byte	73
+ 138 006e 01       		.byte	1
+ 139 006f 40       		.byte	64
+ 140 0070 06       		.byte	6
+ 141 0071 4C       		.byte	76
+ 142 0072 01       		.byte	1
+ 143 0073 40       		.byte	64
+ 144 0074 07       		.byte	7
+ 145 0075 4D       		.byte	77
+ 146 0076 01       		.byte	1
+ 147 0077 40       		.byte	64
+ 148 0078 07       		.byte	7
+ 149 0079 50       		.byte	80
+ 150 007a 01       		.byte	1
+ 151 007b 40       		.byte	64
+ 152 007c 01       		.byte	1
+ 153 007d 51       		.byte	81
+ 154 007e 01       		.byte	1
+ 155 007f 40       		.byte	64
+ 156 0080 00       		.byte	0
+ 157 0081 01       		.byte	1
+ 158 0082 08       		.byte	8
+ 159 0083 20       		.byte	32
+ 160 0084 09       		.byte	9
+ 161 0085 20       		.byte	32
+ 162 0086 0C       		.byte	12
+ 163 0087 40       		.byte	64
+ 164 0088 18       		.byte	24
+ 165 0089 38       		.byte	56
+ 166 008a 19       		.byte	25
+ 167 008b 11       		.byte	17
+ 168 008c 20       		.byte	32
+ 169 008d 60       		.byte	96
+ 170 008e 21       		.byte	33
+ 171 008f A0       		.byte	-96
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 4
+
+
+ 172 0090 30       		.byte	48
+ 173 0091 04       		.byte	4
+ 174 0092 60       		.byte	96
+ 175 0093 08       		.byte	8
+ 176 0094 82       		.byte	-126
+ 177 0095 0F       		.byte	15
+ 178 0096 84       		.byte	-124
+ 179 0097 0F       		.byte	15
+ 180 0098 87       		.byte	-121
+ 181 0099 0D       		.byte	13
+ 182 009a 88       		.byte	-120
+ 183 009b 72       		.byte	114
+ 184 009c 87       		.byte	-121
+ 185 009d 67       		.byte	103
+ 186 009e 89       		.byte	-119
+ 187 009f 6B       		.byte	107
+ 188 00a0 8B       		.byte	-117
+ 189 00a1 38       		.byte	56
+ 190 00a2 83       		.byte	-125
+ 191 00a3 08       		.byte	8
+ 192 00a4 E6       		.byte	-26
+ 193 00a5 01       		.byte	1
+ 194 00a6 03       		.byte	3
+ 195 00a7 01       		.byte	1
+ 196 00a8 07       		.byte	7
+ 197 00a9 0C       		.byte	12
+ 198 00aa 0B       		.byte	11
+ 199 00ab 02       		.byte	2
+ 200 00ac 1A       		.byte	26
+ 201 00ad 01       		.byte	1
+ 202 00ae 22       		.byte	34
+ 203 00af 02       		.byte	2
+ 204 00b0 27       		.byte	39
+ 205 00b1 07       		.byte	7
+ 206 00b2 29       		.byte	41
+ 207 00b3 08       		.byte	8
+ 208 00b4 31       		.byte	49
+ 209 00b5 02       		.byte	2
+ 210 00b6 32       		.byte	50
+ 211 00b7 01       		.byte	1
+ 212 00b8 33       		.byte	51
+ 213 00b9 04       		.byte	4
+ 214 00ba 34       		.byte	52
+ 215 00bb 02       		.byte	2
+ 216 00bc 35       		.byte	53
+ 217 00bd 01       		.byte	1
+ 218 00be 37       		.byte	55
+ 219 00bf 08       		.byte	8
+ 220 00c0 3F       		.byte	63
+ 221 00c1 10       		.byte	16
+ 222 00c2 40       		.byte	64
+ 223 00c3 20       		.byte	32
+ 224 00c4 41       		.byte	65
+ 225 00c5 04       		.byte	4
+ 226 00c6 45       		.byte	69
+ 227 00c7 D1       		.byte	-47
+ 228 00c8 47       		.byte	71
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 5
+
+
+ 229 00c9 25       		.byte	37
+ 230 00ca 48       		.byte	72
+ 231 00cb 33       		.byte	51
+ 232 00cc 49       		.byte	73
+ 233 00cd FF       		.byte	-1
+ 234 00ce 4A       		.byte	74
+ 235 00cf FF       		.byte	-1
+ 236 00d0 4B       		.byte	75
+ 237 00d1 FF       		.byte	-1
+ 238 00d2 4D       		.byte	77
+ 239 00d3 A0       		.byte	-96
+ 240 00d4 4F       		.byte	79
+ 241 00d5 04       		.byte	4
+ 242 00d6 50       		.byte	80
+ 243 00d7 18       		.byte	24
+ 244 00d8 52       		.byte	82
+ 245 00d9 80       		.byte	-128
+ 246 00da 54       		.byte	84
+ 247 00db 07       		.byte	7
+ 248 00dc 58       		.byte	88
+ 249 00dd 04       		.byte	4
+ 250 00de 59       		.byte	89
+ 251 00df 04       		.byte	4
+ 252 00e0 5A       		.byte	90
+ 253 00e1 04       		.byte	4
+ 254 00e2 5B       		.byte	91
+ 255 00e3 04       		.byte	4
+ 256 00e4 5C       		.byte	92
+ 257 00e5 11       		.byte	17
+ 258 00e6 5D       		.byte	93
+ 259 00e7 11       		.byte	17
+ 260 00e8 5F       		.byte	95
+ 261 00e9 01       		.byte	1
+ 262 00ea 60       		.byte	96
+ 263 00eb 40       		.byte	64
+ 264 00ec 62       		.byte	98
+ 265 00ed C0       		.byte	-64
+ 266 00ee 64       		.byte	100
+ 267 00ef 40       		.byte	64
+ 268 00f0 65       		.byte	101
+ 269 00f1 40       		.byte	64
+ 270 00f2 66       		.byte	102
+ 271 00f3 C0       		.byte	-64
+ 272 00f4 68       		.byte	104
+ 273 00f5 C0       		.byte	-64
+ 274 00f6 6A       		.byte	106
+ 275 00f7 C0       		.byte	-64
+ 276 00f8 6C       		.byte	108
+ 277 00f9 C0       		.byte	-64
+ 278 00fa 6E       		.byte	110
+ 279 00fb C0       		.byte	-64
+ 280 00fc 8B       		.byte	-117
+ 281 00fd 01       		.byte	1
+ 282 00fe 9B       		.byte	-101
+ 283 00ff 02       		.byte	2
+ 284 0100 9F       		.byte	-97
+ 285 0101 03       		.byte	3
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 6
+
+
+ 286 0102 B5       		.byte	-75
+ 287 0103 01       		.byte	1
+ 288 0104 B7       		.byte	-73
+ 289 0105 02       		.byte	2
+ 290 0106 C0       		.byte	-64
+ 291 0107 10       		.byte	16
+ 292 0108 C1       		.byte	-63
+ 293 0109 06       		.byte	6
+ 294 010a C5       		.byte	-59
+ 295 010b D5       		.byte	-43
+ 296 010c C6       		.byte	-58
+ 297 010d 10       		.byte	16
+ 298 010e C7       		.byte	-57
+ 299 010f 02       		.byte	2
+ 300 0110 C8       		.byte	-56
+ 301 0111 1B       		.byte	27
+ 302 0112 C9       		.byte	-55
+ 303 0113 FF       		.byte	-1
+ 304 0114 CA       		.byte	-54
+ 305 0115 FF       		.byte	-1
+ 306 0116 CB       		.byte	-53
+ 307 0117 FF       		.byte	-1
+ 308 0118 CD       		.byte	-51
+ 309 0119 A0       		.byte	-96
+ 310 011a CF       		.byte	-49
+ 311 011b 04       		.byte	4
+ 312 011c D0       		.byte	-48
+ 313 011d 18       		.byte	24
+ 314 011e D9       		.byte	-39
+ 315 011f 04       		.byte	4
+ 316 0120 DA       		.byte	-38
+ 317 0121 04       		.byte	4
+ 318 0122 DC       		.byte	-36
+ 319 0123 20       		.byte	32
+ 320 0124 DD       		.byte	-35
+ 321 0125 02       		.byte	2
+ 322 0126 DF       		.byte	-33
+ 323 0127 01       		.byte	1
+ 324 0128 E0       		.byte	-32
+ 325 0129 40       		.byte	64
+ 326 012a E2       		.byte	-30
+ 327 012b C0       		.byte	-64
+ 328 012c E4       		.byte	-28
+ 329 012d 40       		.byte	64
+ 330 012e E5       		.byte	-27
+ 331 012f 40       		.byte	64
+ 332 0130 E6       		.byte	-26
+ 333 0131 C0       		.byte	-64
+ 334 0132 E8       		.byte	-24
+ 335 0133 C0       		.byte	-64
+ 336 0134 EA       		.byte	-22
+ 337 0135 C0       		.byte	-64
+ 338 0136 EC       		.byte	-20
+ 339 0137 C0       		.byte	-64
+ 340 0138 EE       		.byte	-18
+ 341 0139 C0       		.byte	-64
+ 342 013a 0F       		.byte	15
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 7
+
+
+ 343 013b 04       		.byte	4
+ 344 013c 16       		.byte	22
+ 345 013d 80       		.byte	-128
+ 346 013e 1D       		.byte	29
+ 347 013f 20       		.byte	32
+ 348 0140 1F       		.byte	31
+ 349 0141 24       		.byte	36
+ 350 0142 20       		.byte	32
+ 351 0143 08       		.byte	8
+ 352 0144 22       		.byte	34
+ 353 0145 80       		.byte	-128
+ 354 0146 26       		.byte	38
+ 355 0147 44       		.byte	68
+ 356 0148 27       		.byte	39
+ 357 0149 88       		.byte	-120
+ 358 014a 2F       		.byte	47
+ 359 014b 24       		.byte	36
+ 360 014c 30       		.byte	48
+ 361 014d 20       		.byte	32
+ 362 014e 31       		.byte	49
+ 363 014f 40       		.byte	64
+ 364 0150 38       		.byte	56
+ 365 0151 20       		.byte	32
+ 366 0152 3E       		.byte	62
+ 367 0153 10       		.byte	16
+ 368 0154 3F       		.byte	63
+ 369 0155 06       		.byte	6
+ 370 0156 40       		.byte	64
+ 371 0157 01       		.byte	1
+ 372 0158 45       		.byte	69
+ 373 0159 22       		.byte	34
+ 374 015a 48       		.byte	72
+ 375 015b 28       		.byte	40
+ 376 015c 49       		.byte	73
+ 377 015d 01       		.byte	1
+ 378 015e 4F       		.byte	79
+ 379 015f 05       		.byte	5
+ 380 0160 50       		.byte	80
+ 381 0161 1C       		.byte	28
+ 382 0162 55       		.byte	85
+ 383 0163 0A       		.byte	10
+ 384 0164 57       		.byte	87
+ 385 0165 01       		.byte	1
+ 386 0166 5E       		.byte	94
+ 387 0167 80       		.byte	-128
+ 388 0168 5F       		.byte	95
+ 389 0169 29       		.byte	41
+ 390 016a 76       		.byte	118
+ 391 016b 80       		.byte	-128
+ 392 016c 84       		.byte	-124
+ 393 016d 04       		.byte	4
+ 394 016e 8E       		.byte	-114
+ 395 016f 04       		.byte	4
+ 396 0170 8F       		.byte	-113
+ 397 0171 10       		.byte	16
+ 398 0172 9F       		.byte	-97
+ 399 0173 80       		.byte	-128
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 8
+
+
+ 400 0174 A3       		.byte	-93
+ 401 0175 08       		.byte	8
+ 402 0176 B3       		.byte	-77
+ 403 0177 80       		.byte	-128
+ 404 0178 C2       		.byte	-62
+ 405 0179 40       		.byte	64
+ 406 017a C4       		.byte	-60
+ 407 017b 10       		.byte	16
+ 408 017c CA       		.byte	-54
+ 409 017d 60       		.byte	96
+ 410 017e CC       		.byte	-52
+ 411 017f 0C       		.byte	12
+ 412 0180 CE       		.byte	-50
+ 413 0181 E4       		.byte	-28
+ 414 0182 D0       		.byte	-48
+ 415 0183 A8       		.byte	-88
+ 416 0184 D2       		.byte	-46
+ 417 0185 04       		.byte	4
+ 418 0186 D6       		.byte	-42
+ 419 0187 F0       		.byte	-16
+ 420 0188 E2       		.byte	-30
+ 421 0189 40       		.byte	64
+ 422 018a E6       		.byte	-26
+ 423 018b 40       		.byte	64
+ 424 018c EE       		.byte	-18
+ 425 018d 20       		.byte	32
+ 426 018e 07       		.byte	7
+ 427 018f 02       		.byte	2
+ 428 0190 0B       		.byte	11
+ 429 0191 01       		.byte	1
+ 430 0192 0D       		.byte	13
+ 431 0193 08       		.byte	8
+ 432 0194 12       		.byte	18
+ 433 0195 01       		.byte	1
+ 434 0196 1B       		.byte	27
+ 435 0197 0C       		.byte	12
+ 436 0198 21       		.byte	33
+ 437 0199 01       		.byte	1
+ 438 019a 2A       		.byte	42
+ 439 019b 02       		.byte	2
+ 440 019c 2F       		.byte	47
+ 441 019d 02       		.byte	2
+ 442 019e 30       		.byte	48
+ 443 019f 02       		.byte	2
+ 444 01a0 31       		.byte	49
+ 445 01a1 04       		.byte	4
+ 446 01a2 33       		.byte	51
+ 447 01a3 02       		.byte	2
+ 448 01a4 35       		.byte	53
+ 449 01a5 08       		.byte	8
+ 450 01a6 36       		.byte	54
+ 451 01a7 01       		.byte	1
+ 452 01a8 37       		.byte	55
+ 453 01a9 01       		.byte	1
+ 454 01aa 3F       		.byte	63
+ 455 01ab 04       		.byte	4
+ 456 01ac 40       		.byte	64
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 9
+
+
+ 457 01ad 53       		.byte	83
+ 458 01ae 49       		.byte	73
+ 459 01af FF       		.byte	-1
+ 460 01b0 4A       		.byte	74
+ 461 01b1 FF       		.byte	-1
+ 462 01b2 4B       		.byte	75
+ 463 01b3 FF       		.byte	-1
+ 464 01b4 4F       		.byte	79
+ 465 01b5 01       		.byte	1
+ 466 01b6 50       		.byte	80
+ 467 01b7 18       		.byte	24
+ 468 01b8 52       		.byte	82
+ 469 01b9 80       		.byte	-128
+ 470 01ba 54       		.byte	84
+ 471 01bb 07       		.byte	7
+ 472 01bc 58       		.byte	88
+ 473 01bd 04       		.byte	4
+ 474 01be 59       		.byte	89
+ 475 01bf 04       		.byte	4
+ 476 01c0 5A       		.byte	90
+ 477 01c1 04       		.byte	4
+ 478 01c2 5B       		.byte	91
+ 479 01c3 04       		.byte	4
+ 480 01c4 5C       		.byte	92
+ 481 01c5 22       		.byte	34
+ 482 01c6 5D       		.byte	93
+ 483 01c7 20       		.byte	32
+ 484 01c8 5F       		.byte	95
+ 485 01c9 01       		.byte	1
+ 486 01ca 60       		.byte	96
+ 487 01cb 40       		.byte	64
+ 488 01cc 62       		.byte	98
+ 489 01cd 40       		.byte	64
+ 490 01ce 64       		.byte	100
+ 491 01cf 40       		.byte	64
+ 492 01d0 65       		.byte	101
+ 493 01d1 40       		.byte	64
+ 494 01d2 66       		.byte	102
+ 495 01d3 80       		.byte	-128
+ 496 01d4 68       		.byte	104
+ 497 01d5 80       		.byte	-128
+ 498 01d6 6A       		.byte	106
+ 499 01d7 80       		.byte	-128
+ 500 01d8 6C       		.byte	108
+ 501 01d9 80       		.byte	-128
+ 502 01da 6E       		.byte	110
+ 503 01db 80       		.byte	-128
+ 504 01dc 8B       		.byte	-117
+ 505 01dd 01       		.byte	1
+ 506 01de 96       		.byte	-106
+ 507 01df 01       		.byte	1
+ 508 01e0 A1       		.byte	-95
+ 509 01e1 01       		.byte	1
+ 510 01e2 B3       		.byte	-77
+ 511 01e3 01       		.byte	1
+ 512 01e4 B6       		.byte	-74
+ 513 01e5 01       		.byte	1
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 10
+
+
+ 514 01e6 C0       		.byte	-64
+ 515 01e7 52       		.byte	82
+ 516 01e8 C9       		.byte	-55
+ 517 01e9 FF       		.byte	-1
+ 518 01ea CA       		.byte	-54
+ 519 01eb FF       		.byte	-1
+ 520 01ec CB       		.byte	-53
+ 521 01ed FF       		.byte	-1
+ 522 01ee CD       		.byte	-51
+ 523 01ef 83       		.byte	-125
+ 524 01f0 CE       		.byte	-50
+ 525 01f1 03       		.byte	3
+ 526 01f2 CF       		.byte	-49
+ 527 01f3 01       		.byte	1
+ 528 01f4 D0       		.byte	-48
+ 529 01f5 18       		.byte	24
+ 530 01f6 D8       		.byte	-40
+ 531 01f7 04       		.byte	4
+ 532 01f8 D9       		.byte	-39
+ 533 01f9 04       		.byte	4
+ 534 01fa DA       		.byte	-38
+ 535 01fb 04       		.byte	4
+ 536 01fc DC       		.byte	-36
+ 537 01fd 11       		.byte	17
+ 538 01fe DF       		.byte	-33
+ 539 01ff 01       		.byte	1
+ 540 0200 E0       		.byte	-32
+ 541 0201 40       		.byte	64
+ 542 0202 E2       		.byte	-30
+ 543 0203 40       		.byte	64
+ 544 0204 E4       		.byte	-28
+ 545 0205 40       		.byte	64
+ 546 0206 E5       		.byte	-27
+ 547 0207 40       		.byte	64
+ 548 0208 E6       		.byte	-26
+ 549 0209 80       		.byte	-128
+ 550 020a E8       		.byte	-24
+ 551 020b 80       		.byte	-128
+ 552 020c EA       		.byte	-22
+ 553 020d 80       		.byte	-128
+ 554 020e EC       		.byte	-20
+ 555 020f 80       		.byte	-128
+ 556 0210 EE       		.byte	-18
+ 557 0211 80       		.byte	-128
+ 558 0212 0A       		.byte	10
+ 559 0213 40       		.byte	64
+ 560 0214 0D       		.byte	13
+ 561 0215 08       		.byte	8
+ 562 0216 0E       		.byte	14
+ 563 0217 10       		.byte	16
+ 564 0218 11       		.byte	17
+ 565 0219 10       		.byte	16
+ 566 021a 18       		.byte	24
+ 567 021b 01       		.byte	1
+ 568 021c 19       		.byte	25
+ 569 021d 42       		.byte	66
+ 570 021e 1F       		.byte	31
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 11
+
+
+ 571 021f 80       		.byte	-128
+ 572 0220 20       		.byte	32
+ 573 0221 40       		.byte	64
+ 574 0222 22       		.byte	34
+ 575 0223 54       		.byte	84
+ 576 0224 27       		.byte	39
+ 577 0225 20       		.byte	32
+ 578 0226 29       		.byte	41
+ 579 0227 42       		.byte	66
+ 580 0228 2F       		.byte	47
+ 581 0229 80       		.byte	-128
+ 582 022a 30       		.byte	48
+ 583 022b 20       		.byte	32
+ 584 022c 38       		.byte	56
+ 585 022d 68       		.byte	104
+ 586 022e 39       		.byte	57
+ 587 022f 10       		.byte	16
+ 588 0230 3E       		.byte	62
+ 589 0231 10       		.byte	16
+ 590 0232 41       		.byte	65
+ 591 0233 04       		.byte	4
+ 592 0234 46       		.byte	70
+ 593 0235 04       		.byte	4
+ 594 0236 4B       		.byte	75
+ 595 0237 40       		.byte	64
+ 596 0238 4F       		.byte	79
+ 597 0239 40       		.byte	64
+ 598 023a 59       		.byte	89
+ 599 023b 01       		.byte	1
+ 600 023c 5A       		.byte	90
+ 601 023d A8       		.byte	-88
+ 602 023e 72       		.byte	114
+ 603 023f 40       		.byte	64
+ 604 0240 90       		.byte	-112
+ 605 0241 28       		.byte	40
+ 606 0242 94       		.byte	-108
+ 607 0243 01       		.byte	1
+ 608 0244 96       		.byte	-106
+ 609 0245 10       		.byte	16
+ 610 0246 99       		.byte	-103
+ 611 0247 01       		.byte	1
+ 612 0248 9D       		.byte	-99
+ 613 0249 40       		.byte	64
+ 614 024a 9F       		.byte	-97
+ 615 024b 30       		.byte	48
+ 616 024c A0       		.byte	-96
+ 617 024d 20       		.byte	32
+ 618 024e A1       		.byte	-95
+ 619 024f 08       		.byte	8
+ 620 0250 A3       		.byte	-93
+ 621 0251 08       		.byte	8
+ 622 0252 AA       		.byte	-86
+ 623 0253 80       		.byte	-128
+ 624 0254 C2       		.byte	-62
+ 625 0255 28       		.byte	40
+ 626 0256 C4       		.byte	-60
+ 627 0257 02       		.byte	2
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 12
+
+
+ 628 0258 CA       		.byte	-54
+ 629 0259 89       		.byte	-119
+ 630 025a CC       		.byte	-52
+ 631 025b 04       		.byte	4
+ 632 025c CE       		.byte	-50
+ 633 025d 2E       		.byte	46
+ 634 025e D0       		.byte	-48
+ 635 025f 22       		.byte	34
+ 636 0260 D2       		.byte	-46
+ 637 0261 18       		.byte	24
+ 638 0262 D6       		.byte	-42
+ 639 0263 0F       		.byte	15
+ 640 0264 0F       		.byte	15
+ 641 0265 01       		.byte	1
+ 642 0266 17       		.byte	23
+ 643 0267 01       		.byte	1
+ 644 0268 33       		.byte	51
+ 645 0269 01       		.byte	1
+ 646 026a 40       		.byte	64
+ 647 026b 52       		.byte	82
+ 648 026c 49       		.byte	73
+ 649 026d FF       		.byte	-1
+ 650 026e 4A       		.byte	74
+ 651 026f FF       		.byte	-1
+ 652 0270 4B       		.byte	75
+ 653 0271 FF       		.byte	-1
+ 654 0272 4D       		.byte	77
+ 655 0273 83       		.byte	-125
+ 656 0274 4E       		.byte	78
+ 657 0275 03       		.byte	3
+ 658 0276 4F       		.byte	79
+ 659 0277 01       		.byte	1
+ 660 0278 50       		.byte	80
+ 661 0279 18       		.byte	24
+ 662 027a 56       		.byte	86
+ 663 027b 08       		.byte	8
+ 664 027c 59       		.byte	89
+ 665 027d 04       		.byte	4
+ 666 027e 5A       		.byte	90
+ 667 027f 04       		.byte	4
+ 668 0280 5B       		.byte	91
+ 669 0281 04       		.byte	4
+ 670 0282 5F       		.byte	95
+ 671 0283 01       		.byte	1
+ 672 0284 60       		.byte	96
+ 673 0285 40       		.byte	64
+ 674 0286 62       		.byte	98
+ 675 0287 40       		.byte	64
+ 676 0288 64       		.byte	100
+ 677 0289 40       		.byte	64
+ 678 028a 65       		.byte	101
+ 679 028b 40       		.byte	64
+ 680 028c 66       		.byte	102
+ 681 028d 80       		.byte	-128
+ 682 028e 68       		.byte	104
+ 683 028f 80       		.byte	-128
+ 684 0290 6A       		.byte	106
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 13
+
+
+ 685 0291 80       		.byte	-128
+ 686 0292 6C       		.byte	108
+ 687 0293 80       		.byte	-128
+ 688 0294 6E       		.byte	110
+ 689 0295 80       		.byte	-128
+ 690 0296 92       		.byte	-110
+ 691 0297 02       		.byte	2
+ 692 0298 96       		.byte	-106
+ 693 0299 01       		.byte	1
+ 694 029a 97       		.byte	-105
+ 695 029b 02       		.byte	2
+ 696 029c 9B       		.byte	-101
+ 697 029d 01       		.byte	1
+ 698 029e A9       		.byte	-87
+ 699 029f 03       		.byte	3
+ 700 02a0 AA       		.byte	-86
+ 701 02a1 02       		.byte	2
+ 702 02a2 B0       		.byte	-80
+ 703 02a3 02       		.byte	2
+ 704 02a4 B3       		.byte	-77
+ 705 02a5 03       		.byte	3
+ 706 02a6 B6       		.byte	-74
+ 707 02a7 01       		.byte	1
+ 708 02a8 B8       		.byte	-72
+ 709 02a9 28       		.byte	40
+ 710 02aa BA       		.byte	-70
+ 711 02ab 80       		.byte	-128
+ 712 02ac BE       		.byte	-66
+ 713 02ad 15       		.byte	21
+ 714 02ae C0       		.byte	-64
+ 715 02af 53       		.byte	83
+ 716 02b0 C5       		.byte	-59
+ 717 02b1 EC       		.byte	-20
+ 718 02b2 C7       		.byte	-57
+ 719 02b3 02       		.byte	2
+ 720 02b4 C8       		.byte	-56
+ 721 02b5 13       		.byte	19
+ 722 02b6 C9       		.byte	-55
+ 723 02b7 FF       		.byte	-1
+ 724 02b8 CA       		.byte	-54
+ 725 02b9 FF       		.byte	-1
+ 726 02ba CB       		.byte	-53
+ 727 02bb FF       		.byte	-1
+ 728 02bc CD       		.byte	-51
+ 729 02bd 83       		.byte	-125
+ 730 02be CE       		.byte	-50
+ 731 02bf 03       		.byte	3
+ 732 02c0 CF       		.byte	-49
+ 733 02c1 01       		.byte	1
+ 734 02c2 D0       		.byte	-48
+ 735 02c3 18       		.byte	24
+ 736 02c4 D2       		.byte	-46
+ 737 02c5 80       		.byte	-128
+ 738 02c6 D4       		.byte	-44
+ 739 02c7 01       		.byte	1
+ 740 02c8 D8       		.byte	-40
+ 741 02c9 04       		.byte	4
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 14
+
+
+ 742 02ca D9       		.byte	-39
+ 743 02cb 04       		.byte	4
+ 744 02cc DA       		.byte	-38
+ 745 02cd 04       		.byte	4
+ 746 02ce DB       		.byte	-37
+ 747 02cf 04       		.byte	4
+ 748 02d0 DF       		.byte	-33
+ 749 02d1 01       		.byte	1
+ 750 02d2 E0       		.byte	-32
+ 751 02d3 40       		.byte	64
+ 752 02d4 E2       		.byte	-30
+ 753 02d5 40       		.byte	64
+ 754 02d6 E4       		.byte	-28
+ 755 02d7 40       		.byte	64
+ 756 02d8 E5       		.byte	-27
+ 757 02d9 40       		.byte	64
+ 758 02da E6       		.byte	-26
+ 759 02db 80       		.byte	-128
+ 760 02dc E8       		.byte	-24
+ 761 02dd 80       		.byte	-128
+ 762 02de EA       		.byte	-22
+ 763 02df 80       		.byte	-128
+ 764 02e0 EC       		.byte	-20
+ 765 02e1 80       		.byte	-128
+ 766 02e2 EE       		.byte	-18
+ 767 02e3 80       		.byte	-128
+ 768 02e4 09       		.byte	9
+ 769 02e5 08       		.byte	8
+ 770 02e6 0B       		.byte	11
+ 771 02e7 40       		.byte	64
+ 772 02e8 12       		.byte	18
+ 773 02e9 04       		.byte	4
+ 774 02ea 18       		.byte	24
+ 775 02eb 10       		.byte	16
+ 776 02ec 19       		.byte	25
+ 777 02ed 80       		.byte	-128
+ 778 02ee 1A       		.byte	26
+ 779 02ef 40       		.byte	64
+ 780 02f0 1B       		.byte	27
+ 781 02f1 10       		.byte	16
+ 782 02f2 21       		.byte	33
+ 783 02f3 08       		.byte	8
+ 784 02f4 26       		.byte	38
+ 785 02f5 04       		.byte	4
+ 786 02f6 27       		.byte	39
+ 787 02f7 10       		.byte	16
+ 788 02f8 2B       		.byte	43
+ 789 02f9 08       		.byte	8
+ 790 02fa 31       		.byte	49
+ 791 02fb 08       		.byte	8
+ 792 02fc 33       		.byte	51
+ 793 02fd 10       		.byte	16
+ 794 02fe 36       		.byte	54
+ 795 02ff 08       		.byte	8
+ 796 0300 3F       		.byte	63
+ 797 0301 40       		.byte	64
+ 798 0302 41       		.byte	65
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 15
+
+
+ 799 0303 04       		.byte	4
+ 800 0304 46       		.byte	70
+ 801 0305 04       		.byte	4
+ 802 0306 49       		.byte	73
+ 803 0307 05       		.byte	5
+ 804 0308 4B       		.byte	75
+ 805 0309 40       		.byte	64
+ 806 030a 4F       		.byte	79
+ 807 030b 40       		.byte	64
+ 808 030c 51       		.byte	81
+ 809 030d 04       		.byte	4
+ 810 030e 52       		.byte	82
+ 811 030f 0C       		.byte	12
+ 812 0310 59       		.byte	89
+ 813 0311 05       		.byte	5
+ 814 0312 5A       		.byte	90
+ 815 0313 40       		.byte	64
+ 816 0314 5D       		.byte	93
+ 817 0315 80       		.byte	-128
+ 818 0316 66       		.byte	102
+ 819 0317 80       		.byte	-128
+ 820 0318 73       		.byte	115
+ 821 0319 40       		.byte	64
+ 822 031a 95       		.byte	-107
+ 823 031b 08       		.byte	8
+ 824 031c 97       		.byte	-105
+ 825 031d 40       		.byte	64
+ 826 031e 9E       		.byte	-98
+ 827 031f 04       		.byte	4
+ 828 0320 9F       		.byte	-97
+ 829 0321 10       		.byte	16
+ 830 0322 A3       		.byte	-93
+ 831 0323 08       		.byte	8
+ 832 0324 C2       		.byte	-62
+ 833 0325 0C       		.byte	12
+ 834 0326 C4       		.byte	-60
+ 835 0327 02       		.byte	2
+ 836 0328 CA       		.byte	-54
+ 837 0329 04       		.byte	4
+ 838 032a CC       		.byte	-52
+ 839 032b 46       		.byte	70
+ 840 032c CE       		.byte	-50
+ 841 032d 10       		.byte	16
+ 842 032e D0       		.byte	-48
+ 843 032f 22       		.byte	34
+ 844 0330 D2       		.byte	-46
+ 845 0331 18       		.byte	24
+ 846 0332 D6       		.byte	-42
+ 847 0333 1B       		.byte	27
+ 848 0334 D8       		.byte	-40
+ 849 0335 10       		.byte	16
+ 850 0336 00       		.byte	0
+ 851 0337 1F       		.byte	31
+ 852 0338 01       		.byte	1
+ 853 0339 04       		.byte	4
+ 854 033a 04       		.byte	4
+ 855 033b 01       		.byte	1
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 16
+
+
+ 856 033c 05       		.byte	5
+ 857 033d 08       		.byte	8
+ 858 033e 08       		.byte	8
+ 859 033f 03       		.byte	3
+ 860 0340 09       		.byte	9
+ 861 0341 08       		.byte	8
+ 862 0342 0E       		.byte	14
+ 863 0343 03       		.byte	3
+ 864 0344 0F       		.byte	15
+ 865 0345 01       		.byte	1
+ 866 0346 11       		.byte	17
+ 867 0347 08       		.byte	8
+ 868 0348 14       		.byte	20
+ 869 0349 02       		.byte	2
+ 870 034a 15       		.byte	21
+ 871 034b 02       		.byte	2
+ 872 034c 18       		.byte	24
+ 873 034d 13       		.byte	19
+ 874 034e 1A       		.byte	26
+ 875 034f 0C       		.byte	12
+ 876 0350 1C       		.byte	28
+ 877 0351 1F       		.byte	31
+ 878 0352 1D       		.byte	29
+ 879 0353 06       		.byte	6
+ 880 0354 1F       		.byte	31
+ 881 0355 01       		.byte	1
+ 882 0356 20       		.byte	32
+ 883 0357 1C       		.byte	28
+ 884 0358 21       		.byte	33
+ 885 0359 07       		.byte	7
+ 886 035a 22       		.byte	34
+ 887 035b 03       		.byte	3
+ 888 035c 24       		.byte	36
+ 889 035d 04       		.byte	4
+ 890 035e 25       		.byte	37
+ 891 035f 01       		.byte	1
+ 892 0360 27       		.byte	39
+ 893 0361 06       		.byte	6
+ 894 0362 28       		.byte	40
+ 895 0363 0C       		.byte	12
+ 896 0364 29       		.byte	41
+ 897 0365 06       		.byte	6
+ 898 0366 2C       		.byte	44
+ 899 0367 08       		.byte	8
+ 900 0368 2D       		.byte	45
+ 901 0369 07       		.byte	7
+ 902 036a 31       		.byte	49
+ 903 036b 08       		.byte	8
+ 904 036c 32       		.byte	50
+ 905 036d 10       		.byte	16
+ 906 036e 33       		.byte	51
+ 907 036f 07       		.byte	7
+ 908 0370 34       		.byte	52
+ 909 0371 0F       		.byte	15
+ 910 0372 3A       		.byte	58
+ 911 0373 A0       		.byte	-96
+ 912 0374 3E       		.byte	62
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 17
+
+
+ 913 0375 04       		.byte	4
+ 914 0376 56       		.byte	86
+ 915 0377 02       		.byte	2
+ 916 0378 57       		.byte	87
+ 917 0379 11       		.byte	17
+ 918 037a 58       		.byte	88
+ 919 037b 04       		.byte	4
+ 920 037c 59       		.byte	89
+ 921 037d 04       		.byte	4
+ 922 037e 5B       		.byte	91
+ 923 037f 04       		.byte	4
+ 924 0380 5C       		.byte	92
+ 925 0381 33       		.byte	51
+ 926 0382 5D       		.byte	93
+ 927 0383 30       		.byte	48
+ 928 0384 5F       		.byte	95
+ 929 0385 01       		.byte	1
+ 930 0386 8A       		.byte	-118
+ 931 0387 01       		.byte	1
+ 932 0388 8B       		.byte	-117
+ 933 0389 01       		.byte	1
+ 934 038a 94       		.byte	-108
+ 935 038b 01       		.byte	1
+ 936 038c B0       		.byte	-80
+ 937 038d 01       		.byte	1
+ 938 038e B3       		.byte	-77
+ 939 038f 01       		.byte	1
+ 940 0390 BE       		.byte	-66
+ 941 0391 01       		.byte	1
+ 942 0392 D8       		.byte	-40
+ 943 0393 04       		.byte	4
+ 944 0394 D9       		.byte	-39
+ 945 0395 04       		.byte	4
+ 946 0396 DF       		.byte	-33
+ 947 0397 01       		.byte	1
+ 948 0398 00       		.byte	0
+ 949 0399 20       		.byte	32
+ 950 039a 01       		.byte	1
+ 951 039b 10       		.byte	16
+ 952 039c 04       		.byte	4
+ 953 039d 50       		.byte	80
+ 954 039e 05       		.byte	5
+ 955 039f 08       		.byte	8
+ 956 03a0 07       		.byte	7
+ 957 03a1 40       		.byte	64
+ 958 03a2 09       		.byte	9
+ 959 03a3 08       		.byte	8
+ 960 03a4 0C       		.byte	12
+ 961 03a5 48       		.byte	72
+ 962 03a6 0E       		.byte	14
+ 963 03a7 05       		.byte	5
+ 964 03a8 14       		.byte	20
+ 965 03a9 80       		.byte	-128
+ 966 03aa 16       		.byte	22
+ 967 03ab 82       		.byte	-126
+ 968 03ac 17       		.byte	23
+ 969 03ad 24       		.byte	36
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 18
+
+
+ 970 03ae 1A       		.byte	26
+ 971 03af 40       		.byte	64
+ 972 03b0 1D       		.byte	29
+ 973 03b1 20       		.byte	32
+ 974 03b2 1E       		.byte	30
+ 975 03b3 25       		.byte	37
+ 976 03b4 21       		.byte	33
+ 977 03b5 08       		.byte	8
+ 978 03b6 24       		.byte	36
+ 979 03b7 40       		.byte	64
+ 980 03b8 25       		.byte	37
+ 981 03b9 04       		.byte	4
+ 982 03ba 26       		.byte	38
+ 983 03bb 0A       		.byte	10
+ 984 03bc 2E       		.byte	46
+ 985 03bd A5       		.byte	-91
+ 986 03be 37       		.byte	55
+ 987 03bf 45       		.byte	69
+ 988 03c0 39       		.byte	57
+ 989 03c1 10       		.byte	16
+ 990 03c2 3C       		.byte	60
+ 991 03c3 40       		.byte	64
+ 992 03c4 3D       		.byte	61
+ 993 03c5 04       		.byte	4
+ 994 03c6 3E       		.byte	62
+ 995 03c7 12       		.byte	18
+ 996 03c8 5E       		.byte	94
+ 997 03c9 20       		.byte	32
+ 998 03ca 6D       		.byte	109
+ 999 03cb 04       		.byte	4
+ 1000 03cc 6E       		.byte	110
+ 1001 03cd 10       		.byte	16
+ 1002 03ce 6F       		.byte	111
+ 1003 03cf 11       		.byte	17
+ 1004 03d0 74       		.byte	116
+ 1005 03d1 80       		.byte	-128
+ 1006 03d2 76       		.byte	118
+ 1007 03d3 26       		.byte	38
+ 1008 03d4 77       		.byte	119
+ 1009 03d5 24       		.byte	36
+ 1010 03d6 C0       		.byte	-64
+ 1011 03d7 F2       		.byte	-14
+ 1012 03d8 C2       		.byte	-62
+ 1013 03d9 E4       		.byte	-28
+ 1014 03da C4       		.byte	-60
+ 1015 03db F0       		.byte	-16
+ 1016 03dc CA       		.byte	-54
+ 1017 03dd F0       		.byte	-16
+ 1018 03de CC       		.byte	-52
+ 1019 03df D0       		.byte	-48
+ 1020 03e0 CE       		.byte	-50
+ 1021 03e1 F4       		.byte	-12
+ 1022 03e2 D6       		.byte	-42
+ 1023 03e3 20       		.byte	32
+ 1024 03e4 E6       		.byte	-26
+ 1025 03e5 01       		.byte	1
+ 1026 03e6 07       		.byte	7
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 19
+
+
+ 1027 03e7 01       		.byte	1
+ 1028 03e8 0D       		.byte	13
+ 1029 03e9 03       		.byte	3
+ 1030 03ea 1A       		.byte	26
+ 1031 03eb 01       		.byte	1
+ 1032 03ec 1B       		.byte	27
+ 1033 03ed 02       		.byte	2
+ 1034 03ee 32       		.byte	50
+ 1035 03ef 01       		.byte	1
+ 1036 03f0 34       		.byte	52
+ 1037 03f1 01       		.byte	1
+ 1038 03f2 35       		.byte	53
+ 1039 03f3 03       		.byte	3
+ 1040 03f4 40       		.byte	64
+ 1041 03f5 46       		.byte	70
+ 1042 03f6 41       		.byte	65
+ 1043 03f7 03       		.byte	3
+ 1044 03f8 49       		.byte	73
+ 1045 03f9 FF       		.byte	-1
+ 1046 03fa 4A       		.byte	74
+ 1047 03fb FF       		.byte	-1
+ 1048 03fc 4B       		.byte	75
+ 1049 03fd FF       		.byte	-1
+ 1050 03fe 4D       		.byte	77
+ 1051 03ff A0       		.byte	-96
+ 1052 0400 4F       		.byte	79
+ 1053 0401 01       		.byte	1
+ 1054 0402 50       		.byte	80
+ 1055 0403 18       		.byte	24
+ 1056 0404 58       		.byte	88
+ 1057 0405 04       		.byte	4
+ 1058 0406 59       		.byte	89
+ 1059 0407 04       		.byte	4
+ 1060 0408 5A       		.byte	90
+ 1061 0409 04       		.byte	4
+ 1062 040a 5F       		.byte	95
+ 1063 040b 01       		.byte	1
+ 1064 040c 60       		.byte	96
+ 1065 040d 40       		.byte	64
+ 1066 040e 62       		.byte	98
+ 1067 040f 80       		.byte	-128
+ 1068 0410 64       		.byte	100
+ 1069 0411 40       		.byte	64
+ 1070 0412 65       		.byte	101
+ 1071 0413 40       		.byte	64
+ 1072 0414 66       		.byte	102
+ 1073 0415 80       		.byte	-128
+ 1074 0416 68       		.byte	104
+ 1075 0417 40       		.byte	64
+ 1076 0418 6A       		.byte	106
+ 1077 0419 50       		.byte	80
+ 1078 041a 6B       		.byte	107
+ 1079 041b A8       		.byte	-88
+ 1080 041c 6C       		.byte	108
+ 1081 041d 40       		.byte	64
+ 1082 041e 6D       		.byte	109
+ 1083 041f 20       		.byte	32
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 20
+
+
+ 1084 0420 6E       		.byte	110
+ 1085 0421 50       		.byte	80
+ 1086 0422 6F       		.byte	111
+ 1087 0423 A8       		.byte	-88
+ 1088 0424 C0       		.byte	-64
+ 1089 0425 42       		.byte	66
+ 1090 0426 C1       		.byte	-63
+ 1091 0427 06       		.byte	6
+ 1092 0428 C9       		.byte	-55
+ 1093 0429 FF       		.byte	-1
+ 1094 042a CA       		.byte	-54
+ 1095 042b FF       		.byte	-1
+ 1096 042c CB       		.byte	-53
+ 1097 042d FF       		.byte	-1
+ 1098 042e CD       		.byte	-51
+ 1099 042f AF       		.byte	-81
+ 1100 0430 CE       		.byte	-50
+ 1101 0431 07       		.byte	7
+ 1102 0432 CF       		.byte	-49
+ 1103 0433 01       		.byte	1
+ 1104 0434 D0       		.byte	-48
+ 1105 0435 18       		.byte	24
+ 1106 0436 DA       		.byte	-38
+ 1107 0437 04       		.byte	4
+ 1108 0438 DB       		.byte	-37
+ 1109 0439 04       		.byte	4
+ 1110 043a DF       		.byte	-33
+ 1111 043b 01       		.byte	1
+ 1112 043c E0       		.byte	-32
+ 1113 043d 40       		.byte	64
+ 1114 043e E2       		.byte	-30
+ 1115 043f 80       		.byte	-128
+ 1116 0440 E4       		.byte	-28
+ 1117 0441 40       		.byte	64
+ 1118 0442 E5       		.byte	-27
+ 1119 0443 40       		.byte	64
+ 1120 0444 E6       		.byte	-26
+ 1121 0445 80       		.byte	-128
+ 1122 0446 E8       		.byte	-24
+ 1123 0447 40       		.byte	64
+ 1124 0448 EA       		.byte	-22
+ 1125 0449 50       		.byte	80
+ 1126 044a EB       		.byte	-21
+ 1127 044b A8       		.byte	-88
+ 1128 044c EC       		.byte	-20
+ 1129 044d 40       		.byte	64
+ 1130 044e ED       		.byte	-19
+ 1131 044f 20       		.byte	32
+ 1132 0450 EE       		.byte	-18
+ 1133 0451 50       		.byte	80
+ 1134 0452 EF       		.byte	-17
+ 1135 0453 A8       		.byte	-88
+ 1136 0454 09       		.byte	9
+ 1137 0455 20       		.byte	32
+ 1138 0456 18       		.byte	24
+ 1139 0457 28       		.byte	40
+ 1140 0458 20       		.byte	32
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 21
+
+
+ 1141 0459 04       		.byte	4
+ 1142 045a 21       		.byte	33
+ 1143 045b 20       		.byte	32
+ 1144 045c 33       		.byte	51
+ 1145 045d 10       		.byte	16
+ 1146 045e 38       		.byte	56
+ 1147 045f 84       		.byte	-124
+ 1148 0460 40       		.byte	64
+ 1149 0461 10       		.byte	16
+ 1150 0462 42       		.byte	66
+ 1151 0463 40       		.byte	64
+ 1152 0464 45       		.byte	69
+ 1153 0465 02       		.byte	2
+ 1154 0466 47       		.byte	71
+ 1155 0467 10       		.byte	16
+ 1156 0468 4A       		.byte	74
+ 1157 0469 04       		.byte	4
+ 1158 046a 4F       		.byte	79
+ 1159 046b 20       		.byte	32
+ 1160 046c 6C       		.byte	108
+ 1161 046d 02       		.byte	2
+ 1162 046e 6D       		.byte	109
+ 1163 046f 04       		.byte	4
+ 1164 0470 6E       		.byte	110
+ 1165 0471 20       		.byte	32
+ 1166 0472 6F       		.byte	111
+ 1167 0473 80       		.byte	-128
+ 1168 0474 74       		.byte	116
+ 1169 0475 A0       		.byte	-96
+ 1170 0476 75       		.byte	117
+ 1171 0477 04       		.byte	4
+ 1172 0478 77       		.byte	119
+ 1173 0479 80       		.byte	-128
+ 1174 047a 80       		.byte	-128
+ 1175 047b 14       		.byte	20
+ 1176 047c 83       		.byte	-125
+ 1177 047d 80       		.byte	-128
+ 1178 047e 84       		.byte	-124
+ 1179 047f 02       		.byte	2
+ 1180 0480 86       		.byte	-122
+ 1181 0481 10       		.byte	16
+ 1182 0482 88       		.byte	-120
+ 1183 0483 20       		.byte	32
+ 1184 0484 89       		.byte	-119
+ 1185 0485 04       		.byte	4
+ 1186 0486 8C       		.byte	-116
+ 1187 0487 80       		.byte	-128
+ 1188 0488 8D       		.byte	-115
+ 1189 0489 04       		.byte	4
+ 1190 048a 8F       		.byte	-113
+ 1191 048b 80       		.byte	-128
+ 1192 048c 90       		.byte	-112
+ 1193 048d 90       		.byte	-112
+ 1194 048e 92       		.byte	-110
+ 1195 048f 40       		.byte	64
+ 1196 0490 9B       		.byte	-101
+ 1197 0491 10       		.byte	16
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 22
+
+
+ 1198 0492 A1       		.byte	-95
+ 1199 0493 02       		.byte	2
+ 1200 0494 A2       		.byte	-94
+ 1201 0495 04       		.byte	4
+ 1202 0496 A3       		.byte	-93
+ 1203 0497 10       		.byte	16
+ 1204 0498 A8       		.byte	-88
+ 1205 0499 40       		.byte	64
+ 1206 049a C2       		.byte	-62
+ 1207 049b 02       		.byte	2
+ 1208 049c CC       		.byte	-52
+ 1209 049d 04       		.byte	4
+ 1210 049e CE       		.byte	-50
+ 1211 049f 0A       		.byte	10
+ 1212 04a0 D0       		.byte	-48
+ 1213 04a1 A3       		.byte	-93
+ 1214 04a2 D2       		.byte	-46
+ 1215 04a3 24       		.byte	36
+ 1216 04a4 E0       		.byte	-32
+ 1217 04a5 04       		.byte	4
+ 1218 04a6 E2       		.byte	-30
+ 1219 04a7 30       		.byte	48
+ 1220 04a8 E4       		.byte	-28
+ 1221 04a9 01       		.byte	1
+ 1222 04aa E6       		.byte	-26
+ 1223 04ab 70       		.byte	112
+ 1224 04ac EA       		.byte	-22
+ 1225 04ad 01       		.byte	1
+ 1226 04ae EE       		.byte	-18
+ 1227 04af 08       		.byte	8
+ 1228 04b0 02       		.byte	2
+ 1229 04b1 01       		.byte	1
+ 1230 04b2 22       		.byte	34
+ 1231 04b3 01       		.byte	1
+ 1232 04b4 28       		.byte	40
+ 1233 04b5 01       		.byte	1
+ 1234 04b6 2F       		.byte	47
+ 1235 04b7 01       		.byte	1
+ 1236 04b8 30       		.byte	48
+ 1237 04b9 01       		.byte	1
+ 1238 04ba 33       		.byte	51
+ 1239 04bb 01       		.byte	1
+ 1240 04bc 3E       		.byte	62
+ 1241 04bd 01       		.byte	1
+ 1242 04be 40       		.byte	64
+ 1243 04bf 42       		.byte	66
+ 1244 04c0 41       		.byte	65
+ 1245 04c1 06       		.byte	6
+ 1246 04c2 49       		.byte	73
+ 1247 04c3 FF       		.byte	-1
+ 1248 04c4 4A       		.byte	74
+ 1249 04c5 FF       		.byte	-1
+ 1250 04c6 4B       		.byte	75
+ 1251 04c7 FF       		.byte	-1
+ 1252 04c8 4D       		.byte	77
+ 1253 04c9 AF       		.byte	-81
+ 1254 04ca 4E       		.byte	78
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 23
+
+
+ 1255 04cb 07       		.byte	7
+ 1256 04cc 4F       		.byte	79
+ 1257 04cd 01       		.byte	1
+ 1258 04ce 50       		.byte	80
+ 1259 04cf 18       		.byte	24
+ 1260 04d0 52       		.byte	82
+ 1261 04d1 80       		.byte	-128
+ 1262 04d2 58       		.byte	88
+ 1263 04d3 04       		.byte	4
+ 1264 04d4 59       		.byte	89
+ 1265 04d5 04       		.byte	4
+ 1266 04d6 5A       		.byte	90
+ 1267 04d7 04       		.byte	4
+ 1268 04d8 5B       		.byte	91
+ 1269 04d9 04       		.byte	4
+ 1270 04da 5F       		.byte	95
+ 1271 04db 01       		.byte	1
+ 1272 04dc 60       		.byte	96
+ 1273 04dd 40       		.byte	64
+ 1274 04de 62       		.byte	98
+ 1275 04df 80       		.byte	-128
+ 1276 04e0 64       		.byte	100
+ 1277 04e1 40       		.byte	64
+ 1278 04e2 65       		.byte	101
+ 1279 04e3 40       		.byte	64
+ 1280 04e4 66       		.byte	102
+ 1281 04e5 80       		.byte	-128
+ 1282 04e6 68       		.byte	104
+ 1283 04e7 40       		.byte	64
+ 1284 04e8 6A       		.byte	106
+ 1285 04e9 50       		.byte	80
+ 1286 04ea 6B       		.byte	107
+ 1287 04eb A8       		.byte	-88
+ 1288 04ec 6C       		.byte	108
+ 1289 04ed 40       		.byte	64
+ 1290 04ee 6D       		.byte	109
+ 1291 04ef 20       		.byte	32
+ 1292 04f0 6E       		.byte	110
+ 1293 04f1 50       		.byte	80
+ 1294 04f2 6F       		.byte	111
+ 1295 04f3 A8       		.byte	-88
+ 1296 04f4 8C       		.byte	-116
+ 1297 04f5 01       		.byte	1
+ 1298 04f6 9B       		.byte	-101
+ 1299 04f7 02       		.byte	2
+ 1300 04f8 9C       		.byte	-100
+ 1301 04f9 02       		.byte	2
+ 1302 04fa 9F       		.byte	-97
+ 1303 04fb 01       		.byte	1
+ 1304 04fc A2       		.byte	-94
+ 1305 04fd 01       		.byte	1
+ 1306 04fe A6       		.byte	-90
+ 1307 04ff 02       		.byte	2
+ 1308 0500 B1       		.byte	-79
+ 1309 0501 01       		.byte	1
+ 1310 0502 B2       		.byte	-78
+ 1311 0503 01       		.byte	1
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 24
+
+
+ 1312 0504 B6       		.byte	-74
+ 1313 0505 02       		.byte	2
+ 1314 0506 B7       		.byte	-73
+ 1315 0507 02       		.byte	2
+ 1316 0508 BE       		.byte	-66
+ 1317 0509 44       		.byte	68
+ 1318 050a C0       		.byte	-64
+ 1319 050b 46       		.byte	70
+ 1320 050c C1       		.byte	-63
+ 1321 050d 03       		.byte	3
+ 1322 050e C5       		.byte	-59
+ 1323 050f 04       		.byte	4
+ 1324 0510 C6       		.byte	-58
+ 1325 0511 C2       		.byte	-62
+ 1326 0512 C7       		.byte	-57
+ 1327 0513 0E       		.byte	14
+ 1328 0514 C8       		.byte	-56
+ 1329 0515 1F       		.byte	31
+ 1330 0516 C9       		.byte	-55
+ 1331 0517 FF       		.byte	-1
+ 1332 0518 CA       		.byte	-54
+ 1333 0519 FF       		.byte	-1
+ 1334 051a CB       		.byte	-53
+ 1335 051b FF       		.byte	-1
+ 1336 051c CD       		.byte	-51
+ 1337 051d AF       		.byte	-81
+ 1338 051e CE       		.byte	-50
+ 1339 051f 07       		.byte	7
+ 1340 0520 CF       		.byte	-49
+ 1341 0521 01       		.byte	1
+ 1342 0522 D0       		.byte	-48
+ 1343 0523 18       		.byte	24
+ 1344 0524 D4       		.byte	-44
+ 1345 0525 07       		.byte	7
+ 1346 0526 D8       		.byte	-40
+ 1347 0527 04       		.byte	4
+ 1348 0528 D9       		.byte	-39
+ 1349 0529 04       		.byte	4
+ 1350 052a DA       		.byte	-38
+ 1351 052b 04       		.byte	4
+ 1352 052c DB       		.byte	-37
+ 1353 052d 04       		.byte	4
+ 1354 052e DF       		.byte	-33
+ 1355 052f 05       		.byte	5
+ 1356 0530 E0       		.byte	-32
+ 1357 0531 40       		.byte	64
+ 1358 0532 E2       		.byte	-30
+ 1359 0533 80       		.byte	-128
+ 1360 0534 E4       		.byte	-28
+ 1361 0535 40       		.byte	64
+ 1362 0536 E5       		.byte	-27
+ 1363 0537 40       		.byte	64
+ 1364 0538 E6       		.byte	-26
+ 1365 0539 80       		.byte	-128
+ 1366 053a E8       		.byte	-24
+ 1367 053b 40       		.byte	64
+ 1368 053c EA       		.byte	-22
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 25
+
+
+ 1369 053d 50       		.byte	80
+ 1370 053e EB       		.byte	-21
+ 1371 053f A8       		.byte	-88
+ 1372 0540 EC       		.byte	-20
+ 1373 0541 40       		.byte	64
+ 1374 0542 ED       		.byte	-19
+ 1375 0543 20       		.byte	32
+ 1376 0544 EE       		.byte	-18
+ 1377 0545 50       		.byte	80
+ 1378 0546 EF       		.byte	-17
+ 1379 0547 A8       		.byte	-88
+ 1380 0548 00       		.byte	0
+ 1381 0549 80       		.byte	-128
+ 1382 054a 06       		.byte	6
+ 1383 054b 80       		.byte	-128
+ 1384 054c 09       		.byte	9
+ 1385 054d 80       		.byte	-128
+ 1386 054e 10       		.byte	16
+ 1387 054f A0       		.byte	-96
+ 1388 0550 16       		.byte	22
+ 1389 0551 40       		.byte	64
+ 1390 0552 17       		.byte	23
+ 1391 0553 20       		.byte	32
+ 1392 0554 19       		.byte	25
+ 1393 0555 44       		.byte	68
+ 1394 0556 1D       		.byte	29
+ 1395 0557 02       		.byte	2
+ 1396 0558 1E       		.byte	30
+ 1397 0559 40       		.byte	64
+ 1398 055a 20       		.byte	32
+ 1399 055b 80       		.byte	-128
+ 1400 055c 21       		.byte	33
+ 1401 055d 80       		.byte	-128
+ 1402 055e 27       		.byte	39
+ 1403 055f 20       		.byte	32
+ 1404 0560 2E       		.byte	46
+ 1405 0561 80       		.byte	-128
+ 1406 0562 30       		.byte	48
+ 1407 0563 A0       		.byte	-96
+ 1408 0564 40       		.byte	64
+ 1409 0565 10       		.byte	16
+ 1410 0566 41       		.byte	65
+ 1411 0567 02       		.byte	2
+ 1412 0568 45       		.byte	69
+ 1413 0569 02       		.byte	2
+ 1414 056a 47       		.byte	71
+ 1415 056b 10       		.byte	16
+ 1416 056c 48       		.byte	72
+ 1417 056d A0       		.byte	-96
+ 1418 056e 4A       		.byte	74
+ 1419 056f 04       		.byte	4
+ 1420 0570 4F       		.byte	79
+ 1421 0571 20       		.byte	32
+ 1422 0572 51       		.byte	81
+ 1423 0573 48       		.byte	72
+ 1424 0574 52       		.byte	82
+ 1425 0575 10       		.byte	16
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 26
+
+
+ 1426 0576 59       		.byte	89
+ 1427 0577 44       		.byte	68
+ 1428 0578 5A       		.byte	90
+ 1429 0579 10       		.byte	16
+ 1430 057a 61       		.byte	97
+ 1431 057b 08       		.byte	8
+ 1432 057c 62       		.byte	98
+ 1433 057d 10       		.byte	16
+ 1434 057e 76       		.byte	118
+ 1435 057f 40       		.byte	64
+ 1436 0580 7A       		.byte	122
+ 1437 0581 04       		.byte	4
+ 1438 0582 81       		.byte	-127
+ 1439 0583 40       		.byte	64
+ 1440 0584 82       		.byte	-126
+ 1441 0585 10       		.byte	16
+ 1442 0586 90       		.byte	-112
+ 1443 0587 10       		.byte	16
+ 1444 0588 9A       		.byte	-102
+ 1445 0589 80       		.byte	-128
+ 1446 058a 9B       		.byte	-101
+ 1447 058b 10       		.byte	16
+ 1448 058c A2       		.byte	-94
+ 1449 058d 04       		.byte	4
+ 1450 058e A3       		.byte	-93
+ 1451 058f 10       		.byte	16
+ 1452 0590 C0       		.byte	-64
+ 1453 0591 11       		.byte	17
+ 1454 0592 C2       		.byte	-62
+ 1455 0593 01       		.byte	1
+ 1456 0594 C4       		.byte	-60
+ 1457 0595 5C       		.byte	92
+ 1458 0596 CA       		.byte	-54
+ 1459 0597 10       		.byte	16
+ 1460 0598 CC       		.byte	-52
+ 1461 0599 0C       		.byte	12
+ 1462 059a D0       		.byte	-48
+ 1463 059b A3       		.byte	-93
+ 1464 059c D2       		.byte	-46
+ 1465 059d 24       		.byte	36
+ 1466 059e D6       		.byte	-42
+ 1467 059f 0E       		.byte	14
+ 1468 05a0 D8       		.byte	-40
+ 1469 05a1 06       		.byte	6
+ 1470 05a2 DE       		.byte	-34
+ 1471 05a3 04       		.byte	4
+ 1472 05a4 01       		.byte	1
+ 1473 05a5 07       		.byte	7
+ 1474 05a6 04       		.byte	4
+ 1475 05a7 48       		.byte	72
+ 1476 05a8 06       		.byte	6
+ 1477 05a9 35       		.byte	53
+ 1478 05aa 07       		.byte	7
+ 1479 05ab 08       		.byte	8
+ 1480 05ac 08       		.byte	8
+ 1481 05ad 20       		.byte	32
+ 1482 05ae 0A       		.byte	10
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 27
+
+
+ 1483 05af C2       		.byte	-62
+ 1484 05b0 0D       		.byte	13
+ 1485 05b1 06       		.byte	6
+ 1486 05b2 0F       		.byte	15
+ 1487 05b3 01       		.byte	1
+ 1488 05b4 14       		.byte	20
+ 1489 05b5 F8       		.byte	-8
+ 1490 05b6 15       		.byte	21
+ 1491 05b7 01       		.byte	1
+ 1492 05b8 17       		.byte	23
+ 1493 05b9 06       		.byte	6
+ 1494 05ba 18       		.byte	24
+ 1495 05bb 90       		.byte	-112
+ 1496 05bc 19       		.byte	25
+ 1497 05bd 06       		.byte	6
+ 1498 05be 1A       		.byte	26
+ 1499 05bf 2C       		.byte	44
+ 1500 05c0 1D       		.byte	29
+ 1501 05c1 06       		.byte	6
+ 1502 05c2 1F       		.byte	31
+ 1503 05c3 01       		.byte	1
+ 1504 05c4 21       		.byte	33
+ 1505 05c5 04       		.byte	4
+ 1506 05c6 27       		.byte	39
+ 1507 05c7 08       		.byte	8
+ 1508 05c8 28       		.byte	40
+ 1509 05c9 F8       		.byte	-8
+ 1510 05ca 29       		.byte	41
+ 1511 05cb 02       		.byte	2
+ 1512 05cc 2F       		.byte	47
+ 1513 05cd 01       		.byte	1
+ 1514 05ce 30       		.byte	48
+ 1515 05cf 01       		.byte	1
+ 1516 05d0 31       		.byte	49
+ 1517 05d1 07       		.byte	7
+ 1518 05d2 32       		.byte	50
+ 1519 05d3 E0       		.byte	-32
+ 1520 05d4 34       		.byte	52
+ 1521 05d5 18       		.byte	24
+ 1522 05d6 35       		.byte	53
+ 1523 05d7 08       		.byte	8
+ 1524 05d8 36       		.byte	54
+ 1525 05d9 06       		.byte	6
+ 1526 05da 3B       		.byte	59
+ 1527 05db 02       		.byte	2
+ 1528 05dc 3E       		.byte	62
+ 1529 05dd 40       		.byte	64
+ 1530 05de 3F       		.byte	63
+ 1531 05df 10       		.byte	16
+ 1532 05e0 40       		.byte	64
+ 1533 05e1 25       		.byte	37
+ 1534 05e2 41       		.byte	65
+ 1535 05e3 04       		.byte	4
+ 1536 05e4 42       		.byte	66
+ 1537 05e5 06       		.byte	6
+ 1538 05e6 44       		.byte	68
+ 1539 05e7 01       		.byte	1
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 28
+
+
+ 1540 05e8 45       		.byte	69
+ 1541 05e9 E0       		.byte	-32
+ 1542 05ea 46       		.byte	70
+ 1543 05eb C0       		.byte	-64
+ 1544 05ec 48       		.byte	72
+ 1545 05ed 0A       		.byte	10
+ 1546 05ee 49       		.byte	73
+ 1547 05ef FF       		.byte	-1
+ 1548 05f0 4A       		.byte	74
+ 1549 05f1 FF       		.byte	-1
+ 1550 05f2 4B       		.byte	75
+ 1551 05f3 FF       		.byte	-1
+ 1552 05f4 4C       		.byte	76
+ 1553 05f5 62       		.byte	98
+ 1554 05f6 4D       		.byte	77
+ 1555 05f7 A0       		.byte	-96
+ 1556 05f8 4E       		.byte	78
+ 1557 05f9 F0       		.byte	-16
+ 1558 05fa 4F       		.byte	79
+ 1559 05fb 41       		.byte	65
+ 1560 05fc 50       		.byte	80
+ 1561 05fd 0C       		.byte	12
+ 1562 05fe 58       		.byte	88
+ 1563 05ff 04       		.byte	4
+ 1564 0600 59       		.byte	89
+ 1565 0601 04       		.byte	4
+ 1566 0602 5A       		.byte	90
+ 1567 0603 04       		.byte	4
+ 1568 0604 5C       		.byte	92
+ 1569 0605 33       		.byte	51
+ 1570 0606 5D       		.byte	93
+ 1571 0607 03       		.byte	3
+ 1572 0608 5F       		.byte	95
+ 1573 0609 01       		.byte	1
+ 1574 060a 66       		.byte	102
+ 1575 060b 40       		.byte	64
+ 1576 060c 67       		.byte	103
+ 1577 060d 02       		.byte	2
+ 1578 060e 69       		.byte	105
+ 1579 060f 10       		.byte	16
+ 1580 0610 6A       		.byte	106
+ 1581 0611 30       		.byte	48
+ 1582 0612 6B       		.byte	107
+ 1583 0613 10       		.byte	16
+ 1584 0614 6D       		.byte	109
+ 1585 0615 10       		.byte	16
+ 1586 0616 6E       		.byte	110
+ 1587 0617 10       		.byte	16
+ 1588 0618 6F       		.byte	111
+ 1589 0619 12       		.byte	18
+ 1590 061a 81       		.byte	-127
+ 1591 061b 01       		.byte	1
+ 1592 061c 82       		.byte	-126
+ 1593 061d 01       		.byte	1
+ 1594 061e 8F       		.byte	-113
+ 1595 061f 01       		.byte	1
+ 1596 0620 B1       		.byte	-79
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 29
+
+
+ 1597 0621 01       		.byte	1
+ 1598 0622 B6       		.byte	-74
+ 1599 0623 01       		.byte	1
+ 1600 0624 BF       		.byte	-65
+ 1601 0625 01       		.byte	1
+ 1602 0626 C0       		.byte	-64
+ 1603 0627 21       		.byte	33
+ 1604 0628 C5       		.byte	-59
+ 1605 0629 04       		.byte	4
+ 1606 062a C6       		.byte	-58
+ 1607 062b C2       		.byte	-62
+ 1608 062c C7       		.byte	-57
+ 1609 062d 0E       		.byte	14
+ 1610 062e C8       		.byte	-56
+ 1611 062f 1D       		.byte	29
+ 1612 0630 C9       		.byte	-55
+ 1613 0631 FF       		.byte	-1
+ 1614 0632 CA       		.byte	-54
+ 1615 0633 FF       		.byte	-1
+ 1616 0634 CB       		.byte	-53
+ 1617 0635 FF       		.byte	-1
+ 1618 0636 CD       		.byte	-51
+ 1619 0637 A0       		.byte	-96
+ 1620 0638 CF       		.byte	-49
+ 1621 0639 01       		.byte	1
+ 1622 063a D0       		.byte	-48
+ 1623 063b 18       		.byte	24
+ 1624 063c D4       		.byte	-44
+ 1625 063d 0B       		.byte	11
+ 1626 063e D8       		.byte	-40
+ 1627 063f 04       		.byte	4
+ 1628 0640 D9       		.byte	-39
+ 1629 0641 04       		.byte	4
+ 1630 0642 DA       		.byte	-38
+ 1631 0643 04       		.byte	4
+ 1632 0644 DB       		.byte	-37
+ 1633 0645 04       		.byte	4
+ 1634 0646 DF       		.byte	-33
+ 1635 0647 01       		.byte	1
+ 1636 0648 E0       		.byte	-32
+ 1637 0649 40       		.byte	64
+ 1638 064a E2       		.byte	-30
+ 1639 064b 80       		.byte	-128
+ 1640 064c E4       		.byte	-28
+ 1641 064d 40       		.byte	64
+ 1642 064e E5       		.byte	-27
+ 1643 064f 40       		.byte	64
+ 1644 0650 E6       		.byte	-26
+ 1645 0651 80       		.byte	-128
+ 1646 0652 E8       		.byte	-24
+ 1647 0653 40       		.byte	64
+ 1648 0654 EA       		.byte	-22
+ 1649 0655 50       		.byte	80
+ 1650 0656 EB       		.byte	-21
+ 1651 0657 A8       		.byte	-88
+ 1652 0658 EC       		.byte	-20
+ 1653 0659 40       		.byte	64
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 30
+
+
+ 1654 065a ED       		.byte	-19
+ 1655 065b 20       		.byte	32
+ 1656 065c EE       		.byte	-18
+ 1657 065d 50       		.byte	80
+ 1658 065e EF       		.byte	-17
+ 1659 065f A8       		.byte	-88
+ 1660 0660 02       		.byte	2
+ 1661 0661 40       		.byte	64
+ 1662 0662 04       		.byte	4
+ 1663 0663 10       		.byte	16
+ 1664 0664 05       		.byte	5
+ 1665 0665 08       		.byte	8
+ 1666 0666 07       		.byte	7
+ 1667 0667 04       		.byte	4
+ 1668 0668 0E       		.byte	14
+ 1669 0669 14       		.byte	20
+ 1670 066a 17       		.byte	23
+ 1671 066b 10       		.byte	16
+ 1672 066c 18       		.byte	24
+ 1673 066d 01       		.byte	1
+ 1674 066e 1C       		.byte	28
+ 1675 066f 10       		.byte	16
+ 1676 0670 1D       		.byte	29
+ 1677 0671 81       		.byte	-127
+ 1678 0672 1E       		.byte	30
+ 1679 0673 04       		.byte	4
+ 1680 0674 22       		.byte	34
+ 1681 0675 01       		.byte	1
+ 1682 0676 25       		.byte	37
+ 1683 0677 10       		.byte	16
+ 1684 0678 27       		.byte	39
+ 1685 0679 40       		.byte	64
+ 1686 067a 2C       		.byte	44
+ 1687 067b 80       		.byte	-128
+ 1688 067c 2D       		.byte	45
+ 1689 067d 80       		.byte	-128
+ 1690 067e 2F       		.byte	47
+ 1691 067f 24       		.byte	36
+ 1692 0680 34       		.byte	52
+ 1693 0681 04       		.byte	4
+ 1694 0682 37       		.byte	55
+ 1695 0683 60       		.byte	96
+ 1696 0684 38       		.byte	56
+ 1697 0685 01       		.byte	1
+ 1698 0686 39       		.byte	57
+ 1699 0687 80       		.byte	-128
+ 1700 0688 3A       		.byte	58
+ 1701 0689 04       		.byte	4
+ 1702 068a 3B       		.byte	59
+ 1703 068b 08       		.byte	8
+ 1704 068c 3C       		.byte	60
+ 1705 068d 40       		.byte	64
+ 1706 068e 3D       		.byte	61
+ 1707 068f 08       		.byte	8
+ 1708 0690 3E       		.byte	62
+ 1709 0691 01       		.byte	1
+ 1710 0692 40       		.byte	64
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 31
+
+
+ 1711 0693 C6       		.byte	-58
+ 1712 0694 41       		.byte	65
+ 1713 0695 40       		.byte	64
+ 1714 0696 44       		.byte	68
+ 1715 0697 44       		.byte	68
+ 1716 0698 45       		.byte	69
+ 1717 0699 A0       		.byte	-96
+ 1718 069a 48       		.byte	72
+ 1719 069b 10       		.byte	16
+ 1720 069c 4D       		.byte	77
+ 1721 069d 80       		.byte	-128
+ 1722 069e 4E       		.byte	78
+ 1723 069f 8A       		.byte	-118
+ 1724 06a0 51       		.byte	81
+ 1725 06a1 48       		.byte	72
+ 1726 06a2 52       		.byte	82
+ 1727 06a3 50       		.byte	80
+ 1728 06a4 57       		.byte	87
+ 1729 06a5 20       		.byte	32
+ 1730 06a6 58       		.byte	88
+ 1731 06a7 10       		.byte	16
+ 1732 06a8 5A       		.byte	90
+ 1733 06a9 42       		.byte	66
+ 1734 06aa 61       		.byte	97
+ 1735 06ab 08       		.byte	8
+ 1736 06ac 62       		.byte	98
+ 1737 06ad 10       		.byte	16
+ 1738 06ae 88       		.byte	-120
+ 1739 06af 12       		.byte	18
+ 1740 06b0 92       		.byte	-110
+ 1741 06b1 51       		.byte	81
+ 1742 06b2 94       		.byte	-108
+ 1743 06b3 10       		.byte	16
+ 1744 06b4 98       		.byte	-104
+ 1745 06b5 40       		.byte	64
+ 1746 06b6 9A       		.byte	-102
+ 1747 06b7 04       		.byte	4
+ 1748 06b8 9B       		.byte	-101
+ 1749 06b9 30       		.byte	48
+ 1750 06ba 9C       		.byte	-100
+ 1751 06bb 80       		.byte	-128
+ 1752 06bc 9D       		.byte	-99
+ 1753 06bd 08       		.byte	8
+ 1754 06be 9F       		.byte	-97
+ 1755 06bf 40       		.byte	64
+ 1756 06c0 A0       		.byte	-96
+ 1757 06c1 80       		.byte	-128
+ 1758 06c2 A1       		.byte	-95
+ 1759 06c3 24       		.byte	36
+ 1760 06c4 A2       		.byte	-94
+ 1761 06c5 0A       		.byte	10
+ 1762 06c6 A4       		.byte	-92
+ 1763 06c7 18       		.byte	24
+ 1764 06c8 C0       		.byte	-64
+ 1765 06c9 68       		.byte	104
+ 1766 06ca C2       		.byte	-62
+ 1767 06cb 60       		.byte	96
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 32
+
+
+ 1768 06cc C4       		.byte	-60
+ 1769 06cd 40       		.byte	64
+ 1770 06ce CA       		.byte	-54
+ 1771 06cf F0       		.byte	-16
+ 1772 06d0 CC       		.byte	-52
+ 1773 06d1 70       		.byte	112
+ 1774 06d2 CE       		.byte	-50
+ 1775 06d3 D9       		.byte	-39
+ 1776 06d4 D0       		.byte	-48
+ 1777 06d5 BC       		.byte	-68
+ 1778 06d6 D2       		.byte	-46
+ 1779 06d7 30       		.byte	48
+ 1780 06d8 D6       		.byte	-42
+ 1781 06d9 0D       		.byte	13
+ 1782 06da D8       		.byte	-40
+ 1783 06db 06       		.byte	6
+ 1784 06dc 08       		.byte	8
+ 1785 06dd 02       		.byte	2
+ 1786 06de 0E       		.byte	14
+ 1787 06df 06       		.byte	6
+ 1788 06e0 12       		.byte	18
+ 1789 06e1 02       		.byte	2
+ 1790 06e2 1E       		.byte	30
+ 1791 06e3 01       		.byte	1
+ 1792 06e4 20       		.byte	32
+ 1793 06e5 01       		.byte	1
+ 1794 06e6 30       		.byte	48
+ 1795 06e7 01       		.byte	1
+ 1796 06e8 32       		.byte	50
+ 1797 06e9 04       		.byte	4
+ 1798 06ea 34       		.byte	52
+ 1799 06eb 02       		.byte	2
+ 1800 06ec 3E       		.byte	62
+ 1801 06ed 10       		.byte	16
+ 1802 06ee 40       		.byte	64
+ 1803 06ef 60       		.byte	96
+ 1804 06f0 41       		.byte	65
+ 1805 06f1 02       		.byte	2
+ 1806 06f2 49       		.byte	73
+ 1807 06f3 FF       		.byte	-1
+ 1808 06f4 4A       		.byte	74
+ 1809 06f5 FF       		.byte	-1
+ 1810 06f6 4B       		.byte	75
+ 1811 06f7 FF       		.byte	-1
+ 1812 06f8 4D       		.byte	77
+ 1813 06f9 A0       		.byte	-96
+ 1814 06fa 4F       		.byte	79
+ 1815 06fb 04       		.byte	4
+ 1816 06fc 50       		.byte	80
+ 1817 06fd 18       		.byte	24
+ 1818 06fe 52       		.byte	82
+ 1819 06ff 80       		.byte	-128
+ 1820 0700 58       		.byte	88
+ 1821 0701 04       		.byte	4
+ 1822 0702 5A       		.byte	90
+ 1823 0703 04       		.byte	4
+ 1824 0704 5B       		.byte	91
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 33
+
+
+ 1825 0705 04       		.byte	4
+ 1826 0706 5F       		.byte	95
+ 1827 0707 01       		.byte	1
+ 1828 0708 60       		.byte	96
+ 1829 0709 40       		.byte	64
+ 1830 070a 62       		.byte	98
+ 1831 070b C0       		.byte	-64
+ 1832 070c 64       		.byte	100
+ 1833 070d 40       		.byte	64
+ 1834 070e 65       		.byte	101
+ 1835 070f 40       		.byte	64
+ 1836 0710 66       		.byte	102
+ 1837 0711 C0       		.byte	-64
+ 1838 0712 68       		.byte	104
+ 1839 0713 C0       		.byte	-64
+ 1840 0714 6A       		.byte	106
+ 1841 0715 C0       		.byte	-64
+ 1842 0716 6C       		.byte	108
+ 1843 0717 C0       		.byte	-64
+ 1844 0718 6E       		.byte	110
+ 1845 0719 C0       		.byte	-64
+ 1846 071a 82       		.byte	-126
+ 1847 071b 04       		.byte	4
+ 1848 071c 84       		.byte	-124
+ 1849 071d 18       		.byte	24
+ 1850 071e 87       		.byte	-121
+ 1851 071f 04       		.byte	4
+ 1852 0720 88       		.byte	-120
+ 1853 0721 08       		.byte	8
+ 1854 0722 8B       		.byte	-117
+ 1855 0723 02       		.byte	2
+ 1856 0724 8E       		.byte	-114
+ 1857 0725 C3       		.byte	-61
+ 1858 0726 90       		.byte	-112
+ 1859 0727 1C       		.byte	28
+ 1860 0728 92       		.byte	-110
+ 1861 0729 E2       		.byte	-30
+ 1862 072a 94       		.byte	-108
+ 1863 072b 44       		.byte	68
+ 1864 072c 98       		.byte	-104
+ 1865 072d 80       		.byte	-128
+ 1866 072e 9B       		.byte	-101
+ 1867 072f 06       		.byte	6
+ 1868 0730 9C       		.byte	-100
+ 1869 0731 10       		.byte	16
+ 1870 0732 9F       		.byte	-97
+ 1871 0733 01       		.byte	1
+ 1872 0734 A0       		.byte	-96
+ 1873 0735 FF       		.byte	-1
+ 1874 0736 A4       		.byte	-92
+ 1875 0737 C0       		.byte	-64
+ 1876 0738 A8       		.byte	-88
+ 1877 0739 E7       		.byte	-25
+ 1878 073a AA       		.byte	-86
+ 1879 073b 18       		.byte	24
+ 1880 073c AB       		.byte	-85
+ 1881 073d 01       		.byte	1
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 34
+
+
+ 1882 073e AC       		.byte	-84
+ 1883 073f 1C       		.byte	28
+ 1884 0740 AE       		.byte	-82
+ 1885 0741 E1       		.byte	-31
+ 1886 0742 B0       		.byte	-80
+ 1887 0743 C0       		.byte	-64
+ 1888 0744 B2       		.byte	-78
+ 1889 0745 20       		.byte	32
+ 1890 0746 B3       		.byte	-77
+ 1891 0747 01       		.byte	1
+ 1892 0748 B4       		.byte	-76
+ 1893 0749 1F       		.byte	31
+ 1894 074a B7       		.byte	-73
+ 1895 074b 06       		.byte	6
+ 1896 074c B8       		.byte	-72
+ 1897 074d 08       		.byte	8
+ 1898 074e BA       		.byte	-70
+ 1899 074f 20       		.byte	32
+ 1900 0750 BF       		.byte	-65
+ 1901 0751 04       		.byte	4
+ 1902 0752 C0       		.byte	-64
+ 1903 0753 60       		.byte	96
+ 1904 0754 C1       		.byte	-63
+ 1905 0755 02       		.byte	2
+ 1906 0756 C5       		.byte	-59
+ 1907 0757 15       		.byte	21
+ 1908 0758 C6       		.byte	-58
+ 1909 0759 40       		.byte	64
+ 1910 075a C7       		.byte	-57
+ 1911 075b 02       		.byte	2
+ 1912 075c C8       		.byte	-56
+ 1913 075d 1B       		.byte	27
+ 1914 075e C9       		.byte	-55
+ 1915 075f FF       		.byte	-1
+ 1916 0760 CA       		.byte	-54
+ 1917 0761 FF       		.byte	-1
+ 1918 0762 CB       		.byte	-53
+ 1919 0763 FF       		.byte	-1
+ 1920 0764 CD       		.byte	-51
+ 1921 0765 AF       		.byte	-81
+ 1922 0766 CE       		.byte	-50
+ 1923 0767 0F       		.byte	15
+ 1924 0768 CF       		.byte	-49
+ 1925 0769 04       		.byte	4
+ 1926 076a D0       		.byte	-48
+ 1927 076b 18       		.byte	24
+ 1928 076c D4       		.byte	-44
+ 1929 076d 18       		.byte	24
+ 1930 076e D6       		.byte	-42
+ 1931 076f 04       		.byte	4
+ 1932 0770 D8       		.byte	-40
+ 1933 0771 04       		.byte	4
+ 1934 0772 D9       		.byte	-39
+ 1935 0773 04       		.byte	4
+ 1936 0774 DA       		.byte	-38
+ 1937 0775 04       		.byte	4
+ 1938 0776 DB       		.byte	-37
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 35
+
+
+ 1939 0777 04       		.byte	4
+ 1940 0778 DC       		.byte	-36
+ 1941 0779 03       		.byte	3
+ 1942 077a DD       		.byte	-35
+ 1943 077b 30       		.byte	48
+ 1944 077c DF       		.byte	-33
+ 1945 077d 01       		.byte	1
+ 1946 077e E0       		.byte	-32
+ 1947 077f 40       		.byte	64
+ 1948 0780 E2       		.byte	-30
+ 1949 0781 C0       		.byte	-64
+ 1950 0782 E4       		.byte	-28
+ 1951 0783 40       		.byte	64
+ 1952 0784 E5       		.byte	-27
+ 1953 0785 40       		.byte	64
+ 1954 0786 E6       		.byte	-26
+ 1955 0787 C0       		.byte	-64
+ 1956 0788 E8       		.byte	-24
+ 1957 0789 C0       		.byte	-64
+ 1958 078a EA       		.byte	-22
+ 1959 078b C0       		.byte	-64
+ 1960 078c EC       		.byte	-20
+ 1961 078d C0       		.byte	-64
+ 1962 078e EE       		.byte	-18
+ 1963 078f C0       		.byte	-64
+ 1964 0790 00       		.byte	0
+ 1965 0791 10       		.byte	16
+ 1966 0792 03       		.byte	3
+ 1967 0793 01       		.byte	1
+ 1968 0794 05       		.byte	5
+ 1969 0795 81       		.byte	-127
+ 1970 0796 06       		.byte	6
+ 1971 0797 04       		.byte	4
+ 1972 0798 07       		.byte	7
+ 1973 0799 20       		.byte	32
+ 1974 079a 09       		.byte	9
+ 1975 079b 82       		.byte	-126
+ 1976 079c 0C       		.byte	12
+ 1977 079d 80       		.byte	-128
+ 1978 079e 0D       		.byte	13
+ 1979 079f 01       		.byte	1
+ 1980 07a0 0E       		.byte	14
+ 1981 07a1 24       		.byte	36
+ 1982 07a2 11       		.byte	17
+ 1983 07a3 01       		.byte	1
+ 1984 07a4 14       		.byte	20
+ 1985 07a5 44       		.byte	68
+ 1986 07a6 17       		.byte	23
+ 1987 07a7 44       		.byte	68
+ 1988 07a8 18       		.byte	24
+ 1989 07a9 14       		.byte	20
+ 1990 07aa 1B       		.byte	27
+ 1991 07ab 01       		.byte	1
+ 1992 07ac 1C       		.byte	28
+ 1993 07ad 08       		.byte	8
+ 1994 07ae 1F       		.byte	31
+ 1995 07af 09       		.byte	9
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 36
+
+
+ 1996 07b0 25       		.byte	37
+ 1997 07b1 08       		.byte	8
+ 1998 07b2 27       		.byte	39
+ 1999 07b3 01       		.byte	1
+ 2000 07b4 2F       		.byte	47
+ 2001 07b5 08       		.byte	8
+ 2002 07b6 36       		.byte	54
+ 2003 07b7 80       		.byte	-128
+ 2004 07b8 37       		.byte	55
+ 2005 07b9 10       		.byte	16
+ 2006 07ba 38       		.byte	56
+ 2007 07bb 01       		.byte	1
+ 2008 07bc 3B       		.byte	59
+ 2009 07bd 02       		.byte	2
+ 2010 07be 3F       		.byte	63
+ 2011 07bf 28       		.byte	40
+ 2012 07c0 42       		.byte	66
+ 2013 07c1 08       		.byte	8
+ 2014 07c2 45       		.byte	69
+ 2015 07c3 08       		.byte	8
+ 2016 07c4 46       		.byte	70
+ 2017 07c5 28       		.byte	40
+ 2018 07c6 4A       		.byte	74
+ 2019 07c7 08       		.byte	8
+ 2020 07c8 4D       		.byte	77
+ 2021 07c9 01       		.byte	1
+ 2022 07ca 4E       		.byte	78
+ 2023 07cb 08       		.byte	8
+ 2024 07cc 4F       		.byte	79
+ 2025 07cd 08       		.byte	8
+ 2026 07ce 56       		.byte	86
+ 2027 07cf 08       		.byte	8
+ 2028 07d0 57       		.byte	87
+ 2029 07d1 10       		.byte	16
+ 2030 07d2 5C       		.byte	92
+ 2031 07d3 01       		.byte	1
+ 2032 07d4 65       		.byte	101
+ 2033 07d5 02       		.byte	2
+ 2034 07d6 66       		.byte	102
+ 2035 07d7 A0       		.byte	-96
+ 2036 07d8 71       		.byte	113
+ 2037 07d9 02       		.byte	2
+ 2038 07da 81       		.byte	-127
+ 2039 07db 80       		.byte	-128
+ 2040 07dc 82       		.byte	-126
+ 2041 07dd 08       		.byte	8
+ 2042 07de 83       		.byte	-125
+ 2043 07df 10       		.byte	16
+ 2044 07e0 87       		.byte	-121
+ 2045 07e1 01       		.byte	1
+ 2046 07e2 88       		.byte	-120
+ 2047 07e3 84       		.byte	-124
+ 2048 07e4 89       		.byte	-119
+ 2049 07e5 01       		.byte	1
+ 2050 07e6 8B       		.byte	-117
+ 2051 07e7 01       		.byte	1
+ 2052 07e8 92       		.byte	-110
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 37
+
+
+ 2053 07e9 04       		.byte	4
+ 2054 07ea 94       		.byte	-108
+ 2055 07eb 04       		.byte	4
+ 2056 07ec 98       		.byte	-104
+ 2057 07ed 44       		.byte	68
+ 2058 07ee 99       		.byte	-103
+ 2059 07ef 81       		.byte	-127
+ 2060 07f0 9A       		.byte	-102
+ 2061 07f1 84       		.byte	-124
+ 2062 07f2 9B       		.byte	-101
+ 2063 07f3 64       		.byte	100
+ 2064 07f4 9C       		.byte	-100
+ 2065 07f5 80       		.byte	-128
+ 2066 07f6 9D       		.byte	-99
+ 2067 07f7 02       		.byte	2
+ 2068 07f8 A0       		.byte	-96
+ 2069 07f9 80       		.byte	-128
+ 2070 07fa A2       		.byte	-94
+ 2071 07fb 90       		.byte	-112
+ 2072 07fc A8       		.byte	-88
+ 2073 07fd 01       		.byte	1
+ 2074 07fe AD       		.byte	-83
+ 2075 07ff 02       		.byte	2
+ 2076 0800 B0       		.byte	-80
+ 2077 0801 08       		.byte	8
+ 2078 0802 B1       		.byte	-79
+ 2079 0803 08       		.byte	8
+ 2080 0804 B2       		.byte	-78
+ 2081 0805 14       		.byte	20
+ 2082 0806 B5       		.byte	-75
+ 2083 0807 10       		.byte	16
+ 2084 0808 B6       		.byte	-74
+ 2085 0809 80       		.byte	-128
+ 2086 080a C0       		.byte	-64
+ 2087 080b F3       		.byte	-13
+ 2088 080c C2       		.byte	-62
+ 2089 080d F9       		.byte	-7
+ 2090 080e C4       		.byte	-60
+ 2091 080f F8       		.byte	-8
+ 2092 0810 CA       		.byte	-54
+ 2093 0811 20       		.byte	32
+ 2094 0812 CC       		.byte	-52
+ 2095 0813 30       		.byte	48
+ 2096 0814 CE       		.byte	-50
+ 2097 0815 60       		.byte	96
+ 2098 0816 D0       		.byte	-48
+ 2099 0817 24       		.byte	36
+ 2100 0818 D2       		.byte	-46
+ 2101 0819 24       		.byte	36
+ 2102 081a D6       		.byte	-42
+ 2103 081b 80       		.byte	-128
+ 2104 081c D8       		.byte	-40
+ 2105 081d B0       		.byte	-80
+ 2106 081e E4       		.byte	-28
+ 2107 081f 08       		.byte	8
+ 2108 0820 32       		.byte	50
+ 2109 0821 44       		.byte	68
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 38
+
+
+ 2110 0822 35       		.byte	53
+ 2111 0823 80       		.byte	-128
+ 2112 0824 63       		.byte	99
+ 2113 0825 40       		.byte	64
+ 2114 0826 66       		.byte	102
+ 2115 0827 82       		.byte	-126
+ 2116 0828 82       		.byte	-126
+ 2117 0829 40       		.byte	64
+ 2118 082a CC       		.byte	-52
+ 2119 082b 70       		.byte	112
+ 2120 082c D6       		.byte	-42
+ 2121 082d 80       		.byte	-128
+ 2122 082e D8       		.byte	-40
+ 2123 082f C0       		.byte	-64
+ 2124 0830 E6       		.byte	-26
+ 2125 0831 80       		.byte	-128
+ 2126 0832 57       		.byte	87
+ 2127 0833 80       		.byte	-128
+ 2128 0834 87       		.byte	-121
+ 2129 0835 40       		.byte	64
+ 2130 0836 8D       		.byte	-115
+ 2131 0837 80       		.byte	-128
+ 2132 0838 8E       		.byte	-114
+ 2133 0839 02       		.byte	2
+ 2134 083a 96       		.byte	-106
+ 2135 083b 08       		.byte	8
+ 2136 083c 97       		.byte	-105
+ 2137 083d 40       		.byte	64
+ 2138 083e 9D       		.byte	-99
+ 2139 083f 80       		.byte	-128
+ 2140 0840 9E       		.byte	-98
+ 2141 0841 02       		.byte	2
+ 2142 0842 B2       		.byte	-78
+ 2143 0843 80       		.byte	-128
+ 2144 0844 D4       		.byte	-44
+ 2145 0845 40       		.byte	64
+ 2146 0846 E6       		.byte	-26
+ 2147 0847 40       		.byte	64
+ 2148 0848 96       		.byte	-106
+ 2149 0849 08       		.byte	8
+ 2150 084a AB       		.byte	-85
+ 2151 084b 80       		.byte	-128
+ 2152 084c EE       		.byte	-18
+ 2153 084d 20       		.byte	32
+ 2154 084e 96       		.byte	-106
+ 2155 084f 08       		.byte	8
+ 2156 0850 2B       		.byte	43
+ 2157 0851 08       		.byte	8
+ 2158 0852 57       		.byte	87
+ 2159 0853 08       		.byte	8
+ 2160 0854 83       		.byte	-125
+ 2161 0855 08       		.byte	8
+ 2162 0856 CA       		.byte	-54
+ 2163 0857 08       		.byte	8
+ 2164 0858 D4       		.byte	-44
+ 2165 0859 02       		.byte	2
+ 2166 085a 96       		.byte	-106
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 39
+
+
+ 2167 085b 08       		.byte	8
+ 2168 085c 53       		.byte	83
+ 2169 085d 11       		.byte	17
+ 2170 085e 54       		.byte	84
+ 2171 085f 40       		.byte	64
+ 2172 0860 5D       		.byte	93
+ 2173 0861 01       		.byte	1
+ 2174 0862 63       		.byte	99
+ 2175 0863 02       		.byte	2
+ 2176 0864 66       		.byte	102
+ 2177 0865 01       		.byte	1
+ 2178 0866 70       		.byte	112
+ 2179 0867 04       		.byte	4
+ 2180 0868 74       		.byte	116
+ 2181 0869 08       		.byte	8
+ 2182 086a 83       		.byte	-125
+ 2183 086b 01       		.byte	1
+ 2184 086c 85       		.byte	-123
+ 2185 086d 01       		.byte	1
+ 2186 086e 87       		.byte	-121
+ 2187 086f 01       		.byte	1
+ 2188 0870 88       		.byte	-120
+ 2189 0871 40       		.byte	64
+ 2190 0872 8B       		.byte	-117
+ 2191 0873 10       		.byte	16
+ 2192 0874 8C       		.byte	-116
+ 2193 0875 0C       		.byte	12
+ 2194 0876 8E       		.byte	-114
+ 2195 0877 01       		.byte	1
+ 2196 0878 AE       		.byte	-82
+ 2197 0879 04       		.byte	4
+ 2198 087a D4       		.byte	-44
+ 2199 087b E0       		.byte	-32
+ 2200 087c D6       		.byte	-42
+ 2201 087d C0       		.byte	-64
+ 2202 087e D8       		.byte	-40
+ 2203 087f 80       		.byte	-128
+ 2204 0880 DC       		.byte	-36
+ 2205 0881 80       		.byte	-128
+ 2206 0882 DE       		.byte	-34
+ 2207 0883 20       		.byte	32
+ 2208 0884 E2       		.byte	-30
+ 2209 0885 10       		.byte	16
+ 2210 0886 E6       		.byte	-26
+ 2211 0887 30       		.byte	48
+ 2212 0888 EE       		.byte	-18
+ 2213 0889 10       		.byte	16
+ 2214 088a 08       		.byte	8
+ 2215 088b 40       		.byte	64
+ 2216 088c 58       		.byte	88
+ 2217 088d 01       		.byte	1
+ 2218 088e 67       		.byte	103
+ 2219 088f 08       		.byte	8
+ 2220 0890 C2       		.byte	-62
+ 2221 0891 02       		.byte	2
+ 2222 0892 D6       		.byte	-42
+ 2223 0893 02       		.byte	2
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 40
+
+
+ 2224 0894 D8       		.byte	-40
+ 2225 0895 01       		.byte	1
+ 2226 0896 87       		.byte	-121
+ 2227 0897 04       		.byte	4
+ 2228 0898 88       		.byte	-120
+ 2229 0899 01       		.byte	1
+ 2230 089a 97       		.byte	-105
+ 2231 089b 08       		.byte	8
+ 2232 089c 9C       		.byte	-100
+ 2233 089d 01       		.byte	1
+ 2234 089e B0       		.byte	-80
+ 2235 089f 40       		.byte	64
+ 2236 08a0 E4       		.byte	-28
+ 2237 08a1 04       		.byte	4
+ 2238 08a2 EA       		.byte	-22
+ 2239 08a3 01       		.byte	1
+ 2240 08a4 00       		.byte	0
+ 2241 08a5 0F       		.byte	15
+ 2242 08a6 08       		.byte	8
+ 2243 08a7 06       		.byte	6
+ 2244 08a8 0A       		.byte	10
+ 2245 08a9 07       		.byte	7
+ 2246 08aa 0C       		.byte	12
+ 2247 08ab 09       		.byte	9
+ 2248 08ac 10       		.byte	16
+ 2249 08ad 09       		.byte	9
+ 2250 08ae 1A       		.byte	26
+ 2251 08af 01       		.byte	1
+ 2252 08b0 1C       		.byte	28
+ 2253 08b1 09       		.byte	9
+ 2254 08b2 00       		.byte	0
+ 2255 08b3 3E       		.byte	62
+ 2256 08b4 00       		.byte	0
+ 2257 08b5 01       		.byte	1
+ 2258 08b6 01       		.byte	1
+ 2259 08b7 00       		.byte	0
+ 2260 08b8 01       		.byte	1
+ 2261 08b9 00       		.byte	0
+ 2262 08ba 00       		.byte	0
+ 2263 08bb 00       		.byte	0
+ 2264 08bc 00       		.byte	0
+ 2265 08bd 0C       		.byte	12
+ 2266 08be 0C       		.byte	12
+ 2267 08bf 00       		.byte	0
+ 2268 08c0 0C       		.byte	12
+ 2269 08c1 00       		.byte	0
+ 2270 08c2 00       		.byte	0
+ 2271 08c3 00       		.byte	0
+ 2272 08c4 40       		.byte	64
+ 2273 08c5 AB       		.byte	-85
+ 2274 08c6 AB       		.byte	-85
+ 2275 08c7 00       		.byte	0
+ 2276 08c8 A0       		.byte	-96
+ 2277 08c9 00       		.byte	0
+ 2278 08ca 00       		.byte	0
+ 2279 08cb 00       		.byte	0
+ 2280 08cc 00       		.byte	0
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 41
+
+
+ 2281 08cd 7F       		.byte	127
+ 2282 08ce 7F       		.byte	127
+ 2283 08cf 00       		.byte	0
+ 2284 08d0 00       		.byte	0
+ 2285 08d1 00       		.byte	0
+ 2286 08d2 00       		.byte	0
+ 2287 08d3 00       		.byte	0
+ 2288 08d4 00       		.byte	0
+ 2289 08d5 7B       		.byte	123
+ 2290 08d6 7B       		.byte	123
+ 2291 08d7 00       		.byte	0
+ 2292 08d8 7B       		.byte	123
+ 2293 08d9 00       		.byte	0
+ 2294 08da 00       		.byte	0
+ 2295 08db 00       		.byte	0
+ 2296 08dc 00       		.byte	0
+ 2297 08dd E0       		.byte	-32
+ 2298 08de E0       		.byte	-32
+ 2299 08df 00       		.byte	0
+ 2300 08e0 E0       		.byte	-32
+ 2301 08e1 00       		.byte	0
+ 2302 08e2 02       		.byte	2
+ 2303 08e3 00       		.byte	0
+ 2304 08e4 00       		.byte	0
+ 2305 08e5 04       		.byte	4
+ 2306 08e6 04       		.byte	4
+ 2307 08e7 00       		.byte	0
+ 2308 08e8 04       		.byte	4
+ 2309 08e9 00       		.byte	0
+ 2310 08ea 40       		.byte	64
+ 2311 08eb 00       		.byte	0
+ 2312              		.section	.cywolatch,"a",%progbits
+ 2313              		.align	2
+ 2314              		.type	cy_meta_wonvl, %object
+ 2315              		.size	cy_meta_wonvl, 4
+ 2316              	cy_meta_wonvl:
+ 2317 0000 BC       		.byte	-68
+ 2318 0001 90       		.byte	-112
+ 2319 0002 AC       		.byte	-84
+ 2320 0003 AF       		.byte	-81
+ 2321              		.section	.cycustnvl,"a",%progbits
+ 2322              		.align	2
+ 2323              		.type	cy_meta_custnvl, %object
+ 2324              		.size	cy_meta_custnvl, 4
+ 2325              	cy_meta_custnvl:
+ 2326 0000 00       		.byte	0
+ 2327 0001 00       		.byte	0
+ 2328 0002 40       		.byte	64
+ 2329 0003 05       		.byte	5
+ 2330              		.section	.cymeta,"a",%progbits
+ 2331              		.align	2
+ 2332              		.type	cy_metadata, %object
+ 2333              		.size	cy_metadata, 12
+ 2334              	cy_metadata:
+ 2335 0000 00       		.byte	0
+ 2336 0001 01       		.byte	1
+ 2337 0002 2E       		.byte	46
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 42
+
+
+ 2338 0003 12       		.byte	18
+ 2339 0004 30       		.byte	48
+ 2340 0005 69       		.byte	105
+ 2341 0006 00       		.byte	0
+ 2342 0007 01       		.byte	1
+ 2343 0008 00       		.byte	0
+ 2344 0009 00       		.byte	0
+ 2345 000a 00       		.byte	0
+ 2346 000b 00       		.byte	0
+ 2347              		.section	.cyflashprotect,"a",%progbits
+ 2348              		.align	2
+ 2349              		.type	cy_meta_flashprotect, %object
+ 2350              		.size	cy_meta_flashprotect, 256
+ 2351              	cy_meta_flashprotect:
+ 2352 0000 00000000 		.space	256
+ 2352      00000000 
+ 2352      00000000 
+ 2352      00000000 
+ 2352      00000000 
+ 2353              		.text
+ 2354              	.Letext0:
+ 2355              		.file 1 "Generated_Source\\PSoC5\\cymetadata.c"
+ 2356              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 2357              		.section	.debug_info,"",%progbits
+ 2358              	.Ldebug_info0:
+ 2359 0000 3B010000 		.4byte	0x13b
+ 2360 0004 0400     		.2byte	0x4
+ 2361 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 2362 000a 04       		.byte	0x4
+ 2363 000b 01       		.uleb128 0x1
+ 2364 000c BE000000 		.4byte	.LASF18
+ 2365 0010 01       		.byte	0x1
+ 2366 0011 D4010000 		.4byte	.LASF19
+ 2367 0015 32000000 		.4byte	.LASF20
+ 2368 0019 00000000 		.4byte	.Ldebug_line0
+ 2369 001d 02       		.uleb128 0x2
+ 2370 001e 01       		.byte	0x1
+ 2371 001f 06       		.byte	0x6
+ 2372 0020 C8010000 		.4byte	.LASF0
+ 2373 0024 02       		.uleb128 0x2
+ 2374 0025 01       		.byte	0x1
+ 2375 0026 08       		.byte	0x8
+ 2376 0027 12000000 		.4byte	.LASF1
+ 2377 002b 02       		.uleb128 0x2
+ 2378 002c 02       		.byte	0x2
+ 2379 002d 05       		.byte	0x5
+ 2380 002e AF010000 		.4byte	.LASF2
+ 2381 0032 02       		.uleb128 0x2
+ 2382 0033 02       		.byte	0x2
+ 2383 0034 07       		.byte	0x7
+ 2384 0035 82000000 		.4byte	.LASF3
+ 2385 0039 02       		.uleb128 0x2
+ 2386 003a 04       		.byte	0x4
+ 2387 003b 05       		.byte	0x5
+ 2388 003c BF010000 		.4byte	.LASF4
+ 2389 0040 02       		.uleb128 0x2
+ 2390 0041 04       		.byte	0x4
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 43
+
+
+ 2391 0042 07       		.byte	0x7
+ 2392 0043 20000000 		.4byte	.LASF5
+ 2393 0047 02       		.uleb128 0x2
+ 2394 0048 08       		.byte	0x8
+ 2395 0049 05       		.byte	0x5
+ 2396 004a 9C010000 		.4byte	.LASF6
+ 2397 004e 02       		.uleb128 0x2
+ 2398 004f 08       		.byte	0x8
+ 2399 0050 07       		.byte	0x7
+ 2400 0051 59010000 		.4byte	.LASF7
+ 2401 0055 03       		.uleb128 0x3
+ 2402 0056 04       		.byte	0x4
+ 2403 0057 05       		.byte	0x5
+ 2404 0058 696E7400 		.ascii	"int\000"
+ 2405 005c 02       		.uleb128 0x2
+ 2406 005d 04       		.byte	0x4
+ 2407 005e 07       		.byte	0x7
+ 2408 005f 4C010000 		.4byte	.LASF8
+ 2409 0063 04       		.uleb128 0x4
+ 2410 0064 B9010000 		.4byte	.LASF21
+ 2411 0068 02       		.byte	0x2
+ 2412 0069 9201     		.2byte	0x192
+ 2413 006b 24000000 		.4byte	0x24
+ 2414 006f 02       		.uleb128 0x2
+ 2415 0070 04       		.byte	0x4
+ 2416 0071 04       		.byte	0x4
+ 2417 0072 0C000000 		.4byte	.LASF9
+ 2418 0076 02       		.uleb128 0x2
+ 2419 0077 08       		.byte	0x8
+ 2420 0078 04       		.byte	0x4
+ 2421 0079 95000000 		.4byte	.LASF10
+ 2422 007d 02       		.uleb128 0x2
+ 2423 007e 01       		.byte	0x1
+ 2424 007f 08       		.byte	0x8
+ 2425 0080 AA010000 		.4byte	.LASF11
+ 2426 0084 05       		.uleb128 0x5
+ 2427 0085 63000000 		.4byte	0x63
+ 2428 0089 95000000 		.4byte	0x95
+ 2429 008d 06       		.uleb128 0x6
+ 2430 008e 95000000 		.4byte	0x95
+ 2431 0092 EB08     		.2byte	0x8eb
+ 2432 0094 00       		.byte	0
+ 2433 0095 02       		.uleb128 0x2
+ 2434 0096 04       		.byte	0x4
+ 2435 0097 07       		.byte	0x7
+ 2436 0098 93010000 		.4byte	.LASF12
+ 2437 009c 07       		.uleb128 0x7
+ 2438 009d AC000000 		.4byte	.LASF13
+ 2439 00a1 01       		.byte	0x1
+ 2440 00a2 1F       		.byte	0x1f
+ 2441 00a3 AD000000 		.4byte	0xad
+ 2442 00a7 05       		.uleb128 0x5
+ 2443 00a8 03       		.byte	0x3
+ 2444 00a9 00000000 		.4byte	cy_meta_configecc
+ 2445 00ad 08       		.uleb128 0x8
+ 2446 00ae 84000000 		.4byte	0x84
+ 2447 00b2 05       		.uleb128 0x5
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 44
+
+
+ 2448 00b3 63000000 		.4byte	0x63
+ 2449 00b7 C2000000 		.4byte	0xc2
+ 2450 00bb 09       		.uleb128 0x9
+ 2451 00bc 95000000 		.4byte	0x95
+ 2452 00c0 03       		.byte	0x3
+ 2453 00c1 00       		.byte	0
+ 2454 00c2 0A       		.uleb128 0xa
+ 2455 00c3 9C000000 		.4byte	.LASF14
+ 2456 00c7 01       		.byte	0x1
+ 2457 00c8 4A01     		.2byte	0x14a
+ 2458 00ca D4000000 		.4byte	0xd4
+ 2459 00ce 05       		.uleb128 0x5
+ 2460 00cf 03       		.byte	0x3
+ 2461 00d0 00000000 		.4byte	cy_meta_custnvl
+ 2462 00d4 08       		.uleb128 0x8
+ 2463 00d5 B2000000 		.4byte	0xb2
+ 2464 00d9 0A       		.uleb128 0xa
+ 2465 00da 85010000 		.4byte	.LASF15
+ 2466 00de 01       		.byte	0x1
+ 2467 00df 5801     		.2byte	0x158
+ 2468 00e1 EB000000 		.4byte	0xeb
+ 2469 00e5 05       		.uleb128 0x5
+ 2470 00e6 03       		.byte	0x3
+ 2471 00e7 00000000 		.4byte	cy_meta_wonvl
+ 2472 00eb 08       		.uleb128 0x8
+ 2473 00ec B2000000 		.4byte	0xb2
+ 2474 00f0 05       		.uleb128 0x5
+ 2475 00f1 63000000 		.4byte	0x63
+ 2476 00f5 00010000 		.4byte	0x100
+ 2477 00f9 09       		.uleb128 0x9
+ 2478 00fa 95000000 		.4byte	0x95
+ 2479 00fe FF       		.byte	0xff
+ 2480 00ff 00       		.byte	0
+ 2481 0100 0A       		.uleb128 0xa
+ 2482 0101 70010000 		.4byte	.LASF16
+ 2483 0105 01       		.byte	0x1
+ 2484 0106 6601     		.2byte	0x166
+ 2485 0108 12010000 		.4byte	0x112
+ 2486 010c 05       		.uleb128 0x5
+ 2487 010d 03       		.byte	0x3
+ 2488 010e 00000000 		.4byte	cy_meta_flashprotect
+ 2489 0112 08       		.uleb128 0x8
+ 2490 0113 F0000000 		.4byte	0xf0
+ 2491 0117 05       		.uleb128 0x5
+ 2492 0118 63000000 		.4byte	0x63
+ 2493 011c 27010000 		.4byte	0x127
+ 2494 0120 09       		.uleb128 0x9
+ 2495 0121 95000000 		.4byte	0x95
+ 2496 0125 0B       		.byte	0xb
+ 2497 0126 00       		.byte	0
+ 2498 0127 0A       		.uleb128 0xa
+ 2499 0128 00000000 		.4byte	.LASF17
+ 2500 012c 01       		.byte	0x1
+ 2501 012d 9301     		.2byte	0x193
+ 2502 012f 39010000 		.4byte	0x139
+ 2503 0133 05       		.uleb128 0x5
+ 2504 0134 03       		.byte	0x3
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 45
+
+
+ 2505 0135 00000000 		.4byte	cy_metadata
+ 2506 0139 08       		.uleb128 0x8
+ 2507 013a 17010000 		.4byte	0x117
+ 2508 013e 00       		.byte	0
+ 2509              		.section	.debug_abbrev,"",%progbits
+ 2510              	.Ldebug_abbrev0:
+ 2511 0000 01       		.uleb128 0x1
+ 2512 0001 11       		.uleb128 0x11
+ 2513 0002 01       		.byte	0x1
+ 2514 0003 25       		.uleb128 0x25
+ 2515 0004 0E       		.uleb128 0xe
+ 2516 0005 13       		.uleb128 0x13
+ 2517 0006 0B       		.uleb128 0xb
+ 2518 0007 03       		.uleb128 0x3
+ 2519 0008 0E       		.uleb128 0xe
+ 2520 0009 1B       		.uleb128 0x1b
+ 2521 000a 0E       		.uleb128 0xe
+ 2522 000b 10       		.uleb128 0x10
+ 2523 000c 17       		.uleb128 0x17
+ 2524 000d 00       		.byte	0
+ 2525 000e 00       		.byte	0
+ 2526 000f 02       		.uleb128 0x2
+ 2527 0010 24       		.uleb128 0x24
+ 2528 0011 00       		.byte	0
+ 2529 0012 0B       		.uleb128 0xb
+ 2530 0013 0B       		.uleb128 0xb
+ 2531 0014 3E       		.uleb128 0x3e
+ 2532 0015 0B       		.uleb128 0xb
+ 2533 0016 03       		.uleb128 0x3
+ 2534 0017 0E       		.uleb128 0xe
+ 2535 0018 00       		.byte	0
+ 2536 0019 00       		.byte	0
+ 2537 001a 03       		.uleb128 0x3
+ 2538 001b 24       		.uleb128 0x24
+ 2539 001c 00       		.byte	0
+ 2540 001d 0B       		.uleb128 0xb
+ 2541 001e 0B       		.uleb128 0xb
+ 2542 001f 3E       		.uleb128 0x3e
+ 2543 0020 0B       		.uleb128 0xb
+ 2544 0021 03       		.uleb128 0x3
+ 2545 0022 08       		.uleb128 0x8
+ 2546 0023 00       		.byte	0
+ 2547 0024 00       		.byte	0
+ 2548 0025 04       		.uleb128 0x4
+ 2549 0026 16       		.uleb128 0x16
+ 2550 0027 00       		.byte	0
+ 2551 0028 03       		.uleb128 0x3
+ 2552 0029 0E       		.uleb128 0xe
+ 2553 002a 3A       		.uleb128 0x3a
+ 2554 002b 0B       		.uleb128 0xb
+ 2555 002c 3B       		.uleb128 0x3b
+ 2556 002d 05       		.uleb128 0x5
+ 2557 002e 49       		.uleb128 0x49
+ 2558 002f 13       		.uleb128 0x13
+ 2559 0030 00       		.byte	0
+ 2560 0031 00       		.byte	0
+ 2561 0032 05       		.uleb128 0x5
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 46
+
+
+ 2562 0033 01       		.uleb128 0x1
+ 2563 0034 01       		.byte	0x1
+ 2564 0035 49       		.uleb128 0x49
+ 2565 0036 13       		.uleb128 0x13
+ 2566 0037 01       		.uleb128 0x1
+ 2567 0038 13       		.uleb128 0x13
+ 2568 0039 00       		.byte	0
+ 2569 003a 00       		.byte	0
+ 2570 003b 06       		.uleb128 0x6
+ 2571 003c 21       		.uleb128 0x21
+ 2572 003d 00       		.byte	0
+ 2573 003e 49       		.uleb128 0x49
+ 2574 003f 13       		.uleb128 0x13
+ 2575 0040 2F       		.uleb128 0x2f
+ 2576 0041 05       		.uleb128 0x5
+ 2577 0042 00       		.byte	0
+ 2578 0043 00       		.byte	0
+ 2579 0044 07       		.uleb128 0x7
+ 2580 0045 34       		.uleb128 0x34
+ 2581 0046 00       		.byte	0
+ 2582 0047 03       		.uleb128 0x3
+ 2583 0048 0E       		.uleb128 0xe
+ 2584 0049 3A       		.uleb128 0x3a
+ 2585 004a 0B       		.uleb128 0xb
+ 2586 004b 3B       		.uleb128 0x3b
+ 2587 004c 0B       		.uleb128 0xb
+ 2588 004d 49       		.uleb128 0x49
+ 2589 004e 13       		.uleb128 0x13
+ 2590 004f 3F       		.uleb128 0x3f
+ 2591 0050 19       		.uleb128 0x19
+ 2592 0051 02       		.uleb128 0x2
+ 2593 0052 18       		.uleb128 0x18
+ 2594 0053 00       		.byte	0
+ 2595 0054 00       		.byte	0
+ 2596 0055 08       		.uleb128 0x8
+ 2597 0056 26       		.uleb128 0x26
+ 2598 0057 00       		.byte	0
+ 2599 0058 49       		.uleb128 0x49
+ 2600 0059 13       		.uleb128 0x13
+ 2601 005a 00       		.byte	0
+ 2602 005b 00       		.byte	0
+ 2603 005c 09       		.uleb128 0x9
+ 2604 005d 21       		.uleb128 0x21
+ 2605 005e 00       		.byte	0
+ 2606 005f 49       		.uleb128 0x49
+ 2607 0060 13       		.uleb128 0x13
+ 2608 0061 2F       		.uleb128 0x2f
+ 2609 0062 0B       		.uleb128 0xb
+ 2610 0063 00       		.byte	0
+ 2611 0064 00       		.byte	0
+ 2612 0065 0A       		.uleb128 0xa
+ 2613 0066 34       		.uleb128 0x34
+ 2614 0067 00       		.byte	0
+ 2615 0068 03       		.uleb128 0x3
+ 2616 0069 0E       		.uleb128 0xe
+ 2617 006a 3A       		.uleb128 0x3a
+ 2618 006b 0B       		.uleb128 0xb
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 47
+
+
+ 2619 006c 3B       		.uleb128 0x3b
+ 2620 006d 05       		.uleb128 0x5
+ 2621 006e 49       		.uleb128 0x49
+ 2622 006f 13       		.uleb128 0x13
+ 2623 0070 3F       		.uleb128 0x3f
+ 2624 0071 19       		.uleb128 0x19
+ 2625 0072 02       		.uleb128 0x2
+ 2626 0073 18       		.uleb128 0x18
+ 2627 0074 00       		.byte	0
+ 2628 0075 00       		.byte	0
+ 2629 0076 00       		.byte	0
+ 2630              		.section	.debug_aranges,"",%progbits
+ 2631 0000 14000000 		.4byte	0x14
+ 2632 0004 0200     		.2byte	0x2
+ 2633 0006 00000000 		.4byte	.Ldebug_info0
+ 2634 000a 04       		.byte	0x4
+ 2635 000b 00       		.byte	0
+ 2636 000c 0000     		.2byte	0
+ 2637 000e 0000     		.2byte	0
+ 2638 0010 00000000 		.4byte	0
+ 2639 0014 00000000 		.4byte	0
+ 2640              		.section	.debug_line,"",%progbits
+ 2641              	.Ldebug_line0:
+ 2642 0000 4D000000 		.section	.debug_str,"MS",%progbits,1
+ 2642      02004700 
+ 2642      00000201 
+ 2642      FB0E0D00 
+ 2642      01010101 
+ 2643              	.LASF17:
+ 2644 0000 63795F6D 		.ascii	"cy_metadata\000"
+ 2644      65746164 
+ 2644      61746100 
+ 2645              	.LASF9:
+ 2646 000c 666C6F61 		.ascii	"float\000"
+ 2646      7400
+ 2647              	.LASF1:
+ 2648 0012 756E7369 		.ascii	"unsigned char\000"
+ 2648      676E6564 
+ 2648      20636861 
+ 2648      7200
+ 2649              	.LASF5:
+ 2650 0020 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2650      20756E73 
+ 2650      69676E65 
+ 2650      6420696E 
+ 2650      7400
+ 2651              	.LASF20:
+ 2652 0032 433A5C55 		.ascii	"C:\\Users\\Ludovic\\Documents\\PSoC Creator\\CY8CKI"
+ 2652      73657273 
+ 2652      5C4C7564 
+ 2652      6F766963 
+ 2652      5C446F63 
+ 2653 0060 542D3035 		.ascii	"T-050\\BE_Systemes_Embarques.cydsn\000"
+ 2653      305C4245 
+ 2653      5F537973 
+ 2653      74656D65 
+ 2653      735F456D 
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 48
+
+
+ 2654              	.LASF3:
+ 2655 0082 73686F72 		.ascii	"short unsigned int\000"
+ 2655      7420756E 
+ 2655      7369676E 
+ 2655      65642069 
+ 2655      6E7400
+ 2656              	.LASF10:
+ 2657 0095 646F7562 		.ascii	"double\000"
+ 2657      6C6500
+ 2658              	.LASF14:
+ 2659 009c 63795F6D 		.ascii	"cy_meta_custnvl\000"
+ 2659      6574615F 
+ 2659      63757374 
+ 2659      6E766C00 
+ 2660              	.LASF13:
+ 2661 00ac 63795F6D 		.ascii	"cy_meta_configecc\000"
+ 2661      6574615F 
+ 2661      636F6E66 
+ 2661      69676563 
+ 2661      6300
+ 2662              	.LASF18:
+ 2663 00be 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 2663      4320342E 
+ 2663      392E3320 
+ 2663      32303135 
+ 2663      30333033 
+ 2664 00f1 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 2664      20726576 
+ 2664      6973696F 
+ 2664      6E203232 
+ 2664      31323230 
+ 2665 0124 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 2665      66756E63 
+ 2665      74696F6E 
+ 2665      2D736563 
+ 2665      74696F6E 
+ 2666              	.LASF8:
+ 2667 014c 756E7369 		.ascii	"unsigned int\000"
+ 2667      676E6564 
+ 2667      20696E74 
+ 2667      00
+ 2668              	.LASF7:
+ 2669 0159 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2669      206C6F6E 
+ 2669      6720756E 
+ 2669      7369676E 
+ 2669      65642069 
+ 2670              	.LASF16:
+ 2671 0170 63795F6D 		.ascii	"cy_meta_flashprotect\000"
+ 2671      6574615F 
+ 2671      666C6173 
+ 2671      6870726F 
+ 2671      74656374 
+ 2672              	.LASF15:
+ 2673 0185 63795F6D 		.ascii	"cy_meta_wonvl\000"
+ 2673      6574615F 
+ 2673      776F6E76 
+ARM GAS  C:\Users\Ludovic\AppData\Local\Temp\ccfuyDaZ.s 			page 49
+
+
+ 2673      6C00
+ 2674              	.LASF12:
+ 2675 0193 73697A65 		.ascii	"sizetype\000"
+ 2675      74797065 
+ 2675      00
+ 2676              	.LASF6:
+ 2677 019c 6C6F6E67 		.ascii	"long long int\000"
+ 2677      206C6F6E 
+ 2677      6720696E 
+ 2677      7400
+ 2678              	.LASF11:
+ 2679 01aa 63686172 		.ascii	"char\000"
+ 2679      00
+ 2680              	.LASF2:
+ 2681 01af 73686F72 		.ascii	"short int\000"
+ 2681      7420696E 
+ 2681      7400
+ 2682              	.LASF21:
+ 2683 01b9 75696E74 		.ascii	"uint8\000"
+ 2683      3800
+ 2684              	.LASF4:
+ 2685 01bf 6C6F6E67 		.ascii	"long int\000"
+ 2685      20696E74 
+ 2685      00
+ 2686              	.LASF0:
+ 2687 01c8 7369676E 		.ascii	"signed char\000"
+ 2687      65642063 
+ 2687      68617200 
+ 2688              	.LASF19:
+ 2689 01d4 47656E65 		.ascii	"Generated_Source\\PSoC5\\cymetadata.c\000"
+ 2689      72617465 
+ 2689      645F536F 
+ 2689      75726365 
+ 2689      5C50536F 
+ 2690              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br
